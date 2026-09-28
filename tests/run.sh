@@ -13,3 +13,7 @@ echo "compiler: $($CC --version | head -1)"
 $CC -std=c11 -O2 -Wall -Wextra -I "$DIR/include" \
     "$DIR/tests/test_braille.c" -o "$OUT/test_braille"
 "$OUT/test_braille"
+
+$CC -std=c11 -O2 -Wall -Wextra -I "$DIR/include" \
+    "$DIR/tests/test_fft.c" -o "$OUT/test_fft" -lm
+"$OUT/test_fft"
