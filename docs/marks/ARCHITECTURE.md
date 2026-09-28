@@ -174,7 +174,7 @@ build the other draft.
 | 0001 | `syz_braille.h` — 8-dot Braille packer | I2 | **HEWN** |
 | 0002 | `syz_arena.h` — zero-allocation arena | I1 | **HEWN** |
 | 0003 | `syz_glyph.h` — bivariate glyph/edge selector | I2 | **HEWN** |
-| 0004 | `syz_yuv.h` — NV12/YUV 4:2:0 → luma/chroma ingest | I2 | DRAWN |
+| 0004 | `syz_yuv.h` — NV12/YUV 4:2:0 → luma/chroma ingest | I2 | **HEWN** |
 | 0005 | `syz_fused.h` — the single register-resident pass | I2 | DRAWN |
 | 0006 | `syz_fft.h` — 16-point radix-2 fixed-point FFT | I2 | **HEWN** |
 | 0007 | `syz_ste.h` — straight-through argmax tokenizer | I2 | DRAWN |
