@@ -24,7 +24,7 @@
  *              (the compiler owns register allocation). (3) Inner-loop calls
  *              to 0003/0001 are static-inline; the sampler is a function
  *              pointer the compiler may or may not devirtualize. (4) Static
- *              4x4 basis (0007 is DRAWN); only columns 0,1 are scored, as the
+ *              4x4 basis (via 0007 syz_ste_select4); only columns 0,1 are scored, as the
  *              seed's fused kernel does. (5) The FFT window is ONE cell row
  *              (first 16 cells); needs cols >= 16 else fft_valid = 0.
  *   ASSUMES  : 0002 arena (scratch); 0004 syz_yuv_ingest (+ luma_fn); 0003
@@ -35,7 +35,7 @@
  *              in the cell loop) turns "register-resident" from output-equal
  *              into proven; ingest is inlined into the loop (raw NV12 -> cell
  *              with no staging plane); SIMD lane kernels (blob:3294-3370);
- *              0007 replaces the static basis; the mask streams straight to the
+ *              0007 basis becomes learnable; the mask streams straight to the
  *              0008 wire buffer.
  *   SEED     : docs/seed/blob.md 8324-8420 (chiaroscuro_fused_ste_pipeline),
  *              3384-3536 (fused synergy kernel), 3312-3316, 8171-8239 (basis).
@@ -55,12 +55,10 @@
 #include "syz_glyph.h"
 #include "syz_braille.h"
 #include "syz_fft.h"
+#include "syz_ste.h"
 
-/* Static straight-through basis (seed blob:8184, corrected [4][4]). */
-static const int32_t SYZ_FUSED_BASIS[4][4] = {
-    {  32,  64,  64,  32 }, {  64, -32, -32,  64 },
-    {  16,  96,  96,  16 }, { -64,  12,  12, -64 }
-};
+/* Basis + argmax now live in 0007 (syz_ste.h); alias kept for callers. */
+#define SYZ_FUSED_BASIS SYZ_STE_BASIS
 
 typedef struct {
     uint8_t braille_thresh; /* 0001 threshold                          */
@@ -81,11 +79,9 @@ typedef struct {
 
 /* Straight-through argmax token (ramp char) for one cell: shared by the pass. */
 static inline uint8_t syz_fused_tone(uint8_t luma, uint8_t g) {
-    int32_t best = -999999; uint32_t sel = 0, f, idx;
-    for (f = 0; f < 4; f++) {
-        int32_t s = (int32_t)luma * SYZ_FUSED_BASIS[f][0] + (int32_t)g * SYZ_FUSED_BASIS[f][1];
-        if (s > best) { best = s; sel = f; }
-    }
+    int32_t feat[4]; uint32_t sel, idx;
+    feat[0] = luma; feat[1] = g; feat[2] = 0; feat[3] = 0; /* cols 0,1 scored */
+    sel = syz_ste_select4(feat, SYZ_STE_BASIS);            /* 0007 */
     idx = ((uint32_t)luma * 9u) / 255u + sel;
     if (idx > 9u) idx = 9u;
     return (uint8_t)SYZ_RAMP[idx];

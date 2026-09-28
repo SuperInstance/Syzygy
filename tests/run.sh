@@ -29,3 +29,7 @@ $CC -std=c11 -O2 -Wall -Wextra -I "$DIR/include" \
 $CC -std=c11 -O2 -Wall -Wextra -I "$DIR/include" \
     "$DIR/tests/test_fused.c" -o "$OUT/test_fused"
 "$OUT/test_fused"
+
+$CC -std=c11 -O2 -Wall -Wextra -I "$DIR/include" \
+    "$DIR/tests/test_ste.c" -o "$OUT/test_ste"
+"$OUT/test_ste"
