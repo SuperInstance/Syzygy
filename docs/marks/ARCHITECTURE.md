@@ -177,7 +177,7 @@ build the other draft.
 | 0004 | `syz_yuv.h` — NV12/YUV 4:2:0 → luma/chroma ingest | I2 | **HEWN** |
 | 0005 | `syz_fused.h` — the single register-resident pass | I2 | **HEWN** |
 | 0006 | `syz_fft.h` — 16-point radix-2 fixed-point FFT | I2 | **HEWN** |
-| 0007 | `syz_ste.h` — straight-through argmax tokenizer | I2 | DRAWN |
+| 0007 | `syz_ste.h` — straight-through argmax tokenizer | I2 | **HEWN** |
 | 0008 | `syz_crdt.h` — join-semilattice mesh + Lamport LWW | I3 | DRAWN |
 
 The dependency spine: **0002 (arena)** underlies everything that writes output;
