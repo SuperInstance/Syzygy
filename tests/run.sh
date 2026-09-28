@@ -17,3 +17,5 @@ $CC -std=c11 -O2 -Wall -Wextra -I "$DIR/include" \
 $CC -std=c11 -O2 -Wall -Wextra -I "$DIR/include" \
     "$DIR/tests/test_arena.c" -o "$OUT/test_arena"
 "$OUT/test_arena"
+    "$DIR/tests/test_fft.c" -o "$OUT/test_fft" -lm
+"$OUT/test_fft"
