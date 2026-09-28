@@ -33,3 +33,7 @@ $CC -std=c11 -O2 -Wall -Wextra -I "$DIR/include" \
 $CC -std=c11 -O2 -Wall -Wextra -I "$DIR/include" \
     "$DIR/tests/test_ste.c" -o "$OUT/test_ste"
 "$OUT/test_ste"
+
+$CC -std=c11 -O2 -Wall -Wextra -I "$DIR/include" \
+    "$DIR/tests/test_crdt.c" -o "$OUT/test_crdt"
+"$OUT/test_crdt"
