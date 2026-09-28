@@ -178,7 +178,7 @@ build the other draft.
 | 0005 | `syz_fused.h` — the single register-resident pass | I2 | **HEWN** |
 | 0006 | `syz_fft.h` — 16-point radix-2 fixed-point FFT | I2 | **HEWN** |
 | 0007 | `syz_ste.h` — straight-through argmax tokenizer | I2 | **HEWN** |
-| 0008 | `syz_crdt.h` — join-semilattice mesh + Lamport LWW | I3 | DRAWN |
+| 0008 | `syz_crdt.h` — join-semilattice mesh + Lamport LWW | I3 | **HEWN** |
 
 The dependency spine: **0002 (arena)** underlies everything that writes output;
 **0004 (yuv)** feeds **0001/0003/0006**; **0005 (fused)** is the syzygy proper —
