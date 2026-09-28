@@ -167,7 +167,7 @@ build the other draft.
 | id | shard | serves | state |
 |---|---|---|---|
 | 0001 | `syz_braille.h` — 8-dot Braille packer | I2 | **HEWN** |
-| 0002 | `syz_arena.h` — zero-allocation arena | I1 | DRAWN |
+| 0002 | `syz_arena.h` — zero-allocation arena | I1 | HEWN |
 | 0003 | `syz_glyph.h` — bivariate glyph/edge selector | I2 | **HEWN** |
 | 0004 | `syz_yuv.h` — NV12/YUV 4:2:0 → luma/chroma ingest | I2 | DRAWN |
 | 0005 | `syz_fused.h` — the single register-resident pass | I2 | DRAWN |
