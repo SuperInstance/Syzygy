@@ -1,0 +1,9 @@
+mark_id,laid_at,shard,state,serves_invariant,depends_on,witness,better_when,seed_ref
+m0001,2026-09-28,0001-braille-packer,HEWN,I2,none,"tests/test_braille.c: 31 checks 0 failures (braille pack/codepoint/utf8 + luma8)","fused pass writes masks from registers (0005); adaptive tau replaces scalar threshold",blob:923-959;5799-5900;8034-8053
+m0003,2026-09-28,0003-glyph-engine,HEWN,I2,0001,"tests/test_braille.c: 31 checks 0 failures (sobel/direction/ramp/select)","learnable STE tokenizer replaces fixed Sobel+ramp (0007); fused into one pass (0005)",blob:862-921;8013-8021;8171-8239
+m0002,2026-09-28,0002-arena,DRAWN,I1,none,"docs/marks/0002-arena.md (spec + seed core_arena_init/alloc)","N/A — foundational; nothing depends-better, everything depends-on it",blob:8309-8323;262-272
+m0004,2026-09-28,0004-yuv-ingest,DRAWN,I2,0002,"docs/marks/0004-yuv-ingest.md (spec + fused_yuv chroma math)","real V4L2/WebRTC source (native+wasm) instead of synthetic frames",blob:5814-5900;5541-5615;2588-2617
+m0005,2026-09-28,0005-fused,DRAWN,I2,"0001,0003,0004,0006","docs/marks/0005-fused.md (the syzygy: one register-resident pass)","this is the invariant I2 made real; until it exists, 0001/0003/0006 are staged not fused",blob:3384-3536;8324-8420;3312-3316
+m0006,2026-09-28,0006-fft,DRAWN,I2,0002,"docs/marks/0006-fft.md (radix-2 16-pt fixed-point, SCARF-1)","bit-reversal-free unrolled DFT (SCARF-1 timber A) replaces the permutation pass",blob:3236-3292;7322-7332;8305-8308
+m0007,2026-09-28,0007-tokenizer,DRAWN,I2,"0002,0003","docs/marks/0007-tokenizer.md (static integer argmax now; trainable later, SCARF-6)","a training harness + gradients make the static basis learnable (blob:8080-8145)",blob:8171-8239;8080-8145;304-312
+m0008,2026-09-28,0008-crdt-mesh,DRAWN,I3,0002,"docs/marks/0008-crdt-mesh.md (join-semilattice + Lamport LWW + UDP)","real lossy-network convergence test (adversarial reorder/drop) proves the algebra",blob:7940-7978;3824-3866;7707-7778

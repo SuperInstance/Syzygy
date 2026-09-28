@@ -1,0 +1,15 @@
+#!/bin/sh
+# =============================================================================
+# run.sh — build and run the Syzygy shard tests. Zero dependencies beyond a
+# C11 compiler. Exits non-zero on any failed check.
+# =============================================================================
+set -e
+DIR=$(cd "$(dirname "$0")/.." && pwd)
+CC=${CC:-cc}
+OUT=$(mktemp -d)
+trap 'rm -rf "$OUT"' EXIT
+
+echo "compiler: $($CC --version | head -1)"
+$CC -std=c11 -O2 -Wall -Wextra -I "$DIR/include" \
+    "$DIR/tests/test_braille.c" -o "$OUT/test_braille"
+"$OUT/test_braille"
