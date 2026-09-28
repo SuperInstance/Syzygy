@@ -160,6 +160,11 @@ build the other draft.
   Everything else is DRAWN. A draft that says "shipped" is a *plan*, and the
   mark says so.
 
+### SCARF-7 — the seed FFT rotates the wrong way (a seed bug)
+- **Timber A:** the math section defines the **forward** DFT, `e^{-j2πkn/N}` *(blob:3236-3292)*.
+- **Timber B:** the seed kernel swaps the sine/cosine names at *(blob:3275-3276)*, so it actually rotates by `e^{+j}` — the inverse direction — contradicting its own math.
+- **Join:** shard 0006 (`syz_fft.h`) implements the **forward** transform the math defines and verifies it against a double-precision reference DFT (worst error 2 LSB over 200 random full-scale vectors, bound 8). The seed's swapped names are a **bug in the seed of record**; we do not edit the seed — we correct it in the shard and witness the correction here. Anyone reimplementing from the raw seed code alone would inherit the sign error — read this joint first.
+
 ---
 
 ## The map of shards
@@ -167,11 +172,11 @@ build the other draft.
 | id | shard | serves | state |
 |---|---|---|---|
 | 0001 | `syz_braille.h` — 8-dot Braille packer | I2 | **HEWN** |
-| 0002 | `syz_arena.h` — zero-allocation arena | I1 | HEWN |
+| 0002 | `syz_arena.h` — zero-allocation arena | I1 | **HEWN** |
 | 0003 | `syz_glyph.h` — bivariate glyph/edge selector | I2 | **HEWN** |
 | 0004 | `syz_yuv.h` — NV12/YUV 4:2:0 → luma/chroma ingest | I2 | DRAWN |
 | 0005 | `syz_fused.h` — the single register-resident pass | I2 | DRAWN |
-| 0006 | `syz_fft.h` — 16-point radix-2 fixed-point FFT | I2 | DRAWN |
+| 0006 | `syz_fft.h` — 16-point radix-2 fixed-point FFT | I2 | **HEWN** |
 | 0007 | `syz_ste.h` — straight-through argmax tokenizer | I2 | DRAWN |
 | 0008 | `syz_crdt.h` — join-semilattice mesh + Lamport LWW | I3 | DRAWN |
 
