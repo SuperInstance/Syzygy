@@ -1,0 +1,12 @@
+Updating 7653233..fe64ddb
+Fast-forward
+ docs/marks/0007-tokenizer.md |  16 ++----
+ docs/marks/ARCHITECTURE.md   |   2 +-
+ docs/marks/ledger.csv        |   1 +
+ include/syz_fused.h          |  20 +++-----
+ include/syz_ste.h            | 114 +++++++++++++++++++++++++++++++++++++++++++
+ tests/run.sh                 |   4 ++
+ tests/test_ste.c             | 111 +++++++++++++++++++++++++++++++++++++++++
+ 7 files changed, 244 insertions(+), 24 deletions(-)
+ create mode 100644 include/syz_ste.h
+ create mode 100644 tests/test_ste.c

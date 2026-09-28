@@ -118,7 +118,7 @@ pointing forward.
 | 0005 **fused pass** | `include/syz_fused.h` | I2 | DRAWN | The syzygy proper — the one register-resident pass. **Until this exists, I2 is a design, not a fact:** 0001/0003/0006 are staged, not fused. |
 | 0006 fft | `include/syz_fft.h` | I2 | DRAWN | 16-pt radix-2 fixed-point (with bit-reversal; "bit-reversal-free" is aspirational — SCARF-1). |
 | 0007 tokenizer | `include/syz_ste.h` | I2 | DRAWN | Static integer argmax now; **trainable/differentiable is aspirational** — the seed's biggest real-vs-claimed gap (SCARF-6). |
-| 0008 crdt mesh | `include/syz_crdt.h` | I3 | DRAWN | Join-semilattice + Lamport LWW; prove the algebra before the network. |
+| 0008 crdt mesh | `include/syz_crdt.h` | I3 | **HEWN** | Join-semilattice + Lamport LWW; algebra proven in memory (laws + convergence-under-reorder); UDP transport is a later shard. |
 
 What is **aspirational** and should not be mistaken for working: the "shipped"
 lists in the seed drafts (blob:193-201, 805-816); the "bit-reversal-free" FFT
