@@ -67,7 +67,7 @@ static int composed(SyzArena *a, const SyzNv12 *s, const SyzFusedParams *p,
 }
 
 static int run_case(const char *name, uint32_t w, uint32_t h, uint32_t ys, uint32_t uvs,
-                    int random_frame, uint32_t fft_row) {
+                    int random_frame, uint32_t fft_row, int64_t thresh2) {
     SyzArena a, b; SyzNv12 s; SyzFusedParams p; SyzFusedOut fo, ro;
     size_t n; char msg[128]; int rc1, rc2;
     if (random_frame) {
@@ -76,7 +76,7 @@ static int run_case(const char *name, uint32_t w, uint32_t h, uint32_t ys, uint3
         for (i = 0; i < (size_t)uvs * (h / 2); i++) uvbuf[i] = rnd();
     } else syz_yuv_synth(ybuf, uvbuf, w, h, ys, uvs);
     s.y = ybuf; s.uv = uvbuf; s.w = w; s.h = h; s.y_stride = ys; s.uv_stride = uvs;
-    p.braille_thresh = 100; p.edge_thresh2 = 4000; p.fft_row = fft_row;
+    p.braille_thresh = 100; p.edge_thresh2 = thresh2; p.fft_row = fft_row;
     memset(&fo, 0, sizeof fo); memset(&ro, 0, sizeof ro);
     fo.cap = MAXC; fo.mask = fm; fo.glyph = fg; fo.tone = ft;
     memset(fm, 0, sizeof fm); memset(fg, 0, sizeof fg); memset(ft, 0, sizeof ft);
@@ -102,16 +102,107 @@ static int run_case(const char *name, uint32_t w, uint32_t h, uint32_t ys, uint3
     return 0;
 }
 
+/* ---- oracle hardening (tools/kernel-oracle-mutant-gauge survivors) --------
+ * fused == composed cannot see a bug in code both paths share, and the golden
+ * FNV-1a omits glyph/peak. These checks are independent of the composed path. */
+
+/* Frame luma sampler whose Sobel at (1,1) is gx = 4*d, gy = 0 (mag2 = 16d^2). */
+static uint8_t step_d;
+static uint8_t sample_step(int x, int y, void *ctx) { (void)y; (void)ctx; return x >= 2 ? step_d : 0; }
+
+static void oracle_boundaries(void) {
+    int32_t re[16], im[16]; uint32_t k;
+    /* peak: independent of the composed path (both call syz_fused_peak) */
+    for (k = 0; k < 16; k++) { re[k] = 0; im[k] = 0; }
+    CHECK(syz_fused_peak(re, im) == 0, "peak: all-zero spectrum -> 0");
+    re[8] = 50; re[3] = 49;
+    CHECK(syz_fused_peak(re, im) == 8, "peak: Nyquist bin 8 is searched (8 is the max)");
+    re[8] = 0; re[3] = 30; im[6] = 30;
+    CHECK(syz_fused_peak(re, im) == 3, "peak: tie |X3|==|X6| -> first max (3)");
+    re[3] = 0; im[6] = 0; re[0] = 1000; re[5] = 1;
+    CHECK(syz_fused_peak(re, im) == 5, "peak: DC bin 0 excluded");
+    /* glyph edge gate is strict: mag2 == thresh2 is NOT an edge */
+    step_d = 10; /* gx = 40, gy = 0, mag2 = 1600 */
+    CHECK(syz_glyph_select(sample_step, NULL, 1, 1, 1600) == (uint32_t)SYZ_RAMP[0],
+          "glyph: mag2 == thresh2 -> ramp (strict >)");
+    CHECK(syz_glyph_select(sample_step, NULL, 1, 1, 1599) == SYZ_GLYPH_HORIZ,
+          "glyph: mag2 == thresh2+1 -> edge");
+    /* direction windows at the tan(22.5)=0.41421 / tan(67.5)=2.41421 edges */
+    CHECK(syz_glyph_direction(10000, 4100) == SYZ_GLYPH_HORIZ, "dir: ratio 0.4100 -> horizontal");
+    CHECK(syz_glyph_direction(10000, 4200) == SYZ_GLYPH_SLASH, "dir: ratio 0.4200 -> slash");
+    CHECK(syz_glyph_direction(10000, 24100) == SYZ_GLYPH_SLASH, "dir: ratio 2.4100 -> slash");
+    CHECK(syz_glyph_direction(10000, 24200) == SYZ_GLYPH_VERT, "dir: ratio 2.4200 -> vertical");
+}
+
+/* Pick a real cell's mag2 m from a random frame and run the fused==composed
+ * case at thresh2 = m-1: an off-by-one in the fused threshold flips that cell. */
+static void boundary_threshold_case(void) {
+    SyzArena a; SyzNv12 s; SyzYuvFrame f; uint32_t x, y; int64_t m = 0; size_t i;
+    lcg = 4242u;
+    for (i = 0; i < 60u * 24u; i++) ybuf[i] = rnd();
+    for (i = 0; i < 60u * 12u; i++) uvbuf[i] = rnd();
+    s.y = ybuf; s.uv = uvbuf; s.w = 48; s.h = 24; s.y_stride = 60; s.uv_stride = 60;
+    syz_arena_init(&a, pool, sizeof pool);
+    if (syz_yuv_ingest(&a, &s, &f) == 0)
+        for (y = 0; y < f.rows && m == 0; y++)
+            for (x = 0; x < f.cols && m == 0; x++) {
+                int32_t gx = syz_sobel_gx(syz_yuv_luma_fn, &f, (int)(2*x), (int)(4*y + 1));
+                int32_t gy = syz_sobel_gy(syz_yuv_luma_fn, &f, (int)(2*x), (int)(4*y + 1));
+                if (syz_edge_mag2(gx, gy) > 1) m = syz_edge_mag2(gx, gy);
+            }
+    CHECK(m > 1, "boundary: found a cell with mag2 > 1");
+    lcg = 4242u; /* run_case regenerates the identical frame */
+    run_case("random 48x24 at thresh2 = (a cell's mag2) - 1", 48, 24, 60, 60, 1, 2, m - 1);
+}
+
+/* Full-output FNV-1a: every field (glyph + peak + valid too) over three frames,
+ * incl. random ones that saturate chroma. Pins shared-shard behaviour that the
+ * composed reference cannot see. The original GOLDEN_HASH is left as is. */
+#define GOLDEN_FULL 0x463de14bu
+static uint32_t fnv_u32(uint32_t h, uint32_t v) {
+    uint32_t b;
+    for (b = 0; b < 4; b++) h = (h ^ ((v >> (8 * b)) & 0xFFu)) * 16777619u;
+    return h;
+}
+static uint32_t full_golden(void) {
+    static const uint32_t W[3] = {32, 48, 64}, H[3] = {16, 24, 40}, S[3] = {40, 60, 80};
+    uint32_t h = 2166136261u, fr; size_t i, n;
+    lcg = 9001u;
+    for (fr = 0; fr < 3; fr++) {
+        SyzArena a; SyzNv12 s; SyzFusedParams p; SyzFusedOut o;
+        if (fr == 0) syz_yuv_synth(ybuf, uvbuf, W[fr], H[fr], S[fr], S[fr]);
+        else {
+            for (i = 0; i < (size_t)S[fr] * H[fr]; i++) ybuf[i] = rnd();
+            for (i = 0; i < (size_t)S[fr] * (H[fr] / 2); i++) uvbuf[i] = rnd();
+        }
+        s.y = ybuf; s.uv = uvbuf; s.w = W[fr]; s.h = H[fr]; s.y_stride = S[fr]; s.uv_stride = S[fr];
+        p.braille_thresh = 100; p.edge_thresh2 = 4000; p.fft_row = fr;
+        memset(&o, 0, sizeof o); o.cap = MAXC; o.mask = fm; o.glyph = fg; o.tone = ft;
+        syz_arena_init(&a, pool, sizeof pool);
+        if (syz_fused(&a, &s, &p, &o) != 0) return 0;
+        n = (size_t)o.cols * o.rows;
+        for (i = 0; i < n; i++) { h = fnv_u32(h, fm[i]); h = fnv_u32(h, fg[i]); h = fnv_u32(h, ft[i]); }
+        for (i = 0; i < 16; i++) { h = fnv_u32(h, (uint32_t)o.spec_re[i]); h = fnv_u32(h, (uint32_t)o.spec_im[i]); }
+        h = fnv_u32(h, o.peak_bin); h = fnv_u32(h, (uint32_t)o.fft_valid);
+    }
+    return h;
+}
+
 int main(void) {
     SyzArena a; SyzNv12 s; SyzFusedParams p; SyzFusedOut o1, o2;
     uint32_t h1, h2, i; size_t hw, n, pre;
     printf("=== Syzygy shard tests: 0005 fused pass (I2 witness) ===\n");
 
-    run_case("synth 32x16 padded", 32, 16, 40, 48, 0, 1);
-    run_case("synth 64x32 (cols=32, rows=8)", 64, 32, 64, 64, 0, 3);
-    run_case("random 48x24 padded", 48, 24, 60, 60, 1, 2);
-    run_case("random 64x40 second seed", 64, 40, 80, 80, 1, 0);
-    run_case("synth 16x8 (cols=8 <16: fft invalid)", 16, 8, 16, 16, 0, 0);
+    run_case("synth 32x16 padded", 32, 16, 40, 48, 0, 1, 4000);
+    run_case("synth 64x32 (cols=32, rows=8)", 64, 32, 64, 64, 0, 3, 4000);
+    run_case("random 48x24 padded", 48, 24, 60, 60, 1, 2, 4000);
+    run_case("random 64x40 second seed", 64, 40, 80, 80, 1, 0, 4000);
+    run_case("synth 16x8 (cols=8 <16: fft invalid)", 16, 8, 16, 16, 0, 0, 4000);
+    boundary_threshold_case();
+    oracle_boundaries();
+    { uint32_t g = full_golden();
+      printf("  info: full-output golden fnv1a = 0x%08x\n", g);
+      CHECK(g == GOLDEN_FULL, "full-output golden (mask+glyph+tone+spectrum+peak, 3 frames) matches pinned value"); }
 
     /* I1 across frames + determinism + O(1) space */
     syz_yuv_synth(ybuf, uvbuf, 32, 16, 32, 32);
