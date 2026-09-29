@@ -65,3 +65,15 @@ jobs:
     steps:
       - uses: actions/checkout@v4
       - run: sh tools/seed-guard.sh
+
+  freestanding:
+    name: freestanding cross-compile (MCU targets) + host probe
+    runs-on: ubuntu-24.04
+    steps:
+      - uses: actions/checkout@v4
+      - name: toolchain (clang + llvm-nm)
+        run: command -v llvm-nm || command -v llvm-nm-18 || (sudo apt-get update && sudo apt-get install -y llvm)
+      - name: probe golden on the host
+        run: cc -std=c11 -O2 -Wall -Wextra -I include tools/port-probe/probe.c tools/port-probe/host.c -o /tmp/probe && /tmp/probe
+      - name: Cortex-M4/M0+, RV32, AArch64 BE, AVR, MSP430 compile with no libc
+        run: sh tools/port-probe/cross.sh
