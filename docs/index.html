@@ -1,0 +1,370 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Syzygy</title>
+<meta name="description" content="A tiny integer-only C kernel that turns a camera frame into Braille, edge glyphs and a small spectrum in one pass, with the same bytes on every machine. Run it in this tab.">
+<style>
+:root {
+  --bg: #ffffff; --surface: #f6f8fa; --surface2: #eef1f4; --border: #d0d7de;
+  --text: #1f2328; --dim: #59636e; --accent: #0969da; --pass: #1a7f37; --fail: #cf222e;
+  --warn: #9a6700; --ink: #1f2328;
+}
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    --bg: #0d1117; --surface: #161b22; --surface2: #1c2129; --border: #30363d;
+    --text: #e6edf3; --dim: #8d96a0; --accent: #58a6ff; --pass: #3fb950; --fail: #f85149;
+    --warn: #d29922; --ink: #e6edf3;
+  }
+}
+:root[data-theme="dark"] {
+  --bg: #0d1117; --surface: #161b22; --surface2: #1c2129; --border: #30363d;
+  --text: #e6edf3; --dim: #8d96a0; --accent: #58a6ff; --pass: #3fb950; --fail: #f85149;
+  --warn: #d29922; --ink: #e6edf3;
+}
+*, *::before, *::after { box-sizing: border-box; }
+html { -webkit-text-size-adjust: 100%; }
+body { margin: 0; background: var(--bg); color: var(--text);
+       font: 16px/1.6 ui-sans-serif, system-ui, -apple-system, "Segoe UI", sans-serif; }
+.wrap { max-width: 1040px; margin: 0 auto; padding: 0 16px; }
+a { color: var(--accent); }
+code, pre, .mono { font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace; }
+header.top { border-bottom: 1px solid var(--border); }
+header.top .wrap { display: flex; align-items: center; justify-content: space-between; gap: 12px; height: 56px; }
+.brand { font-weight: 700; letter-spacing: .02em; color: var(--text); text-decoration: none; }
+.brand span { color: var(--accent); }
+nav a { margin-left: 16px; text-decoration: none; font-size: .95rem; white-space: nowrap; }
+@media (max-width: 560px) { nav a:not(:last-child) { display: none; } }
+.hero { padding: 48px 0 24px; }
+.hero h1 { font-size: clamp(1.7rem, 4.2vw, 2.6rem); line-height: 1.15; margin: 0 0 12px; max-width: 22ch; }
+.hero p.lede { font-size: 1.15rem; color: var(--dim); max-width: 62ch; margin: 0 0 20px; }
+.chips { display: flex; flex-wrap: wrap; gap: 8px; margin: 0; padding: 0; list-style: none; }
+.chips li { border: 1px solid var(--border); background: var(--surface); border-radius: 999px; padding: 4px 12px; font-size: .88rem; }
+h2 { font-size: 1.35rem; margin: 48px 0 8px; }
+.sub { color: var(--dim); margin: 0 0 16px; max-width: 70ch; }
+.card { background: var(--surface); border: 1px solid var(--border); border-radius: 10px; padding: 16px; min-width: 0; }
+.card h3 { font-size: .8rem; text-transform: uppercase; letter-spacing: .06em; color: var(--dim); margin: 0 0 8px; font-weight: 600; }
+.controls { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 12px 20px; align-items: end; }
+.controls > div:first-child { grid-column: 1 / -1; }
+.seg { display: inline-flex; border: 1px solid var(--border); border-radius: 8px; overflow: hidden; flex-wrap: wrap; }
+.seg button { font: inherit; font-size: .92rem; border: 0; background: var(--bg); color: var(--text); padding: 8px 14px; cursor: pointer; }
+.seg button + button { border-left: 1px solid var(--border); }
+.seg button[aria-pressed="true"] { background: var(--accent); color: #fff; }
+label.sl { display: block; font-size: .88rem; color: var(--dim); }
+label.sl b { color: var(--text); font-weight: 600; }
+input[type=range] { width: 100%; accent-color: var(--accent); }
+.grid2 { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 16px; margin-top: 16px; }
+pre.cells { margin: 0; overflow-x: auto; line-height: 1.05; font-size: clamp(7px, 1.25vw, 13px); color: var(--ink); min-height: 4em; }
+pre.cells.braille { line-height: 1.15; }
+#spectrum { display: flex; align-items: flex-end; gap: 3px; height: 96px; }
+#spectrum div { flex: 1; background: var(--accent); border-radius: 2px 2px 0 0; min-height: 1px; }
+#spectrum div.peak { background: var(--pass); }
+.note { color: var(--dim); font-size: .85rem; margin: 8px 0 0; }
+.verdict { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 12px; }
+.stat .k { font-size: .8rem; color: var(--dim); }
+.stat .v { font-size: 1.3rem; font-weight: 700; font-variant-numeric: tabular-nums; }
+.ok { color: var(--pass); } .bad { color: var(--fail); } .warnc { color: var(--warn); }
+.checks { margin: 12px 0 0; padding: 0; list-style: none; font-size: .9rem; }
+.checks li { display: flex; gap: 10px; padding: 6px 0; border-top: 1px solid var(--border); flex-wrap: wrap; }
+.badge { font-weight: 700; font-size: .78rem; border-radius: 4px; padding: 1px 6px; align-self: center; }
+.badge.ok { background: color-mix(in srgb, var(--pass) 15%, transparent); }
+.badge.bad { background: color-mix(in srgb, var(--fail) 15%, transparent); }
+figure { margin: 0; }
+figure img { width: 100%; height: auto; display: block; border-radius: 10px; border: 1px solid var(--border); }
+figcaption { color: var(--dim); font-size: .88rem; margin-top: 8px; }
+.uses { display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 16px; }
+.uses .card p { margin: 0; color: var(--dim); font-size: .95rem; }
+.uses .card strong { display: block; color: var(--text); margin-bottom: 4px; }
+.docs { display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 12px; }
+.docs a { display: block; text-decoration: none; color: inherit; }
+.docs a .card { height: 100%; transition: border-color .15s; }
+.docs a:hover .card, .docs a:focus-visible .card { border-color: var(--accent); }
+.docs strong { color: var(--accent); }
+.docs p { margin: 4px 0 0; color: var(--dim); font-size: .92rem; }
+footer { border-top: 1px solid var(--border); margin-top: 56px; padding: 24px 0 40px; color: var(--dim); font-size: .88rem; }
+.visually-hidden { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); }
+</style>
+</head>
+<body>
+<header class="top"><div class="wrap">
+  <a class="brand" href="#">syz<span>y</span>gy</a>
+  <nav><a href="#run">Run it</a><a href="#how">How it works</a><a href="#docs">Docs</a><a href="https://github.com/SuperInstance/Syzygy">GitHub</a></nav>
+</div></header>
+
+<main class="wrap">
+<section class="hero">
+  <h1>One pass from camera frame to readable signal.</h1>
+  <p class="lede">Syzygy is a small C kernel that turns a video frame into Braille dots, edge glyphs and a 16-bin spectrum in a single loop, using only integer arithmetic. It gives the same bytes on a laptop, a phone and a microcontroller, so a stranger can check any result against one number.</p>
+  <ul class="chips">
+    <li>header-only C11</li><li>no malloc, no floats, no libc</li><li>6.8&nbsp;KB as WebAssembly</li><li>same bytes in C, wasm and JS</li>
+  </ul>
+</section>
+
+<section id="run">
+  <h2>Run it in this tab</h2>
+  <p class="sub">Everything below is computed on your device, with no server involved. The same pass runs twice on every frame: once as the <strong>C kernel compiled to WebAssembly</strong>, once as an independent <strong>JavaScript port</strong>. The panel at the bottom tells you whether the two agreed, byte for byte.</p>
+
+  <div class="card">
+    <div class="controls">
+      <div>
+        <label class="sl" id="src-l">Input</label>
+        <div class="seg" role="group" aria-labelledby="src-l">
+          <button type="button" data-src="test" aria-pressed="false">Test frame</button>
+          <button type="button" data-src="rings" aria-pressed="true">Moving rings</button>
+          <button type="button" data-src="camera" aria-pressed="false">Camera</button>
+        </div>
+      </div>
+      <label class="sl">Dot threshold: <b id="bt-v">128</b>
+        <input id="bt" type="range" min="0" max="255" value="128"></label>
+      <label class="sl">Edge threshold (squared): <b id="e2-v">6000</b>
+        <input id="e2" type="range" min="0" max="60000" step="250" value="6000"></label>
+      <label class="sl">Spectrum row: <b id="row-v">1</b>
+        <input id="row" type="range" min="0" max="23" value="1"></label>
+    </div>
+    <p class="note" id="src-note">A synthetic pattern of moving rings, 160×96 pixels, which becomes 80×24 cells.</p>
+  </div>
+
+  <div class="grid2">
+    <div class="card"><h3>Braille · 8 dots per cell</h3><pre class="cells braille" id="out-braille" aria-label="Braille output"></pre></div>
+    <div class="card"><h3>Edge glyphs · 3×3 Sobel</h3><pre class="cells" id="out-glyph" aria-label="Edge glyph output"></pre></div>
+    <div class="card"><h3>Tone · argmax density</h3><pre class="cells" id="out-tone" aria-label="Tone output"></pre></div>
+    <div class="card"><h3>Spectrum · 16-point integer FFT of one row</h3><div id="spectrum" aria-label="Spectrum bars"></div><p class="note" id="spec-note"></p></div>
+  </div>
+
+  <div class="card" style="margin-top:16px">
+    <h3>Two engines, one answer</h3>
+    <div class="verdict">
+      <div class="stat"><div class="k">Frames compared</div><div class="v" id="n-frames">0</div></div>
+      <div class="stat"><div class="k">Identical, every byte</div><div class="v" id="n-same">0</div></div>
+      <div class="stat"><div class="k">C → wasm, per frame</div><div class="v" id="t-wasm">–</div></div>
+      <div class="stat"><div class="k">JS port, per frame</div><div class="v" id="t-js">–</div></div>
+    </div>
+    <p class="note" id="budget"></p>
+    <ul class="checks" id="checks"></ul>
+  </div>
+</section>
+
+<section id="how">
+  <h2>What happens inside the pass</h2>
+  <p class="sub">The frame is read once into a fixed buffer. One loop visits every 2×4-pixel cell and works out its brightness, its Braille dots, its edge direction and its density character, all from values kept in local variables. One row of cells also goes through a small Fourier transform. Each result is written once, and the buffer is handed back exactly as it was found.</p>
+  <figure>
+    <img src="img/fused-pass.svg" alt="Diagram of the fused pass: NV12 frame, ingest into the arena, one loop per cell computing luma, Braille, Sobel edge glyph and argmax tone, a 16-point FFT on one row, outputs written once, and a CRDT mesh downstream." width="880" height="500">
+    <figcaption>Each numbered box is a shard: one header in <code>include/</code> and one test in <code>tests/</code>. <a href="https://github.com/SuperInstance/Syzygy/blob/main/docs/the-fused-pass.md">Read the stage-by-stage walkthrough</a>.</figcaption>
+  </figure>
+</section>
+
+<section>
+  <h2>What the numbers let you do</h2>
+  <div class="uses">
+    <div class="card"><p><strong>Check someone else's result.</strong>Integer-only maths means a frame gives the same bytes on every CPU and compiler. The 32×16 test frame hashes to <code>0x6dbdd1a8</code> in native C, in WebAssembly and in JavaScript, so one number is enough to tell whether two devices saw the same thing.</p></div>
+    <div class="card"><p><strong>Run where there is no runtime.</strong>No allocator, no floating point, no standard library. The same headers compile for a desktop, a 6.8&nbsp;KB WebAssembly module with zero imports, and in principle a microcontroller.</p></div>
+    <div class="card"><p><strong>Keep up with a live camera.</strong>The timing above is measured on your device. The pass has to fit in the time between display refreshes to keep up with a live camera, and it runs without a server round trip.</p></div>
+    <div class="card"><p><strong>Share state without a coordinator.</strong>Grids of cells merge with a join that ignores order and duplicates, so devices that trade updates over a lossy link end up with the same picture without a server deciding who is right.</p></div>
+  </div>
+</section>
+
+<section id="docs">
+  <h2>Read further</h2>
+  <p class="sub">The README is the general introduction. Each deep-dive below is written for two readers: a newcomer, and someone about to change the code.</p>
+  <div class="docs">
+    <a href="https://github.com/SuperInstance/Syzygy#readme"><div class="card"><strong>README</strong><p>The whole story in one read: what it is, why integers, how to run it.</p></div></a>
+    <a href="https://github.com/SuperInstance/Syzygy/blob/main/docs/understanding-syzygy.md"><div class="card"><strong>Understanding Syzygy</strong><p>The front door: nouns, invariants and the contract.</p></div></a>
+    <a href="https://github.com/SuperInstance/Syzygy/blob/main/docs/the-fused-pass.md"><div class="card"><strong>The fused pass</strong><p>Every stage of the loop, with its shortcuts.</p></div></a>
+    <a href="https://github.com/SuperInstance/Syzygy/blob/main/docs/invariants.md"><div class="card"><strong>The three invariants</strong><p>I1 arena, I2 integer fusion, I3 merge without consensus, and the test behind each.</p></div></a>
+    <a href="https://github.com/SuperInstance/Syzygy/blob/main/docs/porting.md"><div class="card"><strong>Porting to new hardware</strong><p>Bring the kernel up on a new target and prove it with the golden hash.</p></div></a>
+    <a href="https://github.com/SuperInstance/Syzygy/blob/main/docs/verifying.md"><div class="card"><strong>How the claims are checked</strong><p>Mutation gauge, drift differ, wasm run: how the tests are themselves tested.</p></div></a>
+    <a href="https://github.com/SuperInstance/Syzygy/blob/main/docs/diffuse-by-marks.md"><div class="card"><strong>Diffuse by marks</strong><p>How a crew with no shared memory built this from a self-contradicting seed.</p></div></a>
+    <a href="https://github.com/SuperInstance/Syzygy/blob/main/docs/marks/ARCHITECTURE.md"><div class="card"><strong>Architecture &amp; scars</strong><p>The seed resolved into one design, every contradiction named.</p></div></a>
+    <a href="poc/"><div class="card"><strong>Minimal proof-of-concept</strong><p>The original one-screen browser port with its 7 byte-exact checks.</p></div></a>
+  </div>
+</section>
+</main>
+
+<footer><div class="wrap">
+  Syzygy · MIT licensed · <a href="https://github.com/SuperInstance/Syzygy">source</a> · everything on this page runs locally in your browser; no data leaves the tab, including camera frames.
+</div></footer>
+
+<script type="module">
+import { syz_fused, syz_yuv_synth, fnv1a_fused, REF } from './poc/syzygy.js';
+
+const GOLDEN = 0x6dbdd1a8;
+const $ = id => document.getElementById(id);
+const hex = n => '0x' + (n >>> 0).toString(16).padStart(8, '0');
+const state = { src: 'rings', bt: 128, e2: 6000, row: 1, t: 0, frames: 0, same: 0, tw: 0, tj: 0, nt: 0, wasm: null, cam: null };
+
+// ── load the C kernel compiled to wasm32 (zero imports) ──────────────────────
+async function loadWasm() {
+  try {
+    const res = await fetch('./poc/syzygy.wasm');
+    const { instance } = await WebAssembly.instantiate(await res.arrayBuffer(), {});
+    return instance.exports;
+  } catch (e) { console.warn('wasm unavailable', e); return null; }
+}
+
+// ── frame sources (the host side: produces NV12 bytes) ───────────────────────
+function ringsFrame(W, H, t) {
+  const y = new Uint8Array(W * H), uv = new Uint8Array(W * (H >> 1));
+  const cx = W / 2 + (W / 4) * Math.sin(t / 50), cy = H / 2 + (H / 5) * Math.cos(t / 37);
+  for (let r = 0; r < H; r++) for (let x = 0; x < W; x++) {
+    const dx = x - cx, dy = (r - cy) * 1.6;
+    const v = (((dx * dx + dy * dy) >> 2) + t * 5) & 511;
+    y[r * W + x] = v < 256 ? v : 511 - v;
+  }
+  for (let r = 0; r < (H >> 1); r++) for (let x = 0; x < (W >> 1); x++) {
+    uv[r * W + 2 * x] = 96 + ((x * 4) & 63); uv[r * W + 2 * x + 1] = 160 - ((r * 4) & 63);
+  }
+  return { y, uv, w: W, h: H, y_stride: W, uv_stride: W };
+}
+const cvs = document.createElement('canvas'); cvs.width = 160; cvs.height = 96;
+const ctx = cvs.getContext('2d', { willReadFrequently: true });
+function cameraFrame(video) {
+  const W = 160, H = 96, vw = video.videoWidth, vh = video.videoHeight;
+  if (!vw) return null;
+  const s = Math.min(vw / W, vh / H), sw = W * s, sh = H * s;
+  ctx.save(); ctx.translate(W, 0); ctx.scale(-1, 1);
+  ctx.drawImage(video, (vw - sw) / 2, (vh - sh) / 2, sw, sh, 0, 0, W, H); ctx.restore();
+  const px = ctx.getImageData(0, 0, W, H).data;
+  const y = new Uint8Array(W * H), uv = new Uint8Array(W * (H >> 1));
+  for (let i = 0, p = 0; i < W * H; i++, p += 4)
+    y[i] = (77 * px[p] + 150 * px[p + 1] + 29 * px[p + 2]) >> 8;
+  for (let r = 0; r < H; r += 2) for (let x = 0; x < W; x += 2) {
+    const p = (r * W + x) * 4, R = px[p], G = px[p + 1], B = px[p + 2];
+    uv[(r >> 1) * W + x]     = Math.max(0, Math.min(255, ((-43 * R - 85 * G + 128 * B) >> 8) + 128));
+    uv[(r >> 1) * W + x + 1] = Math.max(0, Math.min(255, ((128 * R - 107 * G - 21 * B) >> 8) + 128));
+  }
+  return { y, uv, w: W, h: H, y_stride: W, uv_stride: W };
+}
+
+// ── run both engines on one frame and compare every field ────────────────────
+const eq = (a, b) => { if (a.length !== b.length) return false; for (let i = 0; i < a.length; i++) if (a[i] !== b[i]) return false; return true; };
+function runWasm(w, f, p) {
+  const mem = () => w.memory.buffer;
+  new Uint8Array(mem(), w.syz_y_ptr(), f.y.length).set(f.y);
+  new Uint8Array(mem(), w.syz_uv_ptr(), f.uv.length).set(f.uv);
+  const rc = w.syz_run_frame(f.w, f.h, p.braille_thresh, p.edge_thresh2, p.fft_row);
+  const cols = w.syz_cols(), rows = w.syz_rows(), n = cols * rows;
+  return { rc, cols, rows,
+    mask: new Uint8Array(mem(), w.syz_mask_ptr(), n).slice(),
+    glyph: new Uint32Array(mem(), w.syz_glyph_ptr(), n).slice(),
+    tone: new Uint8Array(mem(), w.syz_tone_ptr(), n).slice(),
+    spec_re: new Int32Array(mem(), w.syz_spec_re_ptr(), 16).slice(),
+    spec_im: new Int32Array(mem(), w.syz_spec_im_ptr(), 16).slice(),
+    peak_bin: w.syz_peak_bin(), fft_valid: w.syz_fft_valid() };
+}
+function agree(a, b) {
+  return a.rc === 0 && a.cols === b.cols && a.rows === b.rows && eq(a.mask, b.mask) && eq(a.glyph, b.glyph) &&
+    eq(a.tone, b.tone) && a.fft_valid === b.fft_valid &&
+    (b.fft_valid === 0 || (a.peak_bin === b.peak_bin && eq(a.spec_re, b.spec_re) && eq(a.spec_im, b.spec_im)));
+}
+
+// ── draw ─────────────────────────────────────────────────────────────────────
+const bars = [];
+for (let k = 0; k < 16; k++) { const d = document.createElement('div'); $('spectrum').appendChild(d); bars.push(d); }
+function draw(o) {
+  let b = '', g = '', t = '';
+  for (let r = 0; r < o.rows; r++) {
+    for (let c = 0; c < o.cols; c++) {
+      const i = r * o.cols + c;
+      b += String.fromCodePoint(0x2800 + o.mask[i]);
+      g += String.fromCodePoint(o.glyph[i]);
+      t += String.fromCharCode(o.tone[i]);
+    }
+    b += '\n'; g += '\n'; t += '\n';
+  }
+  $('out-braille').textContent = b; $('out-glyph').textContent = g; $('out-tone').textContent = t;
+  const mags = Array.from({ length: 16 }, (_, k) => Math.hypot(o.spec_re[k], o.spec_im[k]));
+  const mx = Math.max(1, ...mags.slice(1));
+  bars.forEach((d, k) => { d.style.height = (k === 0 ? 4 : Math.max(1, mags[k] / mx * 100)) + '%';
+    d.className = (o.fft_valid && k === o.peak_bin) ? 'peak' : ''; d.title = `bin ${k}: re ${o.spec_re[k]}, im ${o.spec_im[k]}`; });
+  $('spec-note').textContent = o.fft_valid
+    ? `Row ${state.row}: peak at bin ${o.peak_bin} (green). Bin 0, the average, is drawn short so the others stay visible.`
+    : 'The spectrum needs at least 16 cells in a row and a row that exists.';
+}
+
+function step() {
+  let f;
+  if (state.src === 'test') f = syz_yuv_synth(32, 16, 32, 32);
+  else if (state.src === 'rings') f = ringsFrame(160, 96, state.t++);
+  else f = state.cam ? cameraFrame(state.cam) : null;
+  if (!f) return;
+  const rows = f.h >> 2;
+  if (state.row > rows - 1) { state.row = rows - 1; $('row').value = state.row; $('row-v').textContent = state.row; }
+  $('row').max = rows - 1;
+  const p = { braille_thresh: state.bt, edge_thresh2: state.e2, fft_row: state.row };
+  const t0 = performance.now(); const js = syz_fused(f, p); const t1 = performance.now();
+  draw(js);
+  if (state.wasm) {
+    const t2 = performance.now(); const w = runWasm(state.wasm, f, p); const t3 = performance.now();
+    state.frames++; if (agree(w, js)) state.same++;
+    state.tj += t1 - t0; state.tw += t3 - t2; state.nt++;
+    $('n-frames').textContent = state.frames.toLocaleString();
+    const s = $('n-same'); s.textContent = state.same.toLocaleString(); s.className = 'v ' + (state.same === state.frames ? 'ok' : 'bad');
+    if (state.nt >= 10) {
+      const tw = state.tw / state.nt, tj = state.tj / state.nt;
+      $('t-wasm').textContent = tw.toFixed(2) + ' ms'; $('t-js').textContent = tj.toFixed(2) + ' ms';
+      const pct = Math.max(tw, 0.01) / 16.7 * 100;
+      $('budget').textContent = `A 60 Hz screen redraws every 16.7 ms. On this device the C kernel uses about ${pct < 1 ? pct.toFixed(2) : pct.toFixed(1)}% of that per frame, measured here in the tab (${f.w}×${f.h} pixels).`;
+      state.tw = state.tj = state.nt = 0;
+    }
+  }
+}
+
+// ── the fixed self-check: the pinned test frame, both engines, one number ────
+function selfCheck() {
+  const li = [];
+  const js = syz_fused(syz_yuv_synth(32, 16, 32, 32), { braille_thresh: 100, edge_thresh2: 4000, fft_row: 1 });
+  const hj = fnv1a_fused(js) >>> 0;
+  li.push([hj === GOLDEN, `JavaScript port: test frame hashes to ${hex(hj)}`, `expected ${hex(GOLDEN)}, pinned in tests/test_fused.c`]);
+  li.push([eq(js.mask, REF.mask) && eq(js.tone, REF.tone) && eq(Array.from(js.glyph), REF.glyph), 'JavaScript port: mask, tone and glyph match the C reference vectors', '64 cells each']);
+  if (state.wasm) {
+    const w = state.wasm;
+    const imports = 0; // instantiated with an empty import object: any import would have failed to link
+    const rc = w.syz_run(32, 16, 100, 4000, 1), hw = w.syz_golden() >>> 0;
+    li.push([rc === 0 && hw === GOLDEN, `C kernel as wasm32: test frame hashes to ${hex(hw)}`, `built from the same include/ headers; ${imports} imports`]);
+  } else li.push([false, 'C kernel as wasm32: could not load poc/syzygy.wasm', 'the JavaScript port still runs']);
+  $('checks').innerHTML = '';
+  for (const [ok, a, b] of li) {
+    const e = document.createElement('li');
+    e.innerHTML = `<span class="badge ${ok ? 'ok' : 'bad'}">${ok ? 'PASS' : 'FAIL'}</span><span></span><span class="note" style="margin:0"></span>`;
+    e.children[1].textContent = a; e.children[2].textContent = b; $('checks').appendChild(e);
+  }
+  document.documentElement.dataset.selfcheck = li.every(x => x[0]) ? 'pass' : 'fail';
+}
+
+// ── controls ─────────────────────────────────────────────────────────────────
+const notes = {
+  test: 'The pinned 32×16 test frame (16×4 cells), a gentle ramp. At dot threshold 100 every Braille dot stays off; that is the correct output, and it is part of the golden hash.',
+  rings: 'A synthetic pattern of moving rings, 160×96 pixels, which becomes 80×24 cells.',
+  camera: 'Your camera, mirrored and scaled to 160×96 pixels (80×24 cells). Frames stay in this tab.'
+};
+async function setSrc(src) {
+  document.querySelectorAll('[data-src]').forEach(b => b.setAttribute('aria-pressed', String(b.dataset.src === src)));
+  $('src-note').textContent = notes[src];
+  if (src === 'camera' && !state.cam) {
+    try {
+      const stream = await navigator.mediaDevices.getUserMedia({ video: { facingMode: 'user', width: 320, height: 240 }, audio: false });
+      const v = document.createElement('video'); v.playsInline = true; v.muted = true; v.srcObject = stream; await v.play(); state.cam = v;
+    } catch (e) { $('src-note').textContent = 'Camera unavailable or permission declined, so staying on the moving rings.'; src = 'rings';
+      document.querySelectorAll('[data-src]').forEach(b => b.setAttribute('aria-pressed', String(b.dataset.src === src))); }
+  }
+  state.src = src;
+  if (src === 'test') { state.bt = 100; state.e2 = 4000; state.row = 1; syncSliders(); }
+  step();
+}
+function syncSliders() { for (const [id, k] of [['bt', 'bt'], ['e2', 'e2'], ['row', 'row']]) { $(id).value = state[k]; $(id + '-v').textContent = state[k]; } }
+document.querySelectorAll('[data-src]').forEach(b => b.addEventListener('click', () => setSrc(b.dataset.src)));
+for (const [id, k] of [['bt', 'bt'], ['e2', 'e2'], ['row', 'row']])
+  $(id).addEventListener('input', e => { state[k] = +e.target.value; $(id + '-v').textContent = state[k]; if (state.src === 'test') step(); });
+
+const reduce = matchMedia('(prefers-reduced-motion: reduce)').matches;
+function loop() { if (state.src !== 'test' && !document.hidden) step(); requestAnimationFrame(loop); }
+
+state.wasm = await loadWasm();
+selfCheck();
+step();
+if (!reduce) requestAnimationFrame(loop); else $('src-note').textContent += ' (Animation paused: reduced motion is on. Move a slider to step.)';
+if (reduce) for (const id of ['bt', 'e2', 'row']) $(id).addEventListener('input', step);
+</script>
+</body>
+</html>
