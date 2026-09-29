@@ -1,0 +1,242 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Syzygy Fused Pass PoC</title>
+<style>
+:root {
+  --bg: #0d0d0d;
+  --surface: #1a1a1a;
+  --border: #333;
+  --text: #e0e0e0;
+  --dim: #888;
+  --pass: #3fb950;
+  --fail: #f85149;
+  --accent: #58a6ff;
+  --cell-size: 20px;
+}
+@media (prefers-color-scheme: light) {
+  :root {
+    --bg: #f6f8fa; --surface: #fff; --border: #d0d7de;
+    --text: #1f2328; --dim: #656d76;
+    --pass: #1a7f37; --fail: #cf222e; --accent: #0969da;
+  }
+}
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+body { background: var(--bg); color: var(--text); font-family: system-ui, sans-serif;
+       font-size: 15px; line-height: 1.5; padding: 16px; max-width: 900px; margin: 0 auto; }
+h1 { font-size: 1.25rem; margin-bottom: 4px; color: var(--accent); }
+.sub { color: var(--dim); font-size: 0.85rem; margin-bottom: 20px; }
+section { margin-bottom: 24px; }
+h2 { font-size: 1rem; font-weight: 600; margin-bottom: 8px; border-bottom: 1px solid var(--border); padding-bottom: 4px; }
+.card { background: var(--surface); border: 1px solid var(--border); border-radius: 6px; padding: 12px 16px; }
+/* Braille grid */
+#braille-grid { display: grid; gap: 1px; line-height: 1; margin-top: 8px; overflow-x: auto; }
+#braille-grid span { font-size: var(--cell-size); font-family: monospace; cursor: default; }
+/* Glyph grid */
+#glyph-grid { display: grid; gap: 1px; line-height: 1; margin-top: 8px; overflow-x: auto; }
+#glyph-grid span { font-size: var(--cell-size); font-family: monospace; cursor: default; }
+/* Spectrum */
+#spectrum { display: flex; align-items: flex-end; gap: 3px; height: 100px; margin-top: 8px; }
+#spectrum .bar { background: var(--accent); flex: 1; min-width: 12px; transition: height .3s; }
+#spectrum .bar.peak { background: var(--pass); }
+/* Self-check */
+.check-row { display: flex; align-items: center; gap: 8px; padding: 6px 0;
+             border-bottom: 1px solid var(--border); font-family: monospace; font-size: 0.82rem; }
+.check-row:last-child { border-bottom: none; }
+.badge { font-weight: 700; width: 42px; text-align: center; border-radius: 4px; padding: 1px 4px; }
+.pass  { color: var(--pass); }
+.fail  { color: var(--fail); }
+.badge.pass { background: color-mix(in srgb, var(--pass) 15%, transparent); }
+.badge.fail { background: color-mix(in srgb, var(--fail) 15%, transparent); }
+.summary { font-size: 1rem; font-weight: 700; margin-top: 12px; }
+.details { color: var(--dim); font-size: 0.8rem; margin-top: 2px; }
+</style>
+</head>
+<body>
+<h1>Syzygy — Fused Pass Browser PoC</h1>
+<p class="sub">Zero-dependency JS port of the 8 C header shards. Runs the fused pass on a synthetic 32×16 NV12 frame entirely in the browser.</p>
+
+<section>
+  <h2>Braille output (U+2800 block)</h2>
+  <div class="card">
+    <div id="braille-grid"></div>
+    <p id="braille-note" style="margin-top:8px;color:var(--dim);font-size:0.8rem;"></p>
+  </div>
+</section>
+
+<section>
+  <h2>Glyph / tone overlay</h2>
+  <div class="card">
+    <div id="glyph-grid"></div>
+  </div>
+</section>
+
+<section>
+  <h2>FFT spectrum — row 1 luma (16 bins)</h2>
+  <div class="card">
+    <div id="spectrum"></div>
+    <p id="spectrum-note" style="margin-top:8px;color:var(--dim);font-size:0.8rem;"></p>
+  </div>
+</section>
+
+<section>
+  <h2>Self-check vs C reference vectors (byte-exact)</h2>
+  <div class="card" id="checks"></div>
+</section>
+
+<script type="module">
+import { syz_fused, syz_yuv_synth, fnv1a_fused, REF,
+         SYZ_RAMP, syz_braille_codepoint } from './syzygy.js';
+
+// Run the pass
+const src = syz_yuv_synth(32, 16, 32, 32);
+const out = syz_fused(src, { braille_thresh: 100, edge_thresh2: 4000, fft_row: 1 });
+const { cols, rows, mask, glyph, tone, spec_re, spec_im, peak_bin, fft_valid } = out;
+
+// ── Braille grid ──────────────────────────────────────────────────────────────
+const bg = document.getElementById('braille-grid');
+bg.style.gridTemplateColumns = `repeat(${cols}, 1fr)`;
+for (let i = 0; i < cols * rows; i++) {
+  const cp = 0x2800 + mask[i];
+  const sp = document.createElement('span');
+  sp.textContent = String.fromCodePoint(cp);
+  sp.title = `cell ${i}: U+${cp.toString(16).toUpperCase().padStart(4,'0')} mask=0x${mask[i].toString(16).padStart(2,'0')}`;
+  bg.appendChild(sp);
+}
+document.getElementById('braille-note').textContent =
+  `${cols}×${rows} cells · threshold=100 · all luma samples ≤ 100 on this ramp → all dark (U+2800 ⠀)`;
+
+// ── Glyph grid ────────────────────────────────────────────────────────────────
+const gg = document.getElementById('glyph-grid');
+gg.style.gridTemplateColumns = `repeat(${cols}, 1fr)`;
+for (let i = 0; i < cols * rows; i++) {
+  const sp = document.createElement('span');
+  const cp = glyph[i];
+  sp.textContent = String.fromCodePoint(cp);
+  const isEdge = cp >= 0x2500;
+  sp.style.color = isEdge ? 'var(--accent)' : 'var(--text)';
+  sp.title = `cell ${i}: U+${cp.toString(16).toUpperCase().padStart(4,'0')}`;
+  gg.appendChild(sp);
+}
+
+// ── Spectrum ──────────────────────────────────────────────────────────────────
+const specDiv = document.getElementById('spectrum');
+const mags = spec_re.map((r, i) => Math.sqrt(r*r + spec_im[i]*spec_im[i]));
+const maxMag = Math.max(...mags, 1);
+for (let k = 0; k < 16; k++) {
+  const bar = document.createElement('div');
+  bar.className = 'bar' + (k === peak_bin ? ' peak' : '');
+  bar.style.height = `${(mags[k] / maxMag * 95).toFixed(1)}%`;
+  bar.title = `bin ${k}: re=${spec_re[k]} im=${spec_im[k]} |X|=${mags[k].toFixed(1)}`;
+  specDiv.appendChild(bar);
+}
+document.getElementById('spectrum-note').textContent =
+  `Peak bin: ${peak_bin} (highlighted green) · fft_valid=${fft_valid}`;
+
+// ── Self-check ────────────────────────────────────────────────────────────────
+function arrEq(a, b) {
+  if (a.length !== b.length) return false;
+  for (let i = 0; i < a.length; i++) if (a[i] !== b[i]) return false;
+  return true;
+}
+function hex32(n) { return '0x' + (n >>> 0).toString(16).padStart(8, '0'); }
+
+const checks = [];
+
+// golden FNV-1a
+const gotHash = fnv1a_fused(out);
+checks.push({
+  label: 'FNV-1a golden hash (mask+tone+spectrum)',
+  pass: (gotHash === REF.golden),
+  detail: `got ${hex32(gotHash)} expected ${hex32(REF.golden)}`
+});
+
+// mask byte-exact
+checks.push({
+  label: `mask[] byte-exact (${cols*rows} bytes)`,
+  pass: arrEq(mask, REF.mask),
+  detail: arrEq(mask, REF.mask)
+    ? 'all bytes match C output'
+    : firstDiff(mask, REF.mask)
+});
+
+// tone byte-exact
+checks.push({
+  label: `tone[] byte-exact (${cols*rows} bytes)`,
+  pass: arrEq(tone, REF.tone),
+  detail: arrEq(tone, REF.tone)
+    ? 'all bytes match C output'
+    : firstDiff(tone, REF.tone)
+});
+
+// glyph uint32-exact
+const glyphRef32 = new Uint32Array(REF.glyph);
+checks.push({
+  label: `glyph[] uint32-exact (${cols*rows} values)`,
+  pass: arrEq(glyph, glyphRef32),
+  detail: arrEq(glyph, glyphRef32)
+    ? 'all values match C output'
+    : firstDiff32(glyph, glyphRef32)
+});
+
+// spectrum re
+checks.push({
+  label: 'spec_re[16] int32-exact',
+  pass: arrEq(spec_re, REF.spec_re),
+  detail: arrEq(spec_re, REF.spec_re)
+    ? 'all values match C output'
+    : firstDiffArr(spec_re, REF.spec_re)
+});
+
+// spectrum im
+checks.push({
+  label: 'spec_im[16] int32-exact',
+  pass: arrEq(spec_im, REF.spec_im),
+  detail: arrEq(spec_im, REF.spec_im)
+    ? 'all values match C output'
+    : firstDiffArr(spec_im, REF.spec_im)
+});
+
+// peak_bin + fft_valid
+checks.push({
+  label: `peak_bin=${peak_bin} (expected ${REF.peak_bin}) · fft_valid=${fft_valid}`,
+  pass: (peak_bin === REF.peak_bin && fft_valid === REF.fft_valid),
+  detail: `cols=${cols} rows=${rows} (frame is 32×16 → 16 cells wide ≥ 16 → fft_valid=1)`
+});
+
+function firstDiff(a, b) {
+  for (let i = 0; i < a.length; i++)
+    if (a[i] !== b[i]) return `first diff at [${i}]: got 0x${a[i].toString(16)} expected 0x${b[i].toString(16)}`;
+  return '';
+}
+function firstDiff32(a, b) {
+  for (let i = 0; i < a.length; i++)
+    if (a[i] !== b[i]) return `first diff at [${i}]: got ${a[i]} expected ${b[i]}`;
+  return '';
+}
+function firstDiffArr(a, b) {
+  for (let i = 0; i < a.length; i++)
+    if (a[i] !== b[i]) return `first diff at [${i}]: got ${a[i]} expected ${b[i]}`;
+  return '';
+}
+
+const container = document.getElementById('checks');
+let passed = 0;
+for (const c of checks) {
+  if (c.pass) passed++;
+  const row = document.createElement('div');
+  row.className = 'check-row';
+  row.innerHTML = `<span class="badge ${c.pass ? 'pass' : 'fail'}">${c.pass ? 'PASS' : 'FAIL'}</span>
+                   <span>${c.label}</span>
+                   <span class="details">${c.detail}</span>`;
+  container.appendChild(row);
+}
+const summary = document.createElement('p');
+summary.className = 'summary ' + (passed === checks.length ? 'pass' : 'fail');
+summary.textContent = `${passed}/${checks.length} checks passed`;
+container.appendChild(summary);
+</script>
+</body>
+</html>
