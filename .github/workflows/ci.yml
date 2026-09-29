@@ -56,8 +56,8 @@ jobs:
       - run: node tools/wasm-native-drift-differ/selftest.mjs
       - run: node tools/wasm-native-drift-differ/differ.mjs
       - run: node tools/kernel-oracle-mutant-gauge/selftest.mjs
-      - name: oracle strength re-derived from scratch
-        run: node tools/kernel-oracle-mutant-gauge/gauge.mjs --verify
+      - name: oracle strength re-derived from scratch; any surviving mutant fails
+        run: node tools/kernel-oracle-mutant-gauge/gauge.mjs --verify --strict
 
   seed:
     name: seed of record is unchanged
