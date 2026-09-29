@@ -4,7 +4,7 @@
 set -e
 DIR=$(cd "$(dirname "$0")/.." && pwd)
 CLANG=${CLANG:-clang}
-OUT=${1:-"$DIR/wasm/syzygy.wasm"}
+OUT=${1:-"$DIR/docs/poc/syzygy.wasm"}   # served by the landing page
 "$CLANG" --target=wasm32 -std=c11 -O2 -Wall -Wextra -Werror -ffreestanding -nostdlib \
   -I "$DIR/include" -Wl,--no-entry -Wl,--export-dynamic \
   -o "$OUT" "$DIR/wasm/syz_wasm.c"

@@ -5,14 +5,15 @@
  * native tests compile, runs the 32x16 synthetic frame, and requires the golden
  * FNV-1a 0x6dbdd1a8 (tests/test_fused.c GOLDEN_HASH). No libc, no FPU, no
  * allocation: every buffer below is a static array in linear memory.
- * SHORTCUT — one fixed frame size (up to MAXW x MAXH); the frame is synthesized
- * in-module (syz_yuv_synth) rather than passed in; the hash formula is copied
- * from test_fused.c rather than shared with it.
+ * Two entry points: syz_run synthesizes the test frame in-module; syz_run_frame
+ * runs on whatever the host wrote at syz_y_ptr / syz_uv_ptr (tight strides).
+ * SHORTCUT — frames are bounded at MAXW x MAXH; the hash formula is copied from
+ * test_fused.c rather than shared with it.
  * ========================================================================== */
 #include "syz_fused.h"
 
-#define MAXW 64
-#define MAXH 32
+#define MAXW 160
+#define MAXH 96
 #define MAXC ((MAXW / 2) * (MAXH / 4))
 
 static uint8_t  y_plane[MAXW * MAXH], uv_plane[MAXW * (MAXH / 2)];
@@ -21,17 +22,25 @@ static uint8_t  mask[MAXC], tone[MAXC];
 static uint32_t glyph[MAXC];
 static SyzFusedOut out;
 
-/* Run the fused pass on a synthetic w x h frame. Returns 0 ok, -1 failure. */
-__attribute__((export_name("syz_run")))
-int syz_run(uint32_t w, uint32_t h, uint32_t braille_thresh, int32_t edge_thresh2, uint32_t fft_row) {
+/* Run the fused pass on the host-written NV12 frame (y_stride = uv_stride = w).
+ * Returns 0 ok, -1 failure (bad size, arena or output too small). */
+__attribute__((export_name("syz_run_frame")))
+int syz_run_frame(uint32_t w, uint32_t h, uint32_t braille_thresh, int32_t edge_thresh2, uint32_t fft_row) {
     SyzArena a; SyzNv12 s; SyzFusedParams p;
     if (w > MAXW || h > MAXH) return -1;
-    syz_yuv_synth(y_plane, uv_plane, w, h, w, w);
     s.y = y_plane; s.uv = uv_plane; s.w = w; s.h = h; s.y_stride = w; s.uv_stride = w;
     p.braille_thresh = (uint8_t)braille_thresh; p.edge_thresh2 = edge_thresh2; p.fft_row = fft_row;
     out.cap = MAXC; out.mask = mask; out.glyph = glyph; out.tone = tone;
     syz_arena_init(&a, pool, sizeof pool);
     return syz_fused(&a, &s, &p, &out);
+}
+
+/* Run the fused pass on the synthetic w x h test frame (tests/test_fused.c). */
+__attribute__((export_name("syz_run")))
+int syz_run(uint32_t w, uint32_t h, uint32_t braille_thresh, int32_t edge_thresh2, uint32_t fft_row) {
+    if (w > MAXW || h > MAXH) return -1;
+    syz_yuv_synth(y_plane, uv_plane, w, h, w, w);
+    return syz_run_frame(w, h, braille_thresh, edge_thresh2, fft_row);
 }
 
 /* FNV-1a over mask+tone (interleaved per cell) then spec_re/spec_im — the
@@ -45,6 +54,10 @@ uint32_t syz_golden(void) {
     return h;
 }
 
+__attribute__((export_name("syz_y_ptr")))    uint8_t  *syz_y_ptr(void)    { return y_plane; }
+__attribute__((export_name("syz_uv_ptr")))   uint8_t  *syz_uv_ptr(void)   { return uv_plane; }
+__attribute__((export_name("syz_max_w")))    uint32_t syz_max_w(void)    { return MAXW; }
+__attribute__((export_name("syz_max_h")))    uint32_t syz_max_h(void)    { return MAXH; }
 __attribute__((export_name("syz_cols")))     uint32_t syz_cols(void)     { return out.cols; }
 __attribute__((export_name("syz_rows")))     uint32_t syz_rows(void)     { return out.rows; }
 __attribute__((export_name("syz_peak_bin"))) uint32_t syz_peak_bin(void) { return out.peak_bin; }

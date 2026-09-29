@@ -10,7 +10,7 @@ const HERE = path.dirname(fileURLToPath(import.meta.url));
 const { syz_fused, syz_yuv_synth } = await import(path.join(HERE, '../docs/poc/syzygy.js'));
 
 const GOLDEN = 0x6dbdd1a8;
-const file = process.argv[2] || path.join(HERE, 'syzygy.wasm');
+const file = process.argv[2] || path.join(HERE, '../docs/poc/syzygy.wasm');
 let pass = 0, fail = 0;
 const CHECK = (ok, msg) => { ok ? pass++ : fail++; console.log(`  ${ok ? 'ok  ' : 'FAIL'}: ${msg}`); };
 
@@ -46,6 +46,27 @@ for (const [fw, fh] of frames) for (const [bt, e2, row] of params) {
         eq(wre, Array.from(js.spec_re)) && eq(wim, Array.from(js.spec_im))))) same++;
   else console.log(`  drift: ${fw}x${fh} params ${bt},${e2},${row}`);
 }
+// host-written frames: seeded random NV12 bytes written into linear memory
+let seed = 0x5eed;
+const rnd = () => (seed = (Math.imul(seed, 1103515245) + 12345) >>> 0) >>> 24;
+let hcases = 0, hsame = 0;
+for (const [fw, fh] of [[32, 16], [160, 96], [64, 40], [96, 64]]) for (let t = 0; t < 5; t++) {
+  hcases++;
+  const y = new Uint8Array(fw * fh).map(rnd), uv = new Uint8Array(fw * (fh >> 1)).map(rnd);
+  new Uint8Array(w.memory.buffer, w.syz_y_ptr(), y.length).set(y);
+  new Uint8Array(w.memory.buffer, w.syz_uv_ptr(), uv.length).set(uv);
+  const bt = rnd(), e2 = rnd() * 97, row = t;
+  const rc = w.syz_run_frame(fw, fh, bt, e2, row);
+  const js = syz_fused({ y, uv, w: fw, h: fh, y_stride: fw, uv_stride: fw }, { braille_thresh: bt, edge_thresh2: e2, fft_row: row });
+  const n = w.syz_cols() * w.syz_rows(), mem = w.memory.buffer;
+  if (rc === 0 && eq(Array.from(new Uint8Array(mem, w.syz_mask_ptr(), n)), Array.from(js.mask)) &&
+      eq(Array.from(new Uint8Array(mem, w.syz_tone_ptr(), n)), Array.from(js.tone)) &&
+      eq(Array.from(new Uint32Array(mem, w.syz_glyph_ptr(), n)), Array.from(js.glyph)) &&
+      w.syz_fft_valid() === js.fft_valid && (js.fft_valid === 0 || w.syz_peak_bin() === js.peak_bin)) hsame++;
+  else console.log(`  drift: host frame ${fw}x${fh} #${t}`);
+}
+CHECK(w.syz_run_frame(w.syz_max_w() + 2, 16, 100, 4000, 1) === -1, 'oversize frame refused (-1), no out-of-bounds write');
+CHECK(hsame === hcases, `wasm == JS port on ${hsame}/${hcases} seeded random host-written frames (up to 160x96)`);
 CHECK(same === cases, `wasm == JS port on ${same}/${cases} frame x param cases (mask, glyph, tone, spectrum, peak)`);
 console.log(`wasm: ${pass + fail} checks, ${fail} failures`);
 process.exit(fail ? 1 : 0);
