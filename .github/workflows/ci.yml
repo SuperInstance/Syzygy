@@ -1,0 +1,67 @@
+name: ci
+
+# Green gate: every push and pull request re-runs the receipts the README cites.
+on:
+  push:
+  pull_request:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  c-suite:
+    name: C suite (${{ matrix.cc }})
+    runs-on: ubuntu-24.04
+    strategy:
+      fail-fast: false
+      matrix:
+        cc: [gcc, clang]
+    steps:
+      - uses: actions/checkout@v4
+      - name: tests/run.sh with totals
+        env:
+          CC: ${{ matrix.cc }}
+        run: sh tools/suite-total.sh
+      - name: golden hash at -O0 and -O3
+        run: |
+          for o in -O0 -O3; do
+            ${{ matrix.cc }} -std=c11 $o -Wall -Wextra -I include tests/test_fused.c -o /tmp/tf
+            /tmp/tf | grep -E 'golden|checks'
+          done
+
+  wasm:
+    name: wasm32 build == native golden == JS port
+    runs-on: ubuntu-24.04
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+      - name: toolchain (clang + wasm-ld)
+        run: command -v wasm-ld || (sudo apt-get update && sudo apt-get install -y lld)
+      - name: committed docs/poc/syzygy.wasm (what the landing page serves)
+        run: node wasm/run.mjs
+      - name: fresh build from include/
+        run: sh wasm/build.sh /tmp/fresh.wasm && node wasm/run.mjs /tmp/fresh.wasm
+
+  verifiers:
+    name: verifier cells (mutant gauge, drift differ)
+    runs-on: ubuntu-24.04
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+      - run: node tools/wasm-native-drift-differ/selftest.mjs
+      - run: node tools/wasm-native-drift-differ/differ.mjs
+      - run: node tools/kernel-oracle-mutant-gauge/selftest.mjs
+      - name: oracle strength re-derived from scratch
+        run: node tools/kernel-oracle-mutant-gauge/gauge.mjs --verify
+
+  seed:
+    name: seed of record is unchanged
+    runs-on: ubuntu-24.04
+    steps:
+      - uses: actions/checkout@v4
+      - run: sh tools/seed-guard.sh
