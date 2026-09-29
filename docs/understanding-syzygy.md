@@ -1,6 +1,6 @@
 # Understanding Syzygy
 
-*Front door. Written for two readers: a **visitor** with zero context, and a **practitioner** about to change something. Every claim below is either cited to a file in this repo or marked "not verified here". Companion articles: [the fused pass](the-fused-pass.md) (pipeline in depth) and [diffuse by marks](diffuse-by-marks.md) (how the kernel was built).*
+*Front door. Refreshed for the production branch (suite 219, browser POC and wasm32 target on board). Written for two readers: a **visitor** with zero context, and a **practitioner** about to change something. Every claim below is either cited to a file in this repo or marked "not verified here". Companion articles: [the fused pass](the-fused-pass.md) (pipeline in depth), [the three invariants](invariants.md), [porting](porting.md), [how the claims are checked](verifying.md) and [diffuse by marks](diffuse-by-marks.md) (how the kernel was built). Back to the [README](../README.md).*
 
 ## 1. In one breath
 
@@ -67,20 +67,31 @@ Real output from this session (gcc 13.3.0), per-suite summary lines in order:
 === 15 checks, 0 failures ===      # test_fft      (0006)
 === 31 checks, 0 failures ===      # test_yuv      (0004)
   info: golden fnv1a = 0x6dbdd1a8
-test_fused: 43 checks, 0 failures  # 0005
+  info: full-output golden fnv1a = 0x463de14b
+test_fused: 61 checks, 0 failures  # 0005
 test_ste: 24 checks, 0 failures    # 0007
 === 28 checks, 0 failures ===      # test_crdt     (0008)
 ```
 
-31+29+15+31+43+24+28 = **201 checks, 0 failures**; exit code 0. Note `run.sh` does not print the total; that sum is mine, and matches ledger row `m0013` ("suite 201"). I also compiled `test_fused.c` at `-O0` and got the same `0x6dbdd1a8`.
+31+29+15+31+61+24+28 = **219 checks, 0 failures**; exit code 0. `run.sh` prints per-suite lines only; `sh tools/suite-total.sh` runs it unchanged and prints the sum (`=== TOTAL: 7 suites, 219 checks, 0 failures ===`), matching ledger row `m0014` ("suite 219"). The jump from 201 came from V01, the mutation gauge, which found six planted bugs the fused-pass test missed; `test_fused.c` grew 18 checks to catch them ([verifying.md](verifying.md)). I also compiled `test_fused.c` at `-O0` and got the same `0x6dbdd1a8`.
 
-**Browser POC (`docs/poc`): does not exist in this repository at this commit.** `ls docs` shows only `marks/` and `seed/`; `wasm/` is a DRAWN placeholder (`wasm/MARK.md`). I have not run a browser build and make no claim about one. Where the P1 browser POC lives, if anywhere, is not verifiable from this repo.
+**Browser POC and wasm32 (`docs/poc`, `wasm/`):** both are in the repo now. `docs/poc/syzygy.js` is a hand-written JavaScript port; `docs/poc/syzygy.wasm` is the *same C headers* compiled with `clang --target=wasm32 -ffreestanding -nostdlib` (6808 bytes, zero imports). Receipts this session:
+
+```
+node wasm/run.mjs
+  info: wasm golden fnv1a = 0x6dbdd1a8
+  ok  : wasm == JS port on 20/20 seeded random host-written frames (up to 160x96)
+  ok  : wasm == JS port on 25/25 frame x param cases (mask, glyph, tone, spectrum, peak)
+wasm: 6 checks, 0 failures
+```
+
+Open `docs/index.html` through any static server (`cd docs && python3 -m http.server`) and the page runs both engines on every frame and counts agreements; in headless Chromium it reported 150/150 frames identical and a 3/3 self-check.
 
 ## 5. The contract
 
-1. **Byte-exact across targets.** Headers use only `<stdint.h>`/`<stddef.h>`, no FPU. Pinned by the golden FNV-1a `0x6dbdd1a8` over mask + tone + spectrum for the 32×16 synthetic frame (`tests/test_fused.c`, `GOLDEN_HASH`). *Verified here:* x86_64 gcc at `-O2` and `-O0`. *Not verified here:* aarch64, wasm32 — the claim rests on the integer-only design, and `tests/MARK.md` lists the cross-target hash test as still to be written.
+1. **Byte-exact across targets.** Headers use only `<stdint.h>`/`<stddef.h>`, no FPU. Pinned by the golden FNV-1a `0x6dbdd1a8` over mask + tone + spectrum for the 32×16 synthetic frame (`tests/test_fused.c`, `GOLDEN_HASH`). *Verified here:* x86_64 gcc 13 and clang 18 at `-O0`/`-O2`/`-O3`; wasm32 (clang 18, run in Node's V8); an independent JavaScript port. *Not verified here:* aarch64 or a real microcontroller: the claim there rests on the integer-only design. [porting.md](porting.md) is the checklist for adding one.
 2. **Invariants I1/I2/I3** as above, each with the named test.
-3. **Receipt = 201 checks green** from `sh tests/run.sh`, plus the golden hash line.
+3. **Receipt = 219 checks green** from `sh tests/run.sh` (summed by `tools/suite-total.sh`), plus the golden hash line, plus `node wasm/run.mjs`.
 4. **Failure behaviour:** `syz_fused` returns `-1` on bad args, arena exhaustion, or too-small output, and always restores the arena mark.
 5. **Preconditions that bite:** FFT input ≤ 4095 (cell luma ≤ 255 is safe); even width/height; FFT needs `cols >= 16` else `fft_valid = 0`; equal Lamport clocks from different values are a protocol violation (still merged deterministically).
 
@@ -91,16 +102,19 @@ test_ste: 24 checks, 0 failures    # 0007
 - **SCARF-4, luma is `>>8`, not 14-bit.** `>>14` belongs to FFT trig and YUV chroma. Green truncates to 149, not 150.
 - **SCARF-1, "bit-reversal-free" FFT is aspirational;** the shipped FFT has an explicit bit-reversal pass.
 - **SCARF-6 / DRAWN-vs-HEWN gaps.** Seed drafts say "shipped" for things that were not on disk. Also: the tokenizer is a *static* argmax; no training harness exists, so "learnable" is not true yet (`syz_ste.h` SHORTCUT).
-- **Doc drift.** The top-level `README.md` still shows only 0001/0003 as HEWN and "31 checks"; the ledger and `ARCHITECTURE.md` say all eight are HEWN and the suite is 201. Trust the ledger and the test run. (I did not edit the README; this task was new files under `docs/` only.)
+- **Doc drift (fixed).** Until the production pass the top-level `README.md` still showed only 0001/0003 as HEWN and "31 checks" while the ledger said all eight and 201. The README was rebuilt; CI (`.github/workflows/ci.yml`) now re-runs every number it cites. If a number here and a test run disagree, trust the run.
 - **Fused-pass caveats** (all from `syz_fused.h`): ingest is reused, so the NV12→plane staging still exists; 3×3 conv dropped; FFT window is one row; only basis columns 0,1 scored.
 
 ## 7. How it composes
 
-- **Downstream users** (`federated-tinyml-vessel` byte-exact contract, the P1 browser POC, the P4 optimization-agent plan): these are named in the task brief for this documentation, **not present in this repo**, so I cannot cite their code. What this repo *does* provide for them: a deterministic output with a pinned golden hash they can compare against, and a CRDT that merges cell grids order-independently. Treat any integration statement beyond that as a plan, not a fact.
+- **Downstream users.** The P1 browser POC is now in this repo (`docs/poc/`, plus the landing page `docs/index.html`). Other consumers (`federated-tinyml-vessel`'s byte-exact contract, the P4 optimization-agent plan) are **not present in this repo**, so I cannot cite their code. What this repo *does* provide for them: a deterministic output with a pinned golden hash they can compare against, and a CRDT that merges cell grids order-independently. Treat any integration statement beyond that as a plan, not a fact.
 - **Internal composition:** 0002 arena underlies all; 0004 feeds 0001/0003/0006; 0005 fuses them; 0007 supplies the tone argmax inside 0005; 0008 carries cells (transport, UDP, is the unbuilt 0009).
 
 ## 8. Next links
 
 - [the-fused-pass.md](the-fused-pass.md) — stage-by-stage, with the code and its shortcuts.
+- [invariants.md](invariants.md) — I1/I2/I3, each with the test that holds it.
+- [porting.md](porting.md) — bringing the kernel up on new hardware.
+- [verifying.md](verifying.md) — how the tests themselves are tested.
 - [diffuse-by-marks.md](diffuse-by-marks.md) — the blueprint for building the next kernel this way.
 - `docs/marks/ARCHITECTURE.md` and `docs/marks/ledger.csv` — the reconciliation and the reasoning log.

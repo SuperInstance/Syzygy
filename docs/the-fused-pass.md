@@ -1,6 +1,6 @@
 # The fused pass
 
-*Pipeline in depth. Front door: [understanding-syzygy.md](understanding-syzygy.md). Source of truth: `include/syz_fused.h` and the shard headers it includes; this article explains them and does not replace them.*
+*Pipeline in depth. Front door: [understanding-syzygy.md](understanding-syzygy.md). Back to the [README](../README.md). Source of truth: `include/syz_fused.h` and the shard headers it includes; this article explains them and does not replace them.*
 
 ## 1. In one breath
 
@@ -37,7 +37,7 @@ Fusion is a property of the loop's *shape*: taps, `l`, mask, glyph, tone live in
 
 ### Known gaps in the pass (each is a SHORTCUT in the header)
 
-- **3×3 convolution is not in the loop.** The seed's fused kernel had it; `syz_fused.h` drops it (SCARF-3 note) and the 0004 luma is the source. The README's five-stage diagram lists it; the code does not run it. Do not assume a conv output exists.
+- **The seed's separate 3×3 smoothing convolution is not in the loop.** The seed's fused kernel had one; `syz_fused.h` drops it (SCARF-3 note) and the 0004 luma is the source. The only 3×3 convolution the loop runs is the Sobel pair inside glyph selection, and that is what the README diagram labels "3×3 Sobel convolution". Do not assume a smoothed-image output exists.
 - Ingest is reused, so NV12 → planes staging is still materialized in the arena; "one read" is honest only at the cell loop.
 - Inner calls are static-inline; the luma sampler is a function pointer the compiler may or may not devirtualize.
 - Only basis columns 0 and 1 are scored (features 2,3 are zero).
@@ -46,7 +46,7 @@ Fusion is a property of the loop's *shape*: taps, `l`, mask, glyph, tone live in
 ## 4. Walkthrough
 
 ```sh
-sh tests/run.sh          # whole suite; 201 checks in total
+sh tools/suite-total.sh  # runs tests/run.sh; 219 checks in total
 ```
 
 To run just the fused witness (same flags as `run.sh`):
@@ -60,7 +60,7 @@ Real result this session (`-O2`; `-O0` gave the identical hash):
 ```
   info: golden fnv1a = 0x6dbdd1a8
   ok  : golden FNV-1a of mask+tone+spectrum matches pinned value
-test_fused: 43 checks, 0 failures
+test_fused: 61 checks, 0 failures
 ```
 
 Minimal call shape, mirroring `tests/test_fused.c`:
@@ -92,10 +92,12 @@ int rc = syz_fused(&a, &s, &p, &o);                          // 0 ok, -1 failure
 
 ## 7. How it composes
 
-Upstream: 0002 arena, 0004 ingest. Peers: 0001, 0003, 0006, 0007. Downstream: 0008 CRDT carries cells; a UDP transceiver (0009) is unbuilt (`syz_crdt.h` NEXT). WASM/aarch64 targets and `bench/` are DRAWN placeholders (`wasm/MARK.md`, `bench/MARK.md`); byte-exactness there is designed-for, not yet measured.
+Upstream: 0002 arena, 0004 ingest. Peers: 0001, 0003, 0006, 0007. Downstream: 0008 CRDT carries cells; a UDP transceiver (0009) is unbuilt (`syz_crdt.h` NEXT). The wasm32 target is HEWN (`wasm/MARK.md`): the same pass, compiled freestanding, hashes to `0x6dbdd1a8` and matches the JS port field for field. aarch64 and `bench/` are still DRAWN; byte-exactness there is designed for, not yet measured. See [porting.md](porting.md).
 
 ## 8. Next links
 
 - [understanding-syzygy.md](understanding-syzygy.md)
 - [diffuse-by-marks.md](diffuse-by-marks.md)
+- [invariants.md](invariants.md), [verifying.md](verifying.md), [porting.md](porting.md)
+- The live version of this pass: [`docs/index.html`](index.html) (landing page) and [`docs/poc/`](poc/)
 - `docs/marks/0005-fused.md`, `tests/test_fused.c`

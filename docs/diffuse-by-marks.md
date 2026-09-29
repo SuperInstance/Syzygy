@@ -1,6 +1,6 @@
 # Diffuse by marks — a blueprint
 
-*How this kernel was diffused from a seed by hash-marks, so the next shipwright can repeat it. Front door: [understanding-syzygy.md](understanding-syzygy.md). Pipeline: [the-fused-pass.md](the-fused-pass.md). Convention text: `docs/marks/MARKS.md`. Evidence: `docs/marks/ledger.csv` and `git log`.*
+*How this kernel was diffused from a seed by hash-marks, so the next shipwright can repeat it. Front door: [understanding-syzygy.md](understanding-syzygy.md). Pipeline: [the-fused-pass.md](the-fused-pass.md). Convention text: `docs/marks/MARKS.md`. Back to the [README](../README.md). Evidence: `docs/marks/ledger.csv` and `git log`.*
 
 ## 1. In one breath
 
@@ -51,7 +51,7 @@ In this repo shards went DRAWN → HEWN directly in one change each (ledger `m00
 Copy-paste to replay this repo's receipt:
 
 ```sh
-sh tests/run.sh     # 7 suites; per-suite counts 31,29,15,31,43,24,28 = 201, all 0 failures (run this session)
+sh tools/suite-total.sh   # 7 suites; per-suite counts 31,29,15,31,61,24,28 = 219, all 0 failures
 column -s, -t docs/marks/ledger.csv | cut -c1-120 | head    # or just open the CSV
 ```
 
@@ -60,22 +60,22 @@ column -s, -t docs/marks/ledger.csv | cut -c1-120 | head    # or just open the C
 - The seed is never edited; corrections live in shards and `ARCHITECTURE.md` (e.g. SCARF-7's FFT fix lives in `include/syz_fft.h`).
 - HEWN means *a test in `tests/` passes now*, and `sh tests/run.sh` exits non-zero on any failed check (`set -e`).
 - Marks are append-only in spirit; disagree by **re-opening the joint in the ledger**, not by silently building the other draft.
-- Receipt for this repo: 201 checks, 0 failures.
+- Receipt for this repo: 219 checks, 0 failures (was 201 before the V01 mutation gauge forced 18 more fused-pass checks).
 
 ## 6. Scars (what went wrong, so you avoid it)
 
 - **Seed bugs are real.** The seed FFT swaps sine/cosine and rotates the wrong way (SCARF-7); the "production" header does not compile (SCARF-3). Transcribing seed code verbatim is not a plan — every HEWN shard here needed hardening, e.g. the arena's overflow-safe capacity check (`syz_arena.h`, "Deviations from the seed").
-- **Status claims drift.** Seed drafts said "shipped" for absent code (SCARF-6). Same failure recurred locally: the top-level `README.md` still shows 0002/0004–0008 as DRAWN and "31 checks" while the ledger says all HEWN and 201. Update the README in the same change that lays a ledger row.
+- **Status claims drift.** Seed drafts said "shipped" for absent code (SCARF-6). Same failure recurred locally: for a while the top-level `README.md` showed 0002/0004–0008 as DRAWN and "31 checks" while the ledger said all HEWN and 201. The production pass rebuilt the README and put every cited number under CI. Update the README in the same change that lays a ledger row.
 - **Shared-checkout collisions in `run.sh`/ledger.** History shows it: commits "drop stray 0008 block from run.sh", "remove stray 0008 run.sh block", "resolve run.sh/ledger union", "dedup shared-checkout collision". Parallel shards each append to the same two files. Mitigation: append-only blocks, pull/rebase before push, and re-run the full suite after any merge.
 - **DRAWN vs HEWN gaps that hide inside HEWN.** A HEWN shard can still be short of its name: the tokenizer (0007) is HEWN but has no training, so "learnable" is false; 0005 is HEWN but drops the 3×3 conv and doesn't prove register residency; 0008 is HEWN but has no wire transport. Read SHORTCUT before trusting a state word.
-- **A weaker witness than the claim.** I2's cross-target claim is pinned by a golden hash but only exercised on the native compiler; `tests/test_cross_platform.sh` and the wasm/aarch64 runs are still DRAWN (`tests/MARK.md`, `wasm/MARK.md`). Say "designed for" until a second target hashes the same.
+- **A weaker witness than the claim.** I2's cross-target claim was pinned by a golden hash but exercised only on the native compiler until the JS port (V02) and the wasm32 build (`wasm/`, ledger `mW01`) hashed the same. aarch64 is still DRAWN. Say "designed for" until a target actually hashes the same.
 - **Stray tie-break decisions.** The CRDT tie rule (per-field max on equal clocks) was a ruling made in the shard and recorded in the ledger, because a lexicographic pick is not associative. Record such rulings where the next hand will look.
 
 ## 7. How it composes
 
-The method is what the fleet's append-only dispatch log does (`MARKS.md` cites `SuperInstance/AI-Writings`, `situations/dispatch-ledger.csv`) with the unit changed from a dispatch to a shard and the mark traveling *with the file*. Kernel-side consumers named in the brief (federated-tinyml-vessel byte-exact contract, the P1 browser POC, the P4 optimization-agent plan) are outside this repo and not verified here; what they can rely on is the pinned golden hash and the ledger's witnesses.
+The method is what the fleet's append-only dispatch log does (`MARKS.md` cites `SuperInstance/AI-Writings`, `situations/dispatch-ledger.csv`) with the unit changed from a dispatch to a shard and the mark traveling *with the file*. The P1 browser POC now lives in this repo (`docs/poc/`). Other consumers named in the brief (federated-tinyml-vessel byte-exact contract, the P4 optimization-agent plan) are outside this repo and not verified here; what they can rely on is the pinned golden hash and the ledger's witnesses.
 
 ## 8. Next links
 
-- Open next hauls, from the marks' NEXT fields: a UDP transceiver (0009, `syz_crdt.h`), a cross-target hash test (`tests/MARK.md`), a perf/disassembly witness for register residency (`syz_fused.h`), a tokenizer training harness (`syz_ste.h`), the bit-reversal-free FFT closing SCARF-1 (`syz_fft.h`), and refreshing the README status table.
+- Open next hauls, from the marks' NEXT fields: a UDP transceiver (0009, `syz_crdt.h`), an aarch64 hash run (see [porting.md](porting.md)), a perf/disassembly witness for register residency (`syz_fused.h`), a tokenizer training harness (`syz_ste.h`), and the bit-reversal-free FFT closing SCARF-1 (`syz_fft.h`).
 - [understanding-syzygy.md](understanding-syzygy.md), [the-fused-pass.md](the-fused-pass.md), `docs/marks/MARKS.md`.
