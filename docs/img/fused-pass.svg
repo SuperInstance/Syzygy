@@ -1,0 +1,109 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 880 500" width="880" height="500" role="img" aria-labelledby="t d" font-family="ui-sans-serif, system-ui, -apple-system, Segoe UI, sans-serif">
+  <title id="t">The Syzygy fused pass</title>
+  <desc id="d">An NV12 frame is read once into a fixed arena, then one loop visits every 2x4-pixel cell and computes integer BT.601 luma, an 8-dot Braille mask, a 3x3 Sobel edge glyph and an argmax tone character; one row of cell luma feeds a 16-point fixed-point FFT whose peak bin is found by argmax. Outputs are written once and the arena is rolled back to where it started.</desc>
+  <style>
+    .bg{fill:#ffffff}
+    .box{fill:#f6f8fa;stroke:#8c959f;stroke-width:1.2}
+    .loop{fill:#eef4ff;stroke:#0969da;stroke-width:1.6}
+    .stage{fill:#ffffff;stroke:#0969da;stroke-width:1}
+    .out{fill:#effaf2;stroke:#1a7f37;stroke-width:1.2}
+    .arena{fill:#fff8e6;stroke:#9a6700;stroke-width:1.2}
+    .t{fill:#1f2328;font-size:13px}
+    .s{fill:#57606a;font-size:11px}
+    .h{fill:#1f2328;font-size:14px;font-weight:600}
+    .lh{fill:#0969da;font-size:12px;font-weight:600;letter-spacing:.04em}
+    .tag{fill:#9a6700;font-size:11px;font-weight:600}
+    .mono{font-family:ui-monospace, SFMono-Regular, Menlo, Consolas, monospace}
+    .a{stroke:#57606a;stroke-width:1.4;fill:none;marker-end:url(#ar)}
+    .ah{fill:#57606a}
+    @media (prefers-color-scheme: dark){
+      .bg{fill:#0d1117}
+      .box{fill:#161b22;stroke:#6e7681}
+      .loop{fill:#0c1d33;stroke:#58a6ff}
+      .stage{fill:#0d1117;stroke:#58a6ff}
+      .out{fill:#0f2419;stroke:#3fb950}
+      .arena{fill:#2a2110;stroke:#d29922}
+      .t,.h{fill:#e6edf3}
+      .s{fill:#8d96a0}
+      .lh{fill:#58a6ff}
+      .tag{fill:#d29922}
+      .a{stroke:#8d96a0}
+      .ah{fill:#8d96a0}
+    }
+  </style>
+  <defs>
+    <marker id="ar" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+      <path class="ah" d="M0,0 L10,5 L0,10 z"/>
+    </marker>
+  </defs>
+  <rect class="bg" x="0" y="0" width="880" height="500" rx="10"/>
+
+  <!-- arena band (I1) -->
+  <rect class="arena" x="16" y="16" width="848" height="36" rx="6"/>
+  <text class="tag" x="30" y="39">ARENA (I1) · one caller-owned buffer · mark before the frame → roll back after · no malloc, no free</text>
+
+  <!-- input -->
+  <rect class="box" x="16" y="92" width="150" height="96" rx="8"/>
+  <text class="h" x="30" y="118">NV12 frame</text>
+  <text class="s" x="30" y="138">camera / sensor bytes</text>
+  <text class="s" x="30" y="154">Y plane + UV plane</text>
+  <text class="s" x="30" y="176">read once</text>
+
+  <!-- ingest -->
+  <rect class="box" x="16" y="232" width="150" height="104" rx="8"/>
+  <text class="h" x="30" y="258">Ingest · 0004</text>
+  <text class="s" x="30" y="278">luma + 2×2 chroma</text>
+  <text class="s" x="30" y="294">YUV→RGB in Q14 ints</text>
+  <text class="s" x="30" y="310">per-cell RGB</text>
+  <path class="a" d="M91,188 L91,228"/>
+
+  <!-- fused loop -->
+  <rect class="loop" x="200" y="72" width="420" height="344" rx="10"/>
+  <text class="lh" x="216" y="96">ONE LOOP · FOR EVERY 2×4-PIXEL CELL · 0005</text>
+  <path class="a" d="M166,284 L196,284"/>
+
+  <rect class="stage" x="216" y="112" width="388" height="46" rx="6"/>
+  <text class="t mono" x="230" y="133">luma = (77R + 150G + 29B) &gt;&gt; 8</text>
+  <text class="s" x="230" y="150">BT.601 in integers · weights sum to 256 · 0001</text>
+
+  <rect class="stage" x="216" y="170" width="388" height="46" rx="6"/>
+  <text class="t" x="230" y="191">8-dot Braille pack  →  U+2800 + mask</text>
+  <text class="s" x="230" y="208">each dot on iff its pixel &gt; threshold · 0001</text>
+
+  <rect class="stage" x="216" y="228" width="388" height="46" rx="6"/>
+  <text class="t" x="230" y="249">3×3 Sobel convolution  →  edge glyph ─ │ ╱ ╲</text>
+  <text class="s" x="230" y="266">direction by integer tangent windows, no atan2, no sqrt · 0003</text>
+
+  <rect class="stage" x="216" y="286" width="388" height="46" rx="6"/>
+  <text class="t" x="230" y="307">argmax tone  →  one of " .:-=+*#%@"</text>
+  <text class="s" x="230" y="324">straight-through argmax, no softmax, first max wins · 0007</text>
+
+  <rect class="stage" x="216" y="344" width="388" height="56" rx="6"/>
+  <text class="t" x="230" y="365">on one chosen row: collect 16 cells of luma</text>
+  <text class="s" x="230" y="382">after the loop → 16-point radix-2 FFT, Q14 fixed point · 0006</text>
+  <text class="s" x="230" y="396">→ peak bin = argmax |X[k]|² over k = 1..8</text>
+
+  <!-- outputs -->
+  <rect class="out" x="656" y="92" width="208" height="244" rx="8"/>
+  <text class="h" x="672" y="118">Outputs · written once</text>
+  <text class="t" x="672" y="146">mask[ ]   Braille dots</text>
+  <text class="t" x="672" y="170">glyph[ ]  edge or ramp char</text>
+  <text class="t" x="672" y="194">tone[ ]   density char</text>
+  <text class="t" x="672" y="218">spectrum  16 bins + peak</text>
+  <text class="s" x="672" y="250">same bytes on every machine:</text>
+  <text class="t mono" x="672" y="272">FNV-1a = 0x6dbdd1a8</text>
+  <text class="s" x="672" y="292">for the 32×16 test frame</text>
+  <text class="s" x="672" y="314">native C · wasm32 · JavaScript</text>
+  <path class="a" d="M620,214 L652,214"/>
+
+  <!-- mesh -->
+  <rect class="box" x="656" y="364" width="208" height="72" rx="8"/>
+  <text class="h" x="672" y="389">Mesh · 0008 (I3)</text>
+  <text class="s" x="672" y="408">cell grids merge by join</text>
+  <text class="s" x="672" y="424">any order, no coordinator</text>
+  <path class="a" d="M760,336 L760,360"/>
+
+  <text class="s" x="200" y="448">Everything inside the blue box is integer arithmetic on local values; each output byte is stored once (I2).</text>
+  <text class="s" x="200" y="466">The 3×3 Sobel is the pass's convolution; the seed's separate smoothing conv is not in the shipped loop.</text>
+  <text class="s" x="200" y="484">Numbers like 0001–0008 are shard ids: one header in include/, one test in tests/.</text>
+</svg>
