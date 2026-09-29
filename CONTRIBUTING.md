@@ -51,3 +51,14 @@ See [docs/porting.md](docs/porting.md). In short: compile `tools/port-probe/prob
 ## Commits and CI
 
 Small commits, each saying what you tried, what you expected, what you found and what it implies. `git pull --rebase` before pushing. CI (`.github/workflows/ci.yml`) runs the C suite on gcc and clang, the wasm check, the verifier cells, the freestanding cross-compile and the seed guard. It must be green before merge.
+
+## Publishing the landing page
+
+The site is the static files `docs/index.html`, `docs/img/` and `docs/poc/`; no build step. It is live on Cloudflare Pages at https://syzygy-1j5.pages.dev/ (project `syzygy`). To republish after a change, with a Cloudflare API token in the environment:
+
+```sh
+mkdir -p /tmp/site && cp -r docs/index.html docs/img docs/poc /tmp/site/
+npx wrangler pages deploy /tmp/site --project-name syzygy --branch main
+```
+
+GitHub Pages also works with no extra files: Settings → Pages → "Deploy from a branch" → `main`, folder `/docs` (`docs/.nojekyll` is already present).
