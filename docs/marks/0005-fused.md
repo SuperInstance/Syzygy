@@ -10,6 +10,9 @@
   composed reference** (same frame through 0004/0003/0001/0006 as separate staged
   full-plane passes). The stronger claim "provably register-resident" is NOT
   witnessed — see SHORTCUT and BETTER-WHEN.
+- **ORACLE** — (m0014) hardened after `V01` mutation-tested this witness: now 61
+  checks (suite 219), oracle-strength 41/41; adds `GOLDEN_FULL` 0x463de14b over
+  every output field. The RUNS line below is the original 43-check receipt.
 - **RUNS** — `sh tests/run.sh` -> test_fused: 43 checks, 0 failures; suite total
   149 (31+29+15+31+43). Five frame cases (synthetic padded-stride, two random
   NV12 frames, and a cols<16 case where FFT is invalid): mask, glyph, tone,
