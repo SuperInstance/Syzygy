@@ -9,7 +9,9 @@
 //   3. connected foreground blobs in the newest frame are tracked back through
 //      the window by nearest centroid; the displacement gives each blob a
 //      velocity in cells/frame and a direction (left/right/up/down)
-//   4. the text is a background layer (bg) with the moving blobs re-drawn:
+//   4. the text is a background layer (bg: tone ramp, the kernel's edge glyphs
+//      'fused', the kernel's 8-dot 'braille', a 'dim' ramp, or 'blank') with the
+//      moving blobs re-drawn:
 //        mark=fill  every blob cell becomes the direction arrow
 //        mark=edge  only the leading-edge cells become arrows (shape survives)
 //        mark=head  the blob keeps its tone; arrows are placed just AHEAD of it
@@ -80,7 +82,8 @@ registerProjector({
     thresh:    { type: 'float', min: 4, max: 120, default: 24 },
     min_blob:  { type: 'int', min: 1, max: 20, default: 2 },
     min_speed: { type: 'float', min: 0.05, max: 3, default: 0.3 },
-    bg:        { type: 'enum', values: ['tone', 'fused', 'dim', 'blank'], default: 'tone' },
+    bg:        { type: 'enum', values: ['tone', 'fused', 'braille', 'dim', 'blank'], default: 'tone' },
+    braille_thresh: { type: 'int', min: 0, max: 255, default: 100 },
     ramp:      { type: 'enum', values: ['standard', 'short', 'blocks'], default: 'standard' },
     mark:      { type: 'enum', values: ['fill', 'edge', 'head'], default: 'edge' },
     arrows:    { type: 'enum', values: ['ascii', 'unicode'], default: 'ascii' },
@@ -91,8 +94,8 @@ registerProjector({
     const rows = rowsFor(seq, p.cols), cols = p.cols;
     const m = analyseMotion(seq, cols, rows, p), last = m.grids[m.T - 1];
     let lines;
-    if (p.bg === 'fused') lines = fusedText(fusedCells(seq.frames[seq.frames.length - 1], cols, rows,
-                                           { braille_thresh: 100, edge_thresh2: 4000 }), 'glyph');
+    if (p.bg === 'fused' || p.bg === 'braille') lines = fusedText(fusedCells(seq.frames[seq.frames.length - 1], cols, rows,
+                                           { braille_thresh: p.braille_thresh, edge_thresh2: 4000 }), p.bg === 'fused' ? 'glyph' : 'braille');
     else if (p.bg === 'blank') lines = Array.from({ length: rows }, () => ' '.repeat(cols));
     else if (p.bg === 'dim') lines = toneText(last, cols, rows, 'short', 1.6);
     else lines = toneText(last, cols, rows, p.ramp);

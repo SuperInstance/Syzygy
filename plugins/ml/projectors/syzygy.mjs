@@ -23,14 +23,22 @@ export function fusedCells(frame, cols, rows, p) {
   return port.syz_fused(nv, { braille_thresh: p.braille_thresh, edge_thresh2: p.edge_thresh2, fft_row: 0 });
 }
 
-export function fusedText(o, field) {
+// The kernel's ─/│ name the Sobel GRADIENT axis (mark 0003: a vertical
+// brightness boundary gives ─). Its diagonals, because of the y-down sign
+// convention in syz_glyph_direction, already lie ALONG the edge (a roof reads
+// ╱╲). orient='tangent' swaps only ─ and │ so every glyph lies along its edge,
+// as a person would draw it. The kernel's bytes are unchanged; this relabels.
+const TANGENT = { 0x2500: 0x2502, 0x2502: 0x2500 };
+
+export function fusedText(o, field, orient = 'gradient') {
   const lines = [];
   for (let y = 0; y < o.rows; y++) {
     let s = '';
     for (let x = 0; x < o.cols; x++) {
       const i = y * o.cols + x;
       s += field === 'braille' ? String.fromCodePoint(0x2800 + o.mask[i])
-         : field === 'tone' ? String.fromCharCode(o.tone[i]) : String.fromCodePoint(o.glyph[i]);
+         : field === 'tone' ? String.fromCharCode(o.tone[i])
+         : String.fromCodePoint(orient === 'tangent' ? (TANGENT[o.glyph[i]] ?? o.glyph[i]) : o.glyph[i]);
     }
     lines.push(s);
   }
@@ -45,11 +53,12 @@ registerProjector({
     field:          { type: 'enum', values: ['glyph', 'braille', 'tone'], default: 'glyph' },
     braille_thresh: { type: 'int', min: 0, max: 255, default: 100 },
     edge_thresh2:   { type: 'int', min: 0, max: 400000, default: 4000 },
+    orient:         { type: 'enum', values: ['gradient', 'tangent'], default: 'gradient' },
     frames:         { type: 'int', min: 1, max: 4, default: 1 },
   },
   project(seq, p) {
     const rows = rowsFor(seq, p.cols), blocks = [];
-    for (const f of pickFrames(seq, p.frames)) blocks.push(fusedText(fusedCells(f, p.cols, rows, p), p.field).join('\n'));
+    for (const f of pickFrames(seq, p.frames)) blocks.push(fusedText(fusedCells(f, p.cols, rows, p), p.field, p.orient).join('\n'));
     const text = blocks.join('\n\n');
     return { text_projection: text, char_budget: [...text.replace(/\n/g, '')].length,
              compute_estimate: { ops: p.frames * (seq.frames[0].w * seq.frames[0].h + 8 * 4 * p.cols * rows * 9) } };

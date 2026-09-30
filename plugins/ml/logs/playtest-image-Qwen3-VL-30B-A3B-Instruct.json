@@ -1,0 +1,1518 @@
+{
+ "tag": "image-Qwen3-VL-30B-A3B-Instruct",
+ "critic": "Qwen/Qwen3-VL-30B-A3B-Instruct",
+ "mode": "image",
+ "started": "2026-09-30T05:00:03.742Z",
+ "ceiling": [
+  {
+   "scene": "street",
+   "fidelity": 0.9887544672144414,
+   "motion_recall": 1,
+   "pairs": [
+    {
+     "ref": "house",
+     "rec": "house",
+     "s": 0.991,
+     "what": 1,
+     "where": 0.97,
+     "motion": 1
+    },
+    {
+     "ref": "tree",
+     "rec": "tree",
+     "s": 0.99,
+     "what": 1,
+     "where": 0.96,
+     "motion": 1
+    },
+    {
+     "ref": "sun",
+     "rec": "sun",
+     "s": 0.986,
+     "what": 1,
+     "where": 0.95,
+     "motion": 1
+    },
+    {
+     "ref": "car",
+     "rec": "car",
+     "s": 0.98,
+     "what": 1,
+     "where": 0.93,
+     "motion": 1
+    }
+   ]
+  },
+  {
+   "scene": "park",
+   "fidelity": 0.9350046529310951,
+   "motion_recall": 1,
+   "pairs": [
+    {
+     "ref": "cloud",
+     "rec": "cloud",
+     "s": 0.965,
+     "what": 1,
+     "where": 0.88,
+     "motion": 1
+    },
+    {
+     "ref": "tree",
+     "rec": "tree",
+     "s": 0.961,
+     "what": 1,
+     "where": 0.87,
+     "motion": 1
+    },
+    {
+     "ref": "person",
+     "rec": "stick figure",
+     "s": 0.845,
+     "what": 1,
+     "where": 0.48,
+     "motion": 1
+    }
+   ]
+  },
+  {
+   "scene": "night",
+   "fidelity": 0.9196247289034173,
+   "motion_recall": 1,
+   "pairs": [
+    {
+     "ref": "tower",
+     "rec": "building",
+     "s": 0.991,
+     "what": 1,
+     "where": 0.97,
+     "motion": 1
+    },
+    {
+     "ref": "tower",
+     "rec": "building",
+     "s": 0.987,
+     "what": 1,
+     "where": 0.96,
+     "motion": 1
+    },
+    {
+     "ref": "moon",
+     "rec": "moon",
+     "s": 0.943,
+     "what": 1,
+     "where": 0.81,
+     "motion": 1
+    },
+    {
+     "ref": "car",
+     "rec": "car",
+     "s": 0.7,
+     "what": 1,
+     "where": 0,
+     "motion": 1
+    }
+   ]
+  },
+  {
+   "scene": "room",
+   "fidelity": 0.8327600598113534,
+   "motion_recall": 0,
+   "pairs": [
+    {
+     "ref": "table",
+     "rec": "table",
+     "s": 0.983,
+     "what": 1,
+     "where": 0.94,
+     "motion": 1
+    },
+    {
+     "ref": "window",
+     "rec": "window",
+     "s": 0.983,
+     "what": 1,
+     "where": 0.94,
+     "motion": 1
+    },
+    {
+     "ref": "ball",
+     "rec": "ball",
+     "s": 0.443,
+     "what": 1,
+     "where": 0.14,
+     "motion": 0
+    }
+   ]
+  }
+ ],
+ "grid": [
+  {
+   "projector": "mirror",
+   "over": {},
+   "vlm": 0.3221622244161231,
+   "truth": 0.3252457546428241,
+   "motion": 0.3333333333333333,
+   "inverse": 0.9291526465301638,
+   "jepa": 0,
+   "chars": 1216,
+   "ms": 2.479368,
+   "rows": [
+    {
+     "scene": "street",
+     "vlm": 0.20274677063162372,
+     "truth": 0.20585536136174631,
+     "motion": 0,
+     "inverse": 0.8877046246858125,
+     "chars": 1216,
+     "ms": 5.404442,
+     "rec": {
+      "setting": "unknown",
+      "scene": "a vehicle with a patterned body and a person inside, viewed from a fixed camera",
+      "objects": [
+       {
+        "label": "vehicle",
+        "category": "vehicle",
+        "region": "center",
+        "box": [
+         0,
+         0.28,
+         1,
+         0.68
+        ],
+        "moving": "none"
+       },
+       {
+        "label": "person",
+        "category": "person",
+        "region": "center",
+        "box": [
+         0.3,
+         0.4,
+         0.4,
+         0.5
+        ],
+        "moving": "none"
+       }
+      ]
+     }
+    },
+    {
+     "scene": "park",
+     "vlm": 0.3402265874052805,
+     "truth": 0.31043051420264683,
+     "motion": 1,
+     "inverse": 0.9302105097633514,
+     "chars": 1216,
+     "ms": 3.088853,
+     "rec": {
+      "setting": "unknown",
+      "scene": "a character-art rendering of a scene with two figures and a structure, possibly a building, with motion indicated by arrows and tildes.",
+      "objects": [
+       {
+        "label": "figure",
+        "category": "person",
+        "region": "bottom-left",
+        "box": [
+         0.1,
+         0.5,
+         0.2,
+         0.8
+        ],
+        "moving": "right"
+       },
+       {
+        "label": "figure",
+        "category": "person",
+        "region": "bottom-right",
+        "box": [
+         0.6,
+         0.5,
+         0.7,
+         0.8
+        ],
+        "moving": "left"
+       },
+       {
+        "label": "structure",
+        "category": "building",
+        "region": "center",
+        "box": [
+         0.1,
+         0.2,
+         0.9,
+         0.5
+        ],
+        "moving": "none"
+       }
+      ]
+     }
+    },
+    {
+     "scene": "night",
+     "vlm": 0.5246859561156599,
+     "truth": 0.5341479038564028,
+     "motion": 0,
+     "inverse": 0.9225263998488415,
+     "chars": 1216,
+     "ms": 0.933063,
+     "rec": {
+      "setting": "unknown",
+      "scene": "a dark scene with glowing patterns and structures",
+      "objects": [
+       {
+        "label": "structure",
+        "category": "building",
+        "region": "top-right",
+        "box": [
+         0.7,
+         0.2,
+         0.8,
+         0.8
+        ],
+        "moving": "none"
+       },
+       {
+        "label": "structure",
+        "category": "building",
+        "region": "center",
+        "box": [
+         0.4,
+         0.2,
+         0.6,
+         0.8
+        ],
+        "moving": "none"
+       },
+       {
+        "label": "structure",
+        "category": "building",
+        "region": "top-left",
+        "box": [
+         0.1,
+         0.1,
+         0.3,
+         0.3
+        ],
+        "moving": "none"
+       },
+       {
+        "label": "pattern",
+        "category": "shape",
+        "region": "bottom",
+        "box": [
+         0.1,
+         0.8,
+         0.9,
+         1
+        ],
+        "moving": "none"
+       }
+      ]
+     }
+    },
+    {
+     "scene": "room",
+     "vlm": 0.22098958351192802,
+     "truth": 0.25054923915050054,
+     "motion": null,
+     "inverse": 0.9761690518226497,
+     "chars": 1216,
+     "ms": 0.491114,
+     "rec": {
+      "setting": "unknown",
+      "scene": "a patterned scene with a central rectangular area and a lower section containing symbols and lines",
+      "objects": [
+       {
+        "label": "rectangle",
+        "category": "shape",
+        "region": "center",
+        "box": [
+         0.375,
+         0.1875,
+         0.625,
+         0.3125
+        ],
+        "moving": "none"
+       },
+       {
+        "label": "asterisks",
+        "category": "shape",
+        "region": "bottom-left",
+        "box": [
+         0.0625,
+         0.5625,
+         0.3125,
+         0.6875
+        ],
+        "moving": "none"
+       },
+       {
+        "label": "dashes",
+        "category": "shape",
+        "region": "bottom",
+        "box": [
+         0.0625,
+         0.6875,
+         0.9375,
+         0.8125
+        ],
+        "moving": "none"
+       },
+       {
+        "label": "arrows",
+        "category": "shape",
+        "region": "bottom-right",
+        "box": [
+         0.75,
+         0.8125,
+         0.9375,
+         0.875
+        ],
+        "moving": "none"
+       }
+      ]
+     }
+    }
+   ]
+  },
+  {
+   "projector": "mirror",
+   "over": {
+    "frames": 2
+   },
+   "vlm": 0.21433707428251977,
+   "truth": 0.1948334074762998,
+   "motion": 0,
+   "inverse": 0.9291526465301638,
+   "jepa": 0.08669902102716931,
+   "chars": 2432,
+   "ms": 0.9035292500000001,
+   "rows": [
+    {
+     "scene": "street",
+     "vlm": 0,
+     "truth": 0,
+     "motion": 0,
+     "inverse": 0.8877046246858125,
+     "chars": 2432,
+     "ms": 0.825549,
+     "rec": {
+      "setting": "unknown",
+      "scene": "a character-art rendering of a scene with a central object and surrounding patterns",
+      "objects": [
+       {
+        "label": "central object",
+        "category": "other",
+        "region": "center",
+        "box": [
+         0.2,
+         0.2,
+         0.8,
+         0.8
+        ],
+        "moving": "none"
+       }
+      ]
+     }
+    },
+    {
+     "scene": "park",
+     "vlm": 0.18693192114010046,
+     "truth": 0.1530005932330482,
+     "motion": 0,
+     "inverse": 0.9302105097633514,
+     "chars": 2432,
+     "ms": 0.959829,
+     "rec": {
+      "setting": "unknown",
+      "scene": "a character-art rendering of a scene with a large structure and a figure, showing motion over time",
+      "objects": [
+       {
+        "label": "figure",
+        "category": "person",
+        "region": "bottom-right",
+        "box": [
+         0.6,
+         0.6,
+         0.8,
+         0.8
+        ],
+        "moving": "right"
+       },
+       {
+        "label": "structure",
+        "category": "building",
+        "region": "center",
+        "box": [
+         0.1,
+         0.2,
+         0.9,
+         0.6
+        ],
+        "moving": "none"
+       }
+      ]
+     }
+    },
+    {
+     "scene": "night",
+     "vlm": 0.33380301329596074,
+     "truth": 0.33030578513500547,
+     "motion": 0,
+     "inverse": 0.9225263998488415,
+     "chars": 2432,
+     "ms": 0.81376,
+     "rec": {
+      "setting": "unknown",
+      "scene": "a dark scene with two vertical structures and a horizontal line of dots, with a small object moving across the bottom",
+      "objects": [
+       {
+        "label": "structure",
+        "category": "building",
+        "region": "top-left",
+        "box": [
+         0,
+         0,
+         0.2,
+         0.5
+        ],
+        "moving": "none"
+       },
+       {
+        "label": "structure",
+        "category": "building",
+        "region": "top-right",
+        "box": [
+         0.8,
+         0,
+         1,
+         0.5
+        ],
+        "moving": "none"
+       },
+       {
+        "label": "line",
+        "category": "shape",
+        "region": "center",
+        "box": [
+         0,
+         0.4,
+         1,
+         0.6
+        ],
+        "moving": "none"
+       },
+       {
+        "label": "object",
+        "category": "other",
+        "region": "bottom-left",
+        "box": [
+         0,
+         0.6,
+         0.2,
+         0.8
+        ],
+        "moving": "right"
+       }
+      ]
+     }
+    },
+    {
+     "scene": "room",
+     "vlm": 0.33661336269401787,
+     "truth": 0.29602725153714543,
+     "motion": null,
+     "inverse": 0.9761690518226497,
+     "chars": 2432,
+     "ms": 1.014979,
+     "rec": {
+      "setting": "unknown",
+      "scene": "a scene with two structures and a moving object",
+      "objects": [
+       {
+        "label": "structure",
+        "category": "building",
+        "region": "top-left",
+        "box": [
+         0,
+         0,
+         0.5,
+         0.5
+        ],
+        "moving": "none"
+       },
+       {
+        "label": "structure",
+        "category": "building",
+        "region": "top-right",
+        "box": [
+         0.5,
+         0,
+         1,
+         0.5
+        ],
+        "moving": "none"
+       },
+       {
+        "label": "structure",
+        "category": "building",
+        "region": "bottom-left",
+        "box": [
+         0,
+         0.5,
+         0.5,
+         1
+        ],
+        "moving": "none"
+       },
+       {
+        "label": "structure",
+        "category": "building",
+        "region": "bottom-right",
+        "box": [
+         0.5,
+         0.5,
+         1,
+         1
+        ],
+        "moving": "none"
+       },
+       {
+        "label": "object",
+        "category": "other",
+        "region": "center",
+        "box": [
+         0.3,
+         0.3,
+         0.7,
+         0.4
+        ],
+        "moving": "right"
+       }
+      ]
+     }
+    }
+   ]
+  },
+  {
+   "projector": "syzygy",
+   "over": {},
+   "vlm": 0.2823170272003639,
+   "truth": 0.3081513177778513,
+   "motion": 0,
+   "inverse": 0.6311385011373358,
+   "jepa": 0,
+   "chars": 1216,
+   "ms": 8.82084375,
+   "rows": [
+    {
+     "scene": "street",
+     "vlm": 0.2197787866329781,
+     "truth": 0.2215970849171638,
+     "motion": 0,
+     "inverse": 0.46715466485558566,
+     "chars": 1216,
+     "ms": 10.251938,
+     "rec": {
+      "setting": "unknown",
+      "scene": "a patterned scene with geometric shapes and lines on a dark background",
+      "objects": [
+       {
+        "label": "triangle",
+        "category": "shape",
+        "region": "top-left",
+        "box": [
+         0,
+         0.2,
+         0.3,
+         0.4
+        ],
+        "moving": "none"
+       },
+       {
+        "label": "hexagon",
+        "category": "shape",
+        "region": "top-right",
+        "box": [
+         0.7,
+         0.1,
+         1,
+         0.3
+        ],
+        "moving": "none"
+       },
+       {
+        "label": "hexagon",
+        "category": "shape",
+        "region": "bottom-right",
+        "box": [
+         0.7,
+         0.6,
+         1,
+         0.8
+        ],
+        "moving": "none"
+       },
+       {
+        "label": "lines",
+        "category": "shape",
+        "region": "center",
+        "box": [
+         0,
+         0.4,
+         1,
+         0.6
+        ],
+        "moving": "none"
+       },
+       {
+        "label": "dots",
+        "category": "shape",
+        "region": "center",
+        "box": [
+         0,
+         0.2,
+         1,
+         0.4
+        ],
+        "moving": "none"
+       },
+       {
+        "label": "dots",
+        "category": "shape",
+        "region": "center",
+        "box": [
+         0,
+         0.6,
+         1,
+         0.8
+        ],
+        "moving": "none"
+       }
+      ]
+     }
+    },
+    {
+     "scene": "park",
+     "vlm": 0.15284578696063264,
+     "truth": 0.22107595452774423,
+     "motion": 0,
+     "inverse": 0.4563605001081132,
+     "chars": 1216,
+     "ms": 12.139834,
+     "rec": {
+      "setting": "outdoor-night",
+      "scene": "a night scene with a large structure and a smaller object on the ground",
+      "objects": [
+       {
+        "label": "structure",
+        "category": "building",
+        "region": "top-left",
+        "box": [
+         0,
+         0,
+         0.3,
+         0.5
+        ],
+        "moving": "none"
+       },
+       {
+        "label": "object",
+        "category": "other",
+        "region": "bottom-right",
+        "box": [
+         0.3,
+         0.5,
+         0.7,
+         0.9
+        ],
+        "moving": "none"
+       }
+      ]
+     }
+    },
+    {
+     "scene": "night",
+     "vlm": 0.5263316772622685,
+     "truth": 0.5138922474569193,
+     "motion": 0,
+     "inverse": 0.6869909904125726,
+     "chars": 1216,
+     "ms": 7.172804,
+     "rec": {
+      "setting": "unknown",
+      "scene": "a dark scene with two tall structures and a patterned ground, possibly a digital or abstract environment",
+      "objects": [
+       {
+        "label": "structure",
+        "category": "building",
+        "region": "left",
+        "box": [
+         0,
+         0,
+         0.2,
+         0.6
+        ],
+        "moving": "none"
+       },
+       {
+        "label": "structure",
+        "category": "building",
+        "region": "center",
+        "box": [
+         0.4,
+         0.2,
+         0.6,
+         0.6
+        ],
+        "moving": "none"
+       },
+       {
+        "label": "structure",
+        "category": "building",
+        "region": "right",
+        "box": [
+         0.7,
+         0.2,
+         0.9,
+         0.6
+        ],
+        "moving": "none"
+       },
+       {
+        "label": "ground pattern",
+        "category": "shape",
+        "region": "bottom",
+        "box": [
+         0,
+         0.6,
+         1,
+         1
+        ],
+        "moving": "none"
+       }
+      ]
+     }
+    },
+    {
+     "scene": "room",
+     "vlm": 0.23031185794557624,
+     "truth": 0.276039984209578,
+     "motion": null,
+     "inverse": 0.9140478491730717,
+     "chars": 1216,
+     "ms": 5.718799,
+     "rec": {
+      "setting": "outdoor-night",
+      "scene": "a dark scene with a vehicle and a person, with a bright object in the sky",
+      "objects": [
+       {
+        "label": "vehicle",
+        "category": "vehicle",
+        "region": "bottom-left",
+        "box": [
+         0,
+         0.6,
+         0.4,
+         0.8
+        ],
+        "moving": "right"
+       },
+       {
+        "label": "person",
+        "category": "person",
+        "region": "bottom-right",
+        "box": [
+         0.8,
+         0.6,
+         1,
+         0.8
+        ],
+        "moving": "none"
+       },
+       {
+        "label": "star",
+        "category": "celestial",
+        "region": "top-right",
+        "box": [
+         0.6,
+         0.1,
+         0.8,
+         0.3
+        ],
+        "moving": "none"
+       }
+      ]
+     }
+    }
+   ]
+  },
+  {
+   "projector": "syzygy",
+   "over": {
+    "field": "braille"
+   },
+   "vlm": 0.5001917587975739,
+   "truth": 0.5006053155216486,
+   "motion": 0,
+   "inverse": 0.760611335692319,
+   "jepa": 0,
+   "chars": 1216,
+   "ms": 3.99039275,
+   "rows": [
+    {
+     "scene": "street",
+     "vlm": 0.47632612511393546,
+     "truth": 0.47383187544617533,
+     "motion": 0,
+     "inverse": 0.6639518319101438,
+     "chars": 1216,
+     "ms": 1.224386,
+     "rec": {
+      "setting": "outdoor-day",
+      "scene": "a house and a bicycle in a grid pattern",
+      "objects": [
+       {
+        "label": "house",
+        "category": "building",
+        "region": "left",
+        "box": [
+         0.08,
+         0.18,
+         0.38,
+         0.52
+        ],
+        "moving": "none"
+       },
+       {
+        "label": "bicycle",
+        "category": "vehicle",
+        "region": "right",
+        "box": [
+         0.68,
+         0.28,
+         0.92,
+         0.72
+        ],
+        "moving": "none"
+       }
+      ]
+     }
+    },
+    {
+     "scene": "park",
+     "vlm": 0.302595079279501,
+     "truth": 0.33678375708100694,
+     "motion": 0,
+     "inverse": 0.5215682282851776,
+     "chars": 1216,
+     "ms": 7.510679,
+     "rec": {
+      "setting": "unknown",
+      "scene": "a dark scene with a large circular object and a walking figure",
+      "objects": [
+       {
+        "label": "person",
+        "category": "person",
+        "region": "center",
+        "box": [
+         0.4,
+         0.4,
+         0.5,
+         0.8
+        ],
+        "moving": "right"
+       },
+       {
+        "label": "circle",
+        "category": "shape",
+        "region": "top-left",
+        "box": [
+         0.05,
+         0.2,
+         0.2,
+         0.6
+        ],
+        "moving": "none"
+       }
+      ]
+     }
+    },
+    {
+     "scene": "night",
+     "vlm": 0.5842117205476484,
+     "truth": 0.5775563205131695,
+     "motion": 0,
+     "inverse": 0.8693907327711243,
+     "chars": 1216,
+     "ms": 4.475804,
+     "rec": {
+      "setting": "outdoor-night",
+      "scene": "a crescent moon and two vertical light patterns on a dark background",
+      "objects": [
+       {
+        "label": "moon",
+        "category": "celestial",
+        "region": "top-left",
+        "box": [
+         0,
+         0.1,
+         0.15,
+         0.3
+        ],
+        "moving": "none"
+       },
+       {
+        "label": "light pattern",
+        "category": "shape",
+        "region": "center",
+        "box": [
+         0.4,
+         0.2,
+         0.5,
+         0.6
+        ],
+        "moving": "none"
+       },
+       {
+        "label": "light pattern",
+        "category": "shape",
+        "region": "right",
+        "box": [
+         0.7,
+         0.2,
+         0.8,
+         0.6
+        ],
+        "moving": "none"
+       }
+      ]
+     }
+    },
+    {
+     "scene": "room",
+     "vlm": 0.6376341102492111,
+     "truth": 0.6142493090462425,
+     "motion": null,
+     "inverse": 0.98753454980283,
+     "chars": 1216,
+     "ms": 2.750702,
+     "rec": {
+      "setting": "indoor",
+      "scene": "a room with a window and a circular object on the floor",
+      "objects": [
+       {
+        "label": "window",
+        "category": "building",
+        "region": "top-right",
+        "box": [
+         0.68,
+         0.2,
+         0.82,
+         0.4
+        ],
+        "moving": "none"
+       },
+       {
+        "label": "circle",
+        "category": "shape",
+        "region": "bottom-right",
+        "box": [
+         0.82,
+         0.75,
+         0.92,
+         0.85
+        ],
+        "moving": "none"
+       }
+      ]
+     }
+    }
+   ]
+  },
+  {
+   "projector": "motion",
+   "over": {},
+   "vlm": 0.24839390216240337,
+   "truth": 0.23298951802912565,
+   "motion": 0.3333333333333333,
+   "inverse": 0.9046107163186072,
+   "jepa": 0.19518975850671005,
+   "chars": 1216,
+   "ms": 7.13102425,
+   "rows": [
+    {
+     "scene": "street",
+     "vlm": 0.2389606166933789,
+     "truth": 0.23581554314101352,
+     "motion": 1,
+     "inverse": 0.8816936452382034,
+     "chars": 1216,
+     "ms": 9.02478,
+     "rec": {
+      "setting": "unknown",
+      "scene": "a patterned scene with various symbols and lines, including a central shape and motion indicators",
+      "objects": [
+       {
+        "label": "shape",
+        "category": "shape",
+        "region": "center",
+        "box": [
+         0.1,
+         0.3,
+         0.9,
+         0.6
+        ],
+        "moving": "none"
+       },
+       {
+        "label": "arrow",
+        "category": "other",
+        "region": "bottom-right",
+        "box": [
+         0.7,
+         0.7,
+         0.9,
+         0.8
+        ],
+        "moving": "right"
+       },
+       {
+        "label": "tilde",
+        "category": "other",
+        "region": "bottom-right",
+        "box": [
+         0.7,
+         0.7,
+         0.9,
+         0.8
+        ],
+        "moving": "none"
+       },
+       {
+        "label": "symbol",
+        "category": "other",
+        "region": "top-right",
+        "box": [
+         0.7,
+         0.1,
+         0.9,
+         0.2
+        ],
+        "moving": "none"
+       }
+      ]
+     }
+    },
+    {
+     "scene": "park",
+     "vlm": 0.09475530590005309,
+     "truth": 0.10316230329246075,
+     "motion": 0,
+     "inverse": 0.8488325155868275,
+     "chars": 1216,
+     "ms": 6.410183,
+     "rec": {
+      "setting": "unknown",
+      "scene": "a scene with multiple moving objects and patterns on a dark background",
+      "objects": [
+       {
+        "label": "person",
+        "category": "person",
+        "region": "center",
+        "box": [
+         0.3,
+         0.4,
+         0.7,
+         0.6
+        ],
+        "moving": "none"
+       },
+       {
+        "label": "arrow",
+        "category": "shape",
+        "region": "center",
+        "box": [
+         0.3,
+         0.4,
+         0.7,
+         0.6
+        ],
+        "moving": "none"
+       },
+       {
+        "label": "wave",
+        "category": "shape",
+        "region": "bottom",
+        "box": [
+         0.1,
+         0.7,
+         0.9,
+         0.9
+        ],
+        "moving": "left"
+       },
+       {
+        "label": "line",
+        "category": "shape",
+        "region": "top",
+        "box": [
+         0,
+         0,
+         1,
+         0.2
+        ],
+        "moving": "none"
+       },
+       {
+        "label": "pattern",
+        "category": "shape",
+        "region": "center",
+        "box": [
+         0,
+         0.2,
+         1,
+         0.4
+        ],
+        "moving": "none"
+       }
+      ]
+     }
+    },
+    {
+     "scene": "night",
+     "vlm": 0.37999368599209127,
+     "truth": 0.3767298064544527,
+     "motion": 0,
+     "inverse": 0.9122497261784525,
+     "chars": 1216,
+     "ms": 6.258527,
+     "rec": {
+      "setting": "unknown",
+      "scene": "a dark scene with two tall structures and a moving object at the bottom",
+      "objects": [
+       {
+        "label": "structure",
+        "category": "building",
+        "region": "left",
+        "box": [
+         0.1,
+         0.1,
+         0.3,
+         0.8
+        ],
+        "moving": "none"
+       },
+       {
+        "label": "structure",
+        "category": "building",
+        "region": "right",
+        "box": [
+         0.7,
+         0.1,
+         0.9,
+         0.8
+        ],
+        "moving": "none"
+       },
+       {
+        "label": "object",
+        "category": "other",
+        "region": "bottom",
+        "box": [
+         0.1,
+         0.7,
+         0.8,
+         0.9
+        ],
+        "moving": "left"
+       }
+      ]
+     }
+    },
+    {
+     "scene": "room",
+     "vlm": 0.27986600006409024,
+     "truth": 0.21625041922857566,
+     "motion": null,
+     "inverse": 0.9756669782709456,
+     "chars": 1216,
+     "ms": 6.830607,
+     "rec": {
+      "setting": "unknown",
+      "scene": "a scene with a patterned background and moving elements",
+      "objects": [
+       {
+        "label": "text",
+        "category": "other",
+        "region": "center",
+        "box": [
+         0.1,
+         0.3,
+         0.9,
+         0.4
+        ],
+        "moving": "none"
+       },
+       {
+        "label": "arrow",
+        "category": "other",
+        "region": "bottom-right",
+        "box": [
+         0.6,
+         0.7,
+         0.9,
+         0.8
+        ],
+        "moving": "right"
+       },
+       {
+        "label": "arrow",
+        "category": "other",
+        "region": "bottom-left",
+        "box": [
+         0.1,
+         0.7,
+         0.4,
+         0.8
+        ],
+        "moving": "right"
+       }
+      ]
+     }
+    }
+   ]
+  },
+  {
+   "projector": "motion",
+   "over": {
+    "bg": "fused"
+   },
+   "vlm": 0.2866749768022968,
+   "truth": 0.33057384997055494,
+   "motion": 0,
+   "inverse": 0.6308685277447328,
+   "jepa": 0.19461506267331452,
+   "chars": 1216,
+   "ms": 7.366664,
+   "rows": [
+    {
+     "scene": "street",
+     "vlm": 0.2862092710506923,
+     "truth": 0.28032063063429813,
+     "motion": 0,
+     "inverse": 0.4859922130898074,
+     "chars": 1216,
+     "ms": 7.665394,
+     "rec": {
+      "setting": "unknown",
+      "scene": "a patterned scene with geometric shapes and lines, some moving",
+      "objects": [
+       {
+        "label": "triangle",
+        "category": "shape",
+        "region": "top-left",
+        "box": [
+         0.08,
+         0.24,
+         0.38,
+         0.48
+        ],
+        "moving": "none"
+       },
+       {
+        "label": "hexagon",
+        "category": "shape",
+        "region": "top-right",
+        "box": [
+         0.68,
+         0.24,
+         0.92,
+         0.48
+        ],
+        "moving": "none"
+       },
+       {
+        "label": "rectangle",
+        "category": "shape",
+        "region": "bottom-right",
+        "box": [
+         0.68,
+         0.68,
+         0.92,
+         0.92
+        ],
+        "moving": "none"
+       },
+       {
+        "label": "line pattern",
+        "category": "shape",
+        "region": "center",
+        "box": [
+         0,
+         0,
+         1,
+         1
+        ],
+        "moving": "none"
+       }
+      ]
+     }
+    },
+    {
+     "scene": "park",
+     "vlm": 0.22211914596918997,
+     "truth": 0.1587273206379317,
+     "motion": 0,
+     "inverse": 0.4432657908813744,
+     "chars": 1216,
+     "ms": 7.241128,
+     "rec": {
+      "setting": "outdoor-night",
+      "scene": "a night scene with a person standing in the center and a vehicle on the right",
+      "objects": [
+       {
+        "label": "person",
+        "category": "person",
+        "region": "center",
+        "box": [
+         0.18,
+         0.2,
+         0.32,
+         0.8
+        ],
+        "moving": "none"
+       },
+       {
+        "label": "vehicle",
+        "category": "vehicle",
+        "region": "right",
+        "box": [
+         0.68,
+         0.4,
+         0.82,
+         0.8
+        ],
+        "moving": "right"
+       }
+      ]
+     }
+    },
+    {
+     "scene": "night",
+     "vlm": 0.5163761836412604,
+     "truth": 0.5716726087130888,
+     "motion": 0,
+     "inverse": 0.6798775479203533,
+     "chars": 1216,
+     "ms": 7.76163,
+     "rec": {
+      "setting": "outdoor-night",
+      "scene": "a dark scene with two tall structures and a small object moving across the bottom",
+      "objects": [
+       {
+        "label": "structure",
+        "category": "building",
+        "region": "left",
+        "box": [
+         0,
+         0,
+         0.2,
+         1
+        ],
+        "moving": "none"
+       },
+       {
+        "label": "structure",
+        "category": "building",
+        "region": "right",
+        "box": [
+         0.7,
+         0,
+         1,
+         1
+        ],
+        "moving": "none"
+       },
+       {
+        "label": "object",
+        "category": "other",
+        "region": "bottom",
+        "box": [
+         0.1,
+         0.7,
+         0.4,
+         0.9
+        ],
+        "moving": "right"
+       }
+      ]
+     }
+    },
+    {
+     "scene": "room",
+     "vlm": 0.12199530654804464,
+     "truth": 0.31157483989690105,
+     "motion": null,
+     "inverse": 0.9143385590873963,
+     "chars": 1216,
+     "ms": 6.798504,
+     "rec": {
+      "setting": "unknown",
+      "scene": "a patterned scene with lines and symbols on a dark background",
+      "objects": [
+       {
+        "label": "line pattern",
+        "category": "shape",
+        "region": "top-left",
+        "box": [
+         0,
+         0,
+         1,
+         0.5
+        ],
+        "moving": "none"
+       },
+       {
+        "label": "symbol pattern",
+        "category": "shape",
+        "region": "top-right",
+        "box": [
+         0.6,
+         0,
+         1,
+         0.5
+        ],
+        "moving": "none"
+       },
+       {
+        "label": "horizontal lines",
+        "category": "shape",
+        "region": "bottom-left",
+        "box": [
+         0,
+         0.5,
+         1,
+         0.7
+        ],
+        "moving": "none"
+       },
+       {
+        "label": "arrow pattern",
+        "category": "shape",
+        "region": "bottom-right",
+        "box": [
+         0.6,
+         0.7,
+         1,
+         0.8
+        ],
+        "moving": "right"
+       }
+      ]
+     }
+    }
+   ]
+  }
+ ]
+}

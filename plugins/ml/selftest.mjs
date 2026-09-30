@@ -54,6 +54,11 @@ CHECK(golden === 0x6dbdd1a8, `the port the syzygy projector loads hashes to gold
 const sz = project('syzygy', feeds[0]).text_projection;
 CHECK([...sz].some((c) => '─│╱╲'.includes(c)), 'syzygy glyph field emits Sobel edge glyphs on a real scene');
 CHECK(sz.split('\n').every((l) => l[0] === '─'), 'known scar: column 0 is always ─ (Sobel zero-padding at the frame edge)');
+const tg = [...project('syzygy', feeds[0], { ...defaults('syzygy'), orient: 'tangent' }).text_projection], gr = [...sz];
+CHECK(tg.length === gr.length && tg.every((c, i) => c === gr[i] || (c === '│' && gr[i] === '─') || (c === '─' && gr[i] === '│')) && tg.some((c, i) => c !== gr[i]),
+      'orient=tangent relabels only ─<->│; every other kernel byte is unchanged');
+const mb = project('motion', feeds[0], { ...defaults('motion'), bg: 'braille' }).text_projection;
+CHECK([...mb].some((c) => c >= '⠀' && c <= '⣿') && mb.includes('>'), 'motion bg=braille: kernel braille background with arrows on top');
 
 // 4. motion: right direction on every moving feed, nothing added to a still one
 for (const seq of feeds) {

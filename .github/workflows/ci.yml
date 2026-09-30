@@ -58,6 +58,8 @@ jobs:
       - run: node tools/kernel-oracle-mutant-gauge/selftest.mjs
       - name: oracle strength re-derived from scratch; any surviving mutant fails
         run: node tools/kernel-oracle-mutant-gauge/gauge.mjs --verify --strict
+      - name: ML projection plugins — contract selftest (offline, no keys)
+        run: node plugins/ml/selftest.mjs
 
   seed:
     name: seed of record is unchanged

@@ -1,0 +1,1 @@
+{"answers":{"coherent":{"type":"noul","noul":0.64}},"usage":{"input_tokens":458,"output_tokens":22},"model":"jev-1.13.0","text":"{\"coherent\":{\"type\":\"noul\",\"noul\":0.64}}","ms":135}

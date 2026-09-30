@@ -134,14 +134,16 @@ export async function evaluate(prop, feeds, ctx) {
 }
 
 export async function runSearch({ feeds, generations = 3, perCell = 2, cells = ['llm:deepseek', 'llm:kimi', 'llm:zai', 'quantum', 'local'],
-                                  ctx = {}, seed = 7, log = console.log, out } = {}) {
+                                  ctx = {}, seed = 7, log = console.log, out, extraSeeds = [] } = {}) {
   const history = [], rejected = [], genLog = [];
   let id = 0;
   const seen = new Set();
   const addRow = (r) => { r.id = id++; history.push(r); return r; };
-  // generation 0: every projector at its defaults
-  for (const p of listProjectors()) {
-    const r = addRow(await evaluate({ cell: 'seed', projector: p.name, params: defaults(p.name), why: 'defaults' }, feeds, ctx));
+  // generation 0: every projector at its defaults, plus any warm-start configs
+  const g0 = [...listProjectors().map((p) => ({ projector: p.name, params: defaults(p.name), why: 'defaults' })),
+              ...extraSeeds.map((e) => ({ projector: e.projector, params: { ...defaults(e.projector), ...e.params }, why: e.why || 'warm start' }))];
+  for (const s0 of g0) {
+    const r = addRow(await evaluate({ cell: 'seed', ...s0 }, feeds, ctx));
     seen.add(JSON.stringify([r.projector, r.params]));
     log(`g0 seed      ${fmt(r)}`);
   }

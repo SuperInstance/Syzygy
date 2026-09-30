@@ -8,6 +8,7 @@
 //   node plugins/ml/playtest.mjs [--stage ceiling|grid|search|all]
 //        [--critic-mode text|image] [--critic MODEL] [--gens N] [--per-cell N]
 //        [--cells llm:deepseek,llm:kimi,llm:zai,quantum,local] [--tag NAME]
+//        [--warm '[{"projector":..., "params":{...}}]']
 //
 // Stages:
 //   ceiling  the critic reads the REAL frames; compared with ground truth. This
@@ -77,7 +78,9 @@ if (stage === 'search' || stage === 'all') {
   const gens = +arg('gens', 3), perCell = +arg('per-cell', 2);
   const cells = arg('cells', 'llm:deepseek,llm:kimi,llm:zai,quantum,local').split(',');
   console.log(`=== search: ${gens} generations x ${cells.length} cells x ${perCell} ===`);
-  const r = await runSearch({ feeds, generations: gens, perCell, cells, ctx, out: OUT.replace('.json', '-search.json') });
+  // --warm '[{"projector":"syzygy","params":{"field":"braille"}}]' adds warm-start configs to generation 0
+  const extraSeeds = JSON.parse(arg('warm', '[]'));
+  const r = await runSearch({ feeds, generations: gens, perCell, cells, ctx, extraSeeds, out: OUT.replace('.json', '-search.json') });
   const seeds = r.history.filter((h) => h.cell === 'seed');
   const best = [...r.history].sort((a, b) => b.U - a.U)[0];
   const byCell = {};
