@@ -76,15 +76,15 @@ async function postJSON(url, headers, body, timeoutMs = 120000, tries = 3) {
 }
 
 // OpenAI-compatible chat. Returns { text, usage, model }.
-export async function chat(provider, messages, { model, max_tokens = 800, temperature = 0, tag, nocache, json = false } = {}) {
+export async function chat(provider, messages, { model, max_tokens = 800, temperature = 0, tag, nocache, json = false, extra = {}, timeoutMs = 120000 } = {}) {
   const p = PROVIDERS[provider];
   if (!p) throw new Error('unknown provider ' + provider);
   const key = process.env[p.key];
-  const body = { model: model || p.model, messages, max_tokens, temperature, ...(p.extra || {}),
+  const body = { model: model || p.model, messages, max_tokens, temperature, ...(p.extra || {}), ...extra,
                  ...(json ? { response_format: { type: 'json_object' } } : {}) };
   return cached(provider, { ...body, messages: body.messages }, async () => {
     if (!key) throw new Error(`missing ${p.key}`);
-    const d = await postJSON(p.url, { Authorization: `Bearer ${key}` }, body);
+    const d = await postJSON(p.url, { Authorization: `Bearer ${key}` }, body, timeoutMs);
     const text = d.choices?.[0]?.message?.content ?? '';
     return { text, usage: d.usage || null, model: d.model || body.model, request: redactImages(messages) };
   }, { tag, nocache });
@@ -105,14 +105,14 @@ export async function systemOne(state, questions, { model = 'jev-latest', tag, n
 
 // MothQuantum comet-qrng-v1. mode 'emu' = Aer simulator (uncertified); 'qpu' = IBM hardware.
 // Draws are never cached (a replayed random stream would defeat the point), but are logged.
-export async function quantumBytes(n = 32, { mode = 'emu', tag } = {}) {
+export async function quantumBytes(n = 32, { mode = 'emu', tag, maxWaitMs = 60000 } = {}) {
   if (OFFLINE()) throw new Error('offline: quantum draws are never cached');
   const base = process.env.MOTHQUANTUM_BASE || 'https://api.mothquantum.com/api/v1';
   const H = { Authorization: `Bearer ${process.env.MOTHQUANTUM_KEY}` };
   const t0 = Date.now();
   const sub = await postJSON(`${base}/engines/comet-qrng-v1/process`, H,
     { mode, params: { num_qubits: 12, shots: Math.max(256, n * 8), output_bytes: n, bell_witness: false } }, 60000);
-  for (let i = 0; i < 40; i++) {
+  for (const t0w = Date.now(); Date.now() - t0w < maxWaitMs;) {
     await new Promise((s) => setTimeout(s, 1500));
     const st = await (await fetch(`${base}/jobs/${sub.job_id}/status`, { headers: H })).json();
     if (st.status === 'failed') throw new Error('qrng job failed: ' + JSON.stringify(st.error));
@@ -120,13 +120,32 @@ export async function quantumBytes(n = 32, { mode = 'emu', tag } = {}) {
       const res = await (await fetch(`${base}/jobs/${sub.job_id}/result`, { headers: H })).json();
       const out = res.result.output;
       const rec = { hex: out.random.hex, bytes: out.random.bytes, job_id: sub.job_id, mode,
-                    commit: out.commitment?.commit, ms: Date.now() - t0 };
+                    commit: out.commitment?.commit, certificate: out.certificate ?? null, backend: out.provenance?.backend ?? null, ms: Date.now() - t0 };
       stats.calls++; stats.byProvider.quantum = (stats.byProvider.quantum || 0) + 1;
       logCall({ at: new Date().toISOString(), kind: 'quantum', tag, key: sub.job_id, ms: rec.ms, text: rec.hex, mode });
       return rec;
     }
   }
   throw new Error('qrng job timed out');
+}
+
+// Salvage every well-formed {"projector": ..., "params": {...}} object from a reply
+// whose outer JSON is broken (seen: Qwen3-235B emitting one stray '}').
+export function extractProposals(text) {
+  const out = [], t = String(text || '');
+  for (let s = t.indexOf('{'); s >= 0; s = t.indexOf('{', s + 1)) {
+    let depth = 0, inStr = false, esc = false;
+    for (let i = s; i < t.length; i++) {
+      const c = t[i];
+      if (inStr) { if (esc) esc = false; else if (c === '\\') esc = true; else if (c === '"') inStr = false; continue; }
+      if (c === '"') inStr = true; else if (c === '{') depth++;
+      else if (c === '}' && --depth === 0) {
+        try { const o = JSON.parse(t.slice(s, i + 1)); if (o && typeof o.projector === 'string' && o.params && typeof o.params === 'object') out.push(o); } catch {}
+        break;
+      }
+    }
+  }
+  return out;
 }
 
 // Pull the first JSON object out of a model reply (models wrap JSON in prose/fences).

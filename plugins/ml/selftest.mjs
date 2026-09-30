@@ -118,6 +118,14 @@ CHECK(malformed === 0, 'mutation cell: 1000 random mutations, 0 malformed config
 const rows = [{ vlm: 0.5, chars: 100, ms: 1 }, { vlm: 0.4, chars: 200, ms: 1 }, { vlm: 0.3, chars: 50, ms: 1 }];
 CHECK(pareto(rows).length === 2 && !pareto(rows).includes(rows[1]), 'pareto keeps the non-dominated, drops the dominated');
 CHECK(extractJSON('Sure!\n```json\n{"a": {"b": "}"}}\n```\nthanks')?.a?.b === '}', 'extractJSON pulls a JSON object out of prose and fences');
+{ // the Qwen3-235B failure seen in run 3 prep: valid proposals inside broken outer JSON
+  const { extractProposals } = await import('./apis.mjs');
+  const broken = '{"proposals": [{"projector": "motion", "params": {"cols": 80}, "why": "a"}, {"projector": "syzygy", "params": {"cols": 64, "field": "braille"}, "why": "b"}}]}';
+  const got = extractProposals(broken);
+  CHECK(extractJSON(broken) === null && got.length === 2 && got[1].params.field === 'braille', 'extractProposals salvages both proposals from JSON with a stray brace');
+  const { DI_ADVISORS } = await import('./search.mjs');
+  CHECK(['kimi', 'qwen', 'gptoss', 'minimax'].every((k) => typeof DI_ADVISORS[k] === 'string'), 'four DeepInfra-hosted advisors are configured');
+}
 let refused = false; try { await chat('deepseek', [{ role: 'user', content: 'selftest-never-cached ' + Date.now() }]); } catch (e) { refused = /offline/.test(e.message); }
 CHECK(refused, 'SYZ_ML_OFFLINE=1 refuses an uncached paid call');
 

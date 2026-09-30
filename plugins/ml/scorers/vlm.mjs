@@ -66,22 +66,39 @@ export async function reconstruct(text, { model = DEFAULT_CRITIC, mode = 'text',
   return { desc: extractJSON(r.text), raw: r.text, usage: r.usage, cached: r.cached, model };
 }
 
+async function scoreOne(seq, projection, truth, ctx) {
+  const model = ctx.critic_model || DEFAULT_CRITIC;
+  const key = `${model}:${seq.truth?.scene}:${seq.frames.length}`;
+  if (!refCache.has(key)) refCache.set(key, describeOriginal(seq, { model: ctx.reference_model || model }));
+  const ref = await refCache.get(key);
+  const rec = await reconstruct(projection.text_projection, { model, mode: ctx.critic_mode || 'text',
+    tag: `rec:${seq.truth?.scene}:${projection.projector}` });
+  const vs_vlm = compareScenes(ref.desc, rec.desc);
+  const vs_truth = truth ? compareScenes(truth, rec.desc) : null;
+  const fidelity = ctx.reference === 'truth' && vs_truth ? vs_truth.fidelity : vs_vlm.fidelity;
+  return { fidelity: Math.max(0, Math.min(1, fidelity)),
+           detail: { vs_vlm, vs_truth, parse_ok: !!rec.desc, reconstruction: rec.desc, reference: ref.desc,
+                     usage: rec.usage, cached: rec.cached, model } };
+}
+
 registerScorer({
   name: 'vlm',
   cost: 'paid',
   about: 'GAN-check: a VLM reconstructs the scene from the text; agreement with a VLM reading of the real frames',
   async score({ seq, projection, truth = seq.truth, ctx = {} }) {
-    const model = ctx.critic_model || DEFAULT_CRITIC;
-    const key = `${model}:${seq.truth?.scene}:${seq.frames.length}`;
-    if (!refCache.has(key)) refCache.set(key, await describeOriginal(seq, { model: ctx.reference_model || model }));
-    const ref = refCache.get(key);
-    const rec = await reconstruct(projection.text_projection, { model, mode: ctx.critic_mode || 'text',
-      tag: `rec:${seq.truth?.scene}:${projection.projector}` });
-    const vs_vlm = compareScenes(ref.desc, rec.desc);
-    const vs_truth = truth ? compareScenes(truth, rec.desc) : null;
-    const fidelity = ctx.reference === 'truth' && vs_truth ? vs_truth.fidelity : vs_vlm.fidelity;
-    return { fidelity: Math.max(0, Math.min(1, fidelity)),
-             detail: { vs_vlm, vs_truth, parse_ok: !!rec.desc, reconstruction: rec.desc, reference: ref.desc,
-                       usage: rec.usage, cached: rec.cached, model } };
+    // ctx.critic_models: an ensemble; each critic reads the real frames and the
+    // text independently and the fidelities are averaged (cuts one reader's noise).
+    const models = ctx.critic_models?.length ? ctx.critic_models : [ctx.critic_model || DEFAULT_CRITIC];
+    const one = await Promise.all(models.map((m) => scoreOne(seq, projection, truth, { ...ctx, critic_model: m })));
+    if (one.length === 1) return one[0];
+    const avg = (xs) => xs.reduce((a, b) => a + b, 0) / xs.length;
+    const mr = one.map((o) => o.detail.vs_vlm.motion_recall).filter((x) => x !== null);
+    const vs_vlm = { ...one[0].detail.vs_vlm, fidelity: avg(one.map((o) => o.detail.vs_vlm.fidelity)), motion_recall: mr.length ? avg(mr) : null,
+                     unmatched_ref: [...new Set(one.flatMap((o) => o.detail.vs_vlm.unmatched_ref))],
+                     hallucinated: [...new Set(one.flatMap((o) => o.detail.vs_vlm.hallucinated))] };
+    const vs_truth = truth ? { ...one[0].detail.vs_truth, fidelity: avg(one.map((o) => o.detail.vs_truth.fidelity)) } : null;
+    return { fidelity: avg(one.map((o) => o.fidelity)),
+             detail: { vs_vlm, vs_truth, per_critic: Object.fromEntries(models.map((m, i) => [m, +one[i].fidelity.toFixed(4)])),
+                       parse_ok: one.every((o) => o.detail.parse_ok), model: models.join('+') } };
   },
 });

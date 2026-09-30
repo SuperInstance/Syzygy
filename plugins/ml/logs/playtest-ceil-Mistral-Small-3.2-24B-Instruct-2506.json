@@ -1,0 +1,156 @@
+{
+ "tag": "ceil-Mistral-Small-3.2-24B-Instruct-2506",
+ "critic": "mistralai/Mistral-Small-3.2-24B-Instruct-2506",
+ "mode": "image",
+ "started": "2026-09-30T14:46:41.187Z",
+ "ceiling": [
+  {
+   "scene": "street",
+   "fidelity": 0.9268657791732966,
+   "motion_recall": 1,
+   "pairs": [
+    {
+     "ref": "tree",
+     "rec": "tree",
+     "s": 0.949,
+     "what": 1,
+     "where": 0.83,
+     "motion": 1
+    },
+    {
+     "ref": "sun",
+     "rec": "sun",
+     "s": 0.945,
+     "what": 1,
+     "where": 0.82,
+     "motion": 1
+    },
+    {
+     "ref": "house",
+     "rec": "house",
+     "s": 0.938,
+     "what": 1,
+     "where": 0.79,
+     "motion": 1
+    },
+    {
+     "ref": "car",
+     "rec": "car",
+     "s": 0.824,
+     "what": 1,
+     "where": 0.41,
+     "motion": 1
+    }
+   ]
+  },
+  {
+   "scene": "park",
+   "fidelity": 0.8422031001334971,
+   "motion_recall": 0,
+   "pairs": [
+    {
+     "ref": "tree",
+     "rec": "tree",
+     "s": 0.984,
+     "what": 1,
+     "where": 0.95,
+     "motion": 1
+    },
+    {
+     "ref": "cloud",
+     "rec": "cloud",
+     "s": 0.947,
+     "what": 1,
+     "where": 0.82,
+     "motion": 1
+    },
+    {
+     "ref": "person",
+     "rec": "person",
+     "s": 0.512,
+     "what": 1,
+     "where": 0.37,
+     "motion": 0
+    }
+   ]
+  },
+  {
+   "scene": "night",
+   "fidelity": 0.9120739326472244,
+   "motion_recall": 1,
+   "pairs": [
+    {
+     "ref": "moon",
+     "rec": "moon",
+     "s": 0.943,
+     "what": 1,
+     "where": 0.81,
+     "motion": 1
+    },
+    {
+     "ref": "tower",
+     "rec": "building",
+     "s": 0.932,
+     "what": 1,
+     "where": 0.77,
+     "motion": 1
+    },
+    {
+     "ref": "tower",
+     "rec": "building",
+     "s": 0.86,
+     "what": 1,
+     "where": 0.53,
+     "motion": 1
+    },
+    {
+     "ref": "car",
+     "rec": "car",
+     "s": 0.851,
+     "what": 1,
+     "where": 0.5,
+     "motion": 1
+    }
+   ]
+  },
+  {
+   "scene": "room",
+   "fidelity": 0.9232580735734168,
+   "motion_recall": 1,
+   "pairs": [
+    {
+     "ref": "window",
+     "rec": "window",
+     "s": 0.973,
+     "what": 1,
+     "where": 0.91,
+     "motion": 1
+    },
+    {
+     "ref": "table",
+     "rec": "bench",
+     "s": 0.894,
+     "what": 1,
+     "where": 0.65,
+     "motion": 1
+    },
+    {
+     "ref": "ball",
+     "rec": "ball",
+     "s": 0.862,
+     "what": 1,
+     "where": 0.54,
+     "motion": 1
+    }
+   ]
+  }
+ ],
+ "api": {
+  "calls": 4,
+  "cacheHits": 0,
+  "byProvider": {
+   "deepinfra": 4
+  }
+ },
+ "finished": "2026-09-30T14:47:16.468Z"
+}

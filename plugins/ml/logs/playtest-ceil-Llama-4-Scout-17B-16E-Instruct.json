@@ -1,0 +1,124 @@
+{
+ "tag": "ceil-Llama-4-Scout-17B-16E-Instruct",
+ "critic": "meta-llama/Llama-4-Scout-17B-16E-Instruct",
+ "mode": "image",
+ "started": "2026-09-30T14:47:16.592Z",
+ "ceiling": [
+  {
+   "scene": "street",
+   "fidelity": 0.7674714126680534,
+   "motion_recall": 1,
+   "pairs": [
+    {
+     "ref": "car",
+     "rec": "car",
+     "s": 0.984,
+     "what": 1,
+     "where": 0.95,
+     "motion": 1
+    },
+    {
+     "ref": "tree",
+     "rec": "tree",
+     "s": 0.974,
+     "what": 1,
+     "where": 0.91,
+     "motion": 1
+    },
+    {
+     "ref": "house",
+     "rec": "house",
+     "s": 0.948,
+     "what": 1,
+     "where": 0.83,
+     "motion": 1
+    }
+   ]
+  },
+  {
+   "scene": "park",
+   "fidelity": 0.5819833282225327,
+   "motion_recall": 0,
+   "pairs": [
+    {
+     "ref": "tree",
+     "rec": "tree",
+     "s": 0.94,
+     "what": 1,
+     "where": 0.8,
+     "motion": 1
+    },
+    {
+     "ref": "person",
+     "rec": "man",
+     "s": 0.584,
+     "what": 1,
+     "where": 0.61,
+     "motion": 0
+    }
+   ]
+  },
+  {
+   "scene": "night",
+   "fidelity": 0.6393302470033525,
+   "motion_recall": 0,
+   "pairs": [
+    {
+     "ref": "tower",
+     "rec": "building2",
+     "s": 0.931,
+     "what": 1,
+     "where": 0.77,
+     "motion": 1
+    },
+    {
+     "ref": "tower",
+     "rec": "building1",
+     "s": 0.7,
+     "what": 1,
+     "where": 0,
+     "motion": 1
+    },
+    {
+     "ref": "car",
+     "rec": "car",
+     "s": 0.671,
+     "what": 1,
+     "where": 0.9,
+     "motion": 0
+    }
+   ]
+  },
+  {
+   "scene": "room",
+   "fidelity": 0.6359834149220005,
+   "motion_recall": 1,
+   "pairs": [
+    {
+     "ref": "table",
+     "rec": "bench",
+     "s": 0.957,
+     "what": 1,
+     "where": 0.86,
+     "motion": 1
+    },
+    {
+     "ref": "ball",
+     "rec": "ball",
+     "s": 0.758,
+     "what": 1,
+     "where": 0.19,
+     "motion": 1
+    }
+   ]
+  }
+ ],
+ "api": {
+  "calls": 4,
+  "cacheHits": 0,
+  "byProvider": {
+   "deepinfra": 4
+  }
+ },
+ "finished": "2026-09-30T14:47:37.027Z"
+}

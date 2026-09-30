@@ -141,6 +141,74 @@ if (stage === 'holdout') {
   save();
 }
 
+if (stage === 'run3') {
+  // Run 3: the fixes the first two runs asked for, built only on DeepInfra,
+  // TypeSafe and MothQuantum.
+  //  - quantum-drawn splits: a held-out set (steers promotion) and a TEST set
+  //    (touched once, at the end) are chosen from QRNG bytes, so no advisor,
+  //    seed or person can know in advance which feeds will judge the search;
+  //  - a three-VLM critic ensemble (all on DeepInfra) to cut one reader's noise;
+  //  - promotion by held-out score, not search-set score;
+  //  - LLM advisors hosted on DeepInfra (Kimi-K2.6, Qwen3-235B, gpt-oss-120b,
+  //    MiniMax-M3) beside DeepSeek, plus the quantum and xorshift mutation cells.
+  const { quantumBytes } = await import('./apis.mjs');
+  const qmode = arg('qmode', 'emu');
+  const draws = [];
+  for (let i = 0; i < 2; i++) {
+    const q = await quantumBytes(32, { mode: qmode, tag: `split:${i}`, maxWaitMs: qmode === 'qpu' ? 900000 : 60000 });
+    draws.push({ job_id: q.job_id, mode: q.mode, commit: q.commit, hex: q.hex });
+  }
+  const bytes = Buffer.from(draws.map((d) => d.hex).join(''), 'hex');
+  const oneMover = (sd) => { const sp = randomSpec(sd), mv = sp.objects.filter((o) => o.vx || o.vy);
+    return mv.length === 1 && sp.objects.length >= 3 && new Set(sp.objects.map((o) => o.kind)).size === sp.objects.length; };
+  const used = new Set([100, 118, 122, 125, 127, 136]), picked = [];
+  for (let i = 0; i + 1 < bytes.length && picked.length < 12; i += 2) {
+    let sd = 2000 + ((bytes[i] << 8) | bytes[i + 1]);                  // 2000..67535
+    while (!oneMover(sd) || used.has(sd)) sd++;                         // walk to the next valid feed
+    used.add(sd); picked.push(sd);
+  }
+  const holdSeeds = picked.slice(0, 6), testSeeds = picked.slice(6, 12);
+  console.log(`=== run3: quantum split (${qmode}; jobs ${draws.map((d) => d.job_id.slice(0, 8)).join(', ')}) ===`);
+  console.log(`  held-out seeds ${holdSeeds.join(',')}   test seeds ${testSeeds.join(',')}`);
+  const critics = arg('critics', 'Qwen/Qwen3-VL-30B-A3B-Instruct,google/gemma-3-27b-it,mistralai/Mistral-Small-3.2-24B-Instruct-2506').split(',');
+  const ectx = { critic_mode: mode, critic_models: critics };
+  const holdFeeds = holdSeeds.map((s) => renderSequence(randomSpec(s))), testFeeds = testSeeds.map((s) => renderSequence(randomSpec(s)));
+  const cells = arg('cells', 'llm:di:kimi,llm:di:qwen,llm:di:gptoss,llm:di:minimax,llm:deepseek,quantum,local').split(',');
+  const r = await runSearch({ feeds, generations: +arg('gens', 3), perCell: +arg('per-cell', 1), cells, ctx: ectx,
+    holdout: { feeds: holdFeeds, topK: +arg('topk', 3) }, out: OUT.replace('.json', '-search.json'),
+    extraSeeds: [{ projector: 'motion', params: { bg: 'edges' }, why: 'warm: best held-out config of runs 1-2' },
+                 { projector: 'syzygy', params: { orient: 'tangent' }, why: 'warm: tangent relabel' }] });
+  const byHold = [...r.history].filter((h) => h.hold !== undefined).sort((a, b) => b.hold - a.hold);
+  const byU = [...r.history].sort((a, b) => b.U - a.U);
+  const finalists = [
+    { label: 'mirror defaults', projector: 'mirror', params: defaults('mirror') },
+    { label: 'syzygy defaults (gradient)', projector: 'syzygy', params: defaults('syzygy') },
+    { label: 'syzygy tangent', projector: 'syzygy', params: { ...defaults('syzygy'), orient: 'tangent' } },
+    { label: 'motion bg=edges (runs 1-2 best)', projector: 'motion', params: { ...defaults('motion'), bg: 'edges' } },
+    { label: `run3 winner by HOLD #${byHold[0].id} (${byHold[0].cell})`, projector: byHold[0].projector, params: byHold[0].params, hold: byHold[0].hold },
+    { label: `run3 winner by U #${byU[0].id} (${byU[0].cell})`, projector: byU[0].projector, params: byU[0].params, hold: byU[0].hold },
+  ];
+  console.log(`=== run3 final: ${finalists.length} configs on ${testFeeds.length} untouched TEST feeds, ${critics.length}-critic ensemble ===`);
+  report.run3 = { qmode, draws: draws.map(({ hex, ...d }) => ({ ...d, hex })), holdSeeds, testSeeds, critics, cells, final: [], byCell: {} };
+  for (const f of finalists) {
+    const res = await Promise.all(testFeeds.map((seq) => score('vlm', { seq, projection: project(f.projector, seq, f.params), ctx: ectx })));
+    const row = { ...f, test: mean(res.map((x) => x.fidelity)), test_truth: mean(res.map((x) => x.detail.vs_truth.fidelity)),
+                  motion: mean(res.filter((x) => x.detail.vs_vlm.motion_recall !== null).map((x) => x.detail.vs_vlm.motion_recall)),
+                  per_scene: res.map((x) => +x.fidelity.toFixed(3)),
+                  per_critic: Object.fromEntries(critics.map((c) => [c, +mean(res.map((x) => x.detail.per_critic?.[c] ?? x.fidelity)).toFixed(3)])),
+                  chars: project(f.projector, testFeeds[0], f.params).char_budget };
+    report.run3.final.push(row);
+    console.log(`  ${f.label.padEnd(44)} test ${row.test.toFixed(3)}  truth ${row.test_truth.toFixed(3)}  motion ${row.motion.toFixed(2)}  chars ${row.chars}${f.hold !== undefined ? `  (hold ${f.hold.toFixed(3)})` : ''}  critics ${Object.values(row.per_critic).join('/')}`);
+  }
+  for (const h of r.history) (report.run3.byCell[h.cell] ||= []).push({ id: h.id, U: h.U, vlm: h.vlm, hold: h.hold ?? null });
+  for (const [c, v] of Object.entries(report.run3.byCell)) {
+    const hs = v.filter((x) => x.hold !== null).map((x) => x.hold);
+    console.log(`  cell ${c.padEnd(16)} n=${v.length} best vlm ${Math.max(...v.map((x) => x.vlm)).toFixed(3)}  held-out evaluated ${hs.length}${hs.length ? `, best hold ${Math.max(...hs).toFixed(3)}` : ''}`);
+  }
+  report.run3.rejected = r.rejected;
+  save();
+}
+
 report.api = stats; report.finished = new Date().toISOString(); save();
 console.log(`api calls this run: ${stats.calls} (cache hits ${stats.cacheHits}) ${JSON.stringify(stats.byProvider)}`);
 console.log(`report: ${path.relative(process.cwd(), OUT)}`);

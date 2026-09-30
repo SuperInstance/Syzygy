@@ -28,7 +28,7 @@ import fs from 'node:fs';
 import path from 'node:path';
 import { fileURLToPath } from 'node:url';
 import { project, score, getProjector, listProjectors, validateParams, defaults } from './registry.mjs';
-import { llm, systemOne, quantumBytes, extractJSON } from './apis.mjs';
+import { llm, systemOne, quantumBytes, extractJSON, extractProposals } from './apis.mjs';
 import { rng } from './core.mjs';
 
 const HERE = path.dirname(fileURLToPath(import.meta.url));
@@ -65,11 +65,21 @@ function schemaText() {
 
 function historyText(history, n = 14) {
   const rows = [...history].sort((a, b) => b.U - a.U).slice(0, n);
-  return rows.map((r) => `U=${r.U.toFixed(3)} vlm=${r.vlm.toFixed(3)} jepa=${(r.jepa ?? 0).toFixed(3)} motion_recall=${r.motion_recall ?? 'n/a'} chars=${r.chars} ms=${r.ms.toFixed(1)} ` +
+  return rows.map((r) => `U=${r.U.toFixed(3)} vlm=${r.vlm.toFixed(3)}${r.hold !== undefined ? ` hold=${r.hold.toFixed(3)}` : ''} jepa=${(r.jepa ?? 0).toFixed(3)} motion_recall=${r.motion_recall ?? 'n/a'} chars=${r.chars} ms=${r.ms.toFixed(1)} ` +
     `${r.projector} ${JSON.stringify(r.params)}${r.notes ? ' | critic: ' + r.notes : ''}`).join('\n');
 }
 
-export async function llmAdvisor(provider, history, perCell, gen) {
+// Advisors hosted on DeepInfra: cell 'llm:di:<alias>'. Same prompt, different minds.
+// Kimi-K2.6 and MiniMax-M3 reason at length by default: Kimi hit 3 x 120 s
+// timeouts on this prompt, MiniMax spent all 4000 tokens (172 s) reasoning and
+// returned no content. reasoning_effort 'none' turns that off for both.
+export const DI_ADVISORS = { kimi: 'moonshotai/Kimi-K2.6', qwen: 'Qwen/Qwen3-235B-A22B-Instruct-2507',
+                             gptoss: 'openai/gpt-oss-120b', minimax: 'MiniMaxAI/MiniMax-M3' };
+const DI_EXTRA = { kimi: { reasoning_effort: 'none' }, minimax: { reasoning_effort: 'none' } };
+
+export async function llmAdvisor(spec, history, perCell, gen) {
+  const [provider, model] = spec.startsWith('di:') ? ['deepinfra', DI_ADVISORS[spec.slice(3)]] : [spec, undefined];
+  if (spec.startsWith('di:') && !model) throw new Error(`unknown DeepInfra advisor ${spec}`);
   const prompt = `You are tuning a "projector" that turns a short camera video into plain text (character art). A vision-language model then tries to reconstruct the scene (objects, positions, motion directions) from the text alone; its agreement with a reading of the real video is "vlm" fidelity (0..1). "jepa" (0..1) measures how well the text predicts where the next frame will change. Fewer characters and less compute (ms) are better. The utility is U = vlm + 0.25*jepa - 0.05*chars/1000 - 0.002*ms.
 
 Available projectors and their typed parameters:
@@ -78,11 +88,13 @@ ${schemaText()}
 Scored so far (best first):
 ${historyText(history)}
 
-Propose ${perCell} NEW configurations likely to raise U. Use only the parameter names and value ranges listed. Reply with JSON only:
+${history.some((r) => r.hold !== undefined) ? 'IMPORTANT: "hold" is the same fidelity measured on feeds you never see, and it alone decides which configs are promoted; a high vlm with a much lower hold means overfitting.\n\n' : ''}Propose ${perCell} NEW configurations likely to raise U. Use only the parameter names and value ranges listed. Reply with JSON only:
 {"proposals": [{"projector": "<name>", "params": {...every parameter...}, "why": "<one line>"}]}`;
-  const r = await llm(provider, [{ role: 'user', content: prompt }], { max_tokens: 1500, temperature: 0.7, json: provider !== 'zai', tag: `advisor:${provider}:g${gen}` });
-  const j = extractJSON(r.text);
-  return (j?.proposals || []).slice(0, perCell).map((p) => ({ cell: `llm:${provider}`, projector: p.projector, params: p.params, why: p.why || '' }));
+  const r = await llm(provider, [{ role: 'user', content: prompt }], { model, max_tokens: model ? 4000 : 1500, temperature: 0.7,
+    json: provider === 'deepseek', extra: DI_EXTRA[spec.slice(3)] || {}, timeoutMs: 300000, tag: `advisor:${spec}:g${gen}` });
+  const proposals = extractJSON(r.text)?.proposals || extractProposals(r.text);
+  if (!proposals.length) throw new Error(`no proposals parsed from ${spec}: ${String(r.text).slice(0, 120)}`);
+  return proposals.slice(0, perCell).map((p) => ({ cell: `llm:${spec}`, projector: p.projector, params: p.params, why: p.why || '' }));
 }
 
 export async function mutationAdvisor(kind, parents, perCell, gen, seed) {
@@ -113,11 +125,12 @@ export async function jevGate(prop) {
 // Score one config on every scene: free + cheap scorers, then the paid critic.
 export async function evaluate(prop, feeds, ctx) {
   const vl = [], inv = [], mot = [], notes = []; let chars = 0, ms = 0;
-  for (const seq of feeds) {
-    const pr = project(prop.projector, seq, prop.params);
+  const prs = feeds.map((seq) => project(prop.projector, seq, prop.params));
+  const vs = await Promise.all(feeds.map((seq, i) => score('vlm', { seq, projection: prs[i], ctx })));   // feeds in parallel
+  for (const [i, seq] of feeds.entries()) {
+    const pr = prs[i], v = vs[i];
     chars += pr.char_budget; ms += pr.compute_estimate.ms;
     inv.push((await score('inverse', { seq, projection: pr })).fidelity);
-    const v = await score('vlm', { seq, projection: pr, ctx });
     vl.push(v.fidelity);
     if (v.detail.vs_vlm.motion_recall !== null) mot.push(v.detail.vs_vlm.motion_recall);
     const d = v.detail.vs_vlm;
@@ -134,7 +147,19 @@ export async function evaluate(prop, feeds, ctx) {
 }
 
 export async function runSearch({ feeds, generations = 3, perCell = 2, cells = ['llm:deepseek', 'llm:kimi', 'llm:zai', 'quantum', 'local'],
-                                  ctx = {}, seed = 7, log = console.log, out, extraSeeds = [] } = {}) {
+                                  ctx = {}, seed = 7, log = console.log, out, extraSeeds = [], holdout = null } = {}) {
+  // holdout = { feeds, topK }: after each generation the topK new configs by U
+  // are re-scored on feeds the advisors never see (row.hold), and parents and
+  // the final winner are ranked by hold, not by U. Without it, rank by U.
+  const rankKey = (r) => (holdout ? (r.hold ?? -1) : r.U);
+  const scoreHold = async (rows) => {
+    if (!holdout) return;
+    for (const r of rows) {
+      const h = await Promise.all(holdout.feeds.map((seq) => score('vlm', { seq, projection: project(r.projector, seq, r.params), ctx })));
+      r.hold = h.reduce((a, x) => a + x.fidelity, 0) / h.length; r.hold_per_scene = h.map((x) => +x.fidelity.toFixed(3));
+      log(`   hold #${r.id} ${r.hold.toFixed(3)} [${r.hold_per_scene.join(' ')}] (search-set vlm ${r.vlm.toFixed(3)})`);
+    }
+  };
   const history = [], rejected = [], genLog = [];
   let id = 0;
   const seen = new Set();
@@ -147,12 +172,13 @@ export async function runSearch({ feeds, generations = 3, perCell = 2, cells = [
     seen.add(JSON.stringify([r.projector, r.params]));
     log(`g0 seed      ${fmt(r)}`);
   }
+  await scoreHold([...history]);
   for (let g = 1; g <= generations; g++) {
-    const parents = [...history].sort((a, b) => b.U - a.U).slice(0, 4);
+    const parents = [...history].sort((a, b) => rankKey(b) - rankKey(a)).slice(0, 4);
     const props = [];
     for (const c of cells) {
       try {
-        if (c.startsWith('llm:')) props.push(...await llmAdvisor(c.slice(4), history, perCell, g));
+        if (c.startsWith('llm:')) props.push(...await llmAdvisor(c.slice(4), history, perCell, g));  // 'llm:deepseek' or 'llm:di:kimi'
         else props.push(...await mutationAdvisor(c, parents, perCell, g, seed));
       } catch (e) { props.push({ cell: c, error: String(e.message || e).slice(0, 200) }); }
     }
@@ -173,9 +199,10 @@ export async function runSearch({ feeds, generations = 3, perCell = 2, cells = [
       const r = addRow(await evaluate({ ...p, gen: g, jev }, feeds, ctx));
       genRows.push(r); log(`g${g} ${p.cell.padEnd(12)} ${fmt(r)}  jev=${jev} | ${p.why}`);
     }
-    const best = [...history].sort((a, b) => b.U - a.U)[0];
-    genLog.push({ gen: g, proposed: props.length, scored: genRows.length, best_U: best.U, best_id: best.id });
-    log(`g${g} best so far: #${best.id} U=${best.U.toFixed(3)} vlm=${best.vlm.toFixed(3)} ${best.projector} ${JSON.stringify(best.params)}`);
+    await scoreHold([...genRows].sort((a, b) => b.U - a.U).slice(0, holdout?.topK ?? 0));
+    const best = [...history].sort((a, b) => rankKey(b) - rankKey(a))[0];
+    genLog.push({ gen: g, proposed: props.length, scored: genRows.length, best_U: best.U, best_hold: best.hold ?? null, best_id: best.id });
+    log(`g${g} best so far: #${best.id} U=${best.U.toFixed(3)} vlm=${best.vlm.toFixed(3)}${best.hold !== undefined ? ` hold=${best.hold.toFixed(3)}` : ''} ${best.projector} ${JSON.stringify(best.params)}`);
     if (out) fs.writeFileSync(out, JSON.stringify({ history, rejected, genLog, front: pareto(history).map((r) => r.id) }, null, 1));
   }
   return { history, rejected, genLog, front: pareto(history) };

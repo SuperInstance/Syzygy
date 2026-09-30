@@ -1,0 +1,156 @@
+{
+ "tag": "ceil-gemma-3-27b-it",
+ "critic": "google/gemma-3-27b-it",
+ "mode": "image",
+ "started": "2026-09-30T14:45:52.826Z",
+ "ceiling": [
+  {
+   "scene": "street",
+   "fidelity": 0.8536308710079549,
+   "motion_recall": 0,
+   "pairs": [
+    {
+     "ref": "sun",
+     "rec": "sun",
+     "s": 0.978,
+     "what": 1,
+     "where": 0.93,
+     "motion": 1
+    },
+    {
+     "ref": "house",
+     "rec": "house",
+     "s": 0.944,
+     "what": 1,
+     "where": 0.81,
+     "motion": 1
+    },
+    {
+     "ref": "tree",
+     "rec": "tree",
+     "s": 0.908,
+     "what": 1,
+     "where": 0.69,
+     "motion": 1
+    },
+    {
+     "ref": "car",
+     "rec": "car",
+     "s": 0.482,
+     "what": 1,
+     "where": 0.27,
+     "motion": 0
+    }
+   ]
+  },
+  {
+   "scene": "park",
+   "fidelity": 0.9260911294890042,
+   "motion_recall": 1,
+   "pairs": [
+    {
+     "ref": "cloud",
+     "rec": "cloud",
+     "s": 0.986,
+     "what": 1,
+     "where": 0.95,
+     "motion": 1
+    },
+    {
+     "ref": "tree",
+     "rec": "tree",
+     "s": 0.932,
+     "what": 1,
+     "where": 0.77,
+     "motion": 1
+    },
+    {
+     "ref": "person",
+     "rec": "person",
+     "s": 0.822,
+     "what": 1,
+     "where": 0.41,
+     "motion": 1
+    }
+   ]
+  },
+  {
+   "scene": "night",
+   "fidelity": 0.8886085144596285,
+   "motion_recall": 1,
+   "pairs": [
+    {
+     "ref": "moon",
+     "rec": "moon",
+     "s": 0.956,
+     "what": 1,
+     "where": 0.85,
+     "motion": 1
+    },
+    {
+     "ref": "tower",
+     "rec": "building",
+     "s": 0.94,
+     "what": 1,
+     "where": 0.8,
+     "motion": 1
+    },
+    {
+     "ref": "car",
+     "rec": "car",
+     "s": 0.842,
+     "what": 1,
+     "where": 0.47,
+     "motion": 1
+    },
+    {
+     "ref": "tower",
+     "rec": "building",
+     "s": 0.737,
+     "what": 1,
+     "where": 0.12,
+     "motion": 1
+    }
+   ]
+  },
+  {
+   "scene": "room",
+   "fidelity": 0.9451252943099586,
+   "motion_recall": 1,
+   "pairs": [
+    {
+     "ref": "table",
+     "rec": "table",
+     "s": 0.947,
+     "what": 1,
+     "where": 0.82,
+     "motion": 1
+    },
+    {
+     "ref": "window",
+     "rec": "window",
+     "s": 0.931,
+     "what": 1,
+     "where": 0.77,
+     "motion": 1
+    },
+    {
+     "ref": "ball",
+     "rec": "ball",
+     "s": 0.927,
+     "what": 1,
+     "where": 0.76,
+     "motion": 1
+    }
+   ]
+  }
+ ],
+ "api": {
+  "calls": 4,
+  "cacheHits": 0,
+  "byProvider": {
+   "deepinfra": 4
+  }
+ },
+ "finished": "2026-09-30T14:46:41.063Z"
+}
