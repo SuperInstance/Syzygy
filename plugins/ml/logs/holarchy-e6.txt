@@ -1,0 +1,7 @@
+member                                   precision  recall   objects claimed / true   P-R   verdict
+E2 critic Qwen3-VL-30B-A3B-Instruct      0.445      0.333    3.11 / 3.50 (x0.89)   +0.11   under-claims -> union
+E2 critic gemma-3-27b-it                 0.245      0.113    2.17 / 3.50 (x0.62)   +0.13   under-claims -> union
+E2 critic Mistral-Small-3.2-24B-Instruct-2506 0.321      0.259    3.67 / 3.50 (x1.05)   +0.06   over-claims -> consensus
+E4 Jev sense receptors                   0.204      0.102    1.02 / 3.50 (x0.29)   +0.10   under-claims -> union
+E4 Jev sense raw                         0.346      0.123    1.02 / 3.50 (x0.29)   +0.22   under-claims -> union
+api: 0 calls, 286 cache hits

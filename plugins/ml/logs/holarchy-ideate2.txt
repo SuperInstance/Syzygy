@@ -1,0 +1,24 @@
+deepseek: 3 ideas
+gpt-oss-120b: 3 ideas
+zai: 3 ideas
+MiniMax-M3: 3 ideas
+Qwen3-235B-A22B-Instruct-2507: 3 ideas
+Kimi-K2.6: ERROR The operation was aborted due to timeout
+
+gen 1 (n=20, re-judged with evidence in view): {"novelty":2.286,"leverage":2.71,"decentral":2.58,"testable":0.649,"evidence":0.697,"merit":0.464}
+gen 2 (n=15):                             {"novelty":2.359,"leverage":3.178,"decentral":2.355,"testable":0.615,"evidence":0.967,"merit":0.468}
+0.568  nov 2.57 lev 3.77 dec 3.39 test 0.60 evid 0.98  [deepseek] Holarchic Research Loop: Tissues That Propose Their Own Experiments
+0.567  nov 2.40 lev 2.93 dec 3.90 test 0.65 evid 0.96  [Qwen3-235B-A22B-Instruct-2507] Autocatalytic Tissue Specialization
+0.552  nov 2.66 lev 3.21 dec 3.30 test 0.63 evid 0.98  [MiniMax-M3] Regime-Switching Holarchy: Tissue Learns Whether to Consensus, Union, or Gossip
+0.540  nov 2.96 lev 3.74 dec 2.18 test 0.64 evid 0.97  [MiniMax-M3] Meta-Holo: The Research Loop Itself as a Holarchy (Tissues Propose, Family Selects, Community Validates)
+0.539  nov 2.31 lev 3.03 dec 3.70 test 0.62 evid 0.96  [gpt-oss-120b] Self‑Organizing Perspective Specialisation (SOPS)
+0.520  nov 2.64 lev 3.27 dec 3.00 test 0.60 evid 0.97  [deepseek] Consensus-Union Regime Detector (CURD)
+0.514  nov 2.73 lev 3.71 dec 2.47 test 0.59 evid 0.96  [Qwen3-235B-A22B-Instruct-2507] Holarchic Research Loop
+0.511  nov 2.80 lev 3.01 dec 2.67 test 0.63 evid 0.98  [deepseek] Self-Pruning Tissue Lineage (what-dies-here)
+0.506  nov 2.58 lev 3.62 dec 2.03 test 0.65 evid 0.97  [MiniMax-M3] Perspective Speciation: Lineage That Splits When Union Helps and Merges When Consensus Helps
+0.422  nov 2.41 lev 3.60 dec 1.55 test 0.56 evid 0.94  [zai] Recursive Research Loop Holarchy
+0.409  nov 2.11 lev 2.98 dec 1.31 test 0.69 evid 0.96  [gpt-oss-120b] Holarchic Meta‑Jury with Quantum Seeding (HMJQS)
+0.365  nov 1.98 lev 2.63 dec 1.51 test 0.62 evid 0.97  [Qwen3-235B-A22B-Instruct-2507] Meta-Consensus Regime Selector
+0.356  nov 1.72 lev 2.56 dec 1.29 test 0.69 evid 0.97  [gpt-oss-120b] Adaptive Aggregation Regime Selector (AARS)
+0.335  nov 1.89 lev 3.13 dec 1.73 test 0.46 evid 0.97  [zai] Tissue Specialization via Evolutionary Pressure
+0.311  nov 1.62 lev 2.48 dec 1.29 test 0.59 evid 0.97  [zai] Consensus Regime Selector

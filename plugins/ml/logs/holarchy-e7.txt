@@ -1,0 +1,13 @@
+omission p=0.00  claim ratio x0.85  consensus 0.354  union 0.281  union-consensus -0.0724 CI [-0.1167,-0.029]  -> CONSENSUS wins
+omission p=0.30  claim ratio x0.50  consensus 0.199  union 0.300  union-consensus +0.1007 CI [0.0536,0.1483]  -> UNION wins
+omission p=0.50  claim ratio x0.33  consensus 0.154  union 0.258  union-consensus +0.1036 CI [0.0674,0.1393]  -> UNION wins
+omission p=0.70  claim ratio x0.21  consensus 0.115  union 0.196  union-consensus +0.0817 CI [0.0513,0.1134]  -> UNION wins
+omission p=0.85  claim ratio x0.11  consensus 0.066  union 0.115  union-consensus +0.0486 CI [0.0244,0.0752]  -> UNION wins
+
+track-record selector (calibrate on even cases, evaluate on odd):
+  p=0.00  calibration claim ratio x0.86 -> consensus eval 0.408 (other rule 0.290)  | picking by calibration fidelity would choose consensus
+  p=0.30  calibration claim ratio x0.48 -> union     eval 0.305 (other rule 0.234)  | picking by calibration fidelity would choose union
+  p=0.50  calibration claim ratio x0.33 -> union     eval 0.296 (other rule 0.168)  | picking by calibration fidelity would choose union
+  p=0.70  calibration claim ratio x0.22 -> union     eval 0.226 (other rule 0.122)  | picking by calibration fidelity would choose union
+  p=0.85  calibration claim ratio x0.11 -> union     eval 0.133 (other rule 0.063)  | picking by calibration fidelity would choose union
+api: 0 calls, 126 cache hits

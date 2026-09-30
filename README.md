@@ -279,6 +279,7 @@ The README is the general introduction. Each deep-dive below is written for two 
 | **[How the claims are checked](docs/verifying.md)** | the mutation gauge, the drift differ and why tests need testing |
 | **[Diffuse by marks](docs/diffuse-by-marks.md)** | the method: building from a contradictory seed with no shared memory |
 | **[Architecture & scars](docs/marks/ARCHITECTURE.md)** | the seed resolved into one design; SCARF-1 to SCARF-7 |
+| **[Holarchic learning](docs/holarchic-learning.md)** | many cheap first-person typed judgments instead of one big judge: when consensus helps, when union helps, and a causal test |
 | **[Learning to project a feed](docs/ml-projection-landscape.md)** | the ML plugin layer beside the kernel: a vision model scores how much of a scene survives the text, and a search improves the projector |
 | **[Live demo](https://syzygy-1j5.pages.dev/)** · [source](docs/index.html) · [minimal POC](docs/poc/) | to watch it run and check it on your own device |
 

@@ -1,0 +1,600 @@
+{
+ "report": {
+  "E2 (3 VLM critics)": {
+   "n": 36,
+   "mean_agreement": 0.237,
+   "consensus": 0.3537378982632633,
+   "union": 0.2813839484034549,
+   "tau_transfer": 0.34,
+   "transfer": 0.2854377559559082,
+   "tau_insample": 0,
+   "insample": 0.3537378982632633,
+   "jev": 0.2813839484034549,
+   "oracle": 0.3771504656343393,
+   "jev_vs_bestfixed": {
+    "n": 36,
+    "diff": -0.0724,
+    "ci95": [
+     -0.1167,
+     -0.029
+    ],
+    "p_le0": 0.9994
+   },
+   "transfer_vs_bestfixed": {
+    "n": 36,
+    "diff": -0.0683,
+    "ci95": [
+     -0.1132,
+     -0.0249
+    ],
+    "p_le0": 0.999
+   }
+  },
+  "E4 (2 weak Jev senses)": {
+   "n": 40,
+   "mean_agreement": 0.206,
+   "consensus": 0.10047350183088537,
+   "union": 0.2784540325105712,
+   "tau_transfer": 0,
+   "transfer": 0.10047350183088537,
+   "tau_insample": 0.34,
+   "insample": 0.2784540325105712,
+   "jev": 0.2784540325105712,
+   "oracle": 0.2802904911591401,
+   "jev_vs_bestfixed": {
+    "n": 40,
+    "diff": 0,
+    "ci95": [
+     0,
+     0
+    ],
+    "p_le0": 1
+   },
+   "transfer_vs_bestfixed": {
+    "n": 40,
+    "diff": -0.178,
+    "ci95": [
+     -0.2185,
+     -0.138
+    ],
+    "p_le0": 1
+   }
+  }
+ },
+ "e2": [
+  {
+   "agreement": 0.13196458513864953,
+   "consensus": 0.29209027507027996,
+   "union": 0.1510992281989055,
+   "n_members": 3,
+   "member": "a vision-language model (strong reader)"
+  },
+  {
+   "agreement": 0.14746666666666666,
+   "consensus": 0.1253027220311716,
+   "union": 0.18895381773988193,
+   "n_members": 3,
+   "member": "a vision-language model (strong reader)"
+  },
+  {
+   "agreement": 0.1128991752811762,
+   "consensus": 0.15,
+   "union": 0.1591262746618999,
+   "n_members": 3,
+   "member": "a vision-language model (strong reader)"
+  },
+  {
+   "agreement": 0.21521414882215742,
+   "consensus": 0.4372731163381432,
+   "union": 0.321114833956032,
+   "n_members": 3,
+   "member": "a vision-language model (strong reader)"
+  },
+  {
+   "agreement": 0.1516164768325345,
+   "consensus": 0.36315910212984953,
+   "union": 0.3696190640695395,
+   "n_members": 3,
+   "member": "a vision-language model (strong reader)"
+  },
+  {
+   "agreement": 0.11461543606852594,
+   "consensus": 0.04763751066718739,
+   "union": 0.17981034583802655,
+   "n_members": 3,
+   "member": "a vision-language model (strong reader)"
+  },
+  {
+   "agreement": 0.28370505646440053,
+   "consensus": 0.3941116019079365,
+   "union": 0.35023608087886,
+   "n_members": 3,
+   "member": "a vision-language model (strong reader)"
+  },
+  {
+   "agreement": 0.2858958513864953,
+   "consensus": 0.21248872986361114,
+   "union": 0.25235833651462714,
+   "n_members": 3,
+   "member": "a vision-language model (strong reader)"
+  },
+  {
+   "agreement": 0.33911010665516983,
+   "consensus": 0,
+   "union": 0.20101912888994003,
+   "n_members": 3,
+   "member": "a vision-language model (strong reader)"
+  },
+  {
+   "agreement": 0.159575987153431,
+   "consensus": 0.3801860074041149,
+   "union": 0.17551826042398155,
+   "n_members": 3,
+   "member": "a vision-language model (strong reader)"
+  },
+  {
+   "agreement": 0.1858029596632548,
+   "consensus": 0.29750950756430616,
+   "union": 0.28458329042879815,
+   "n_members": 3,
+   "member": "a vision-language model (strong reader)"
+  },
+  {
+   "agreement": 0.32442627226281007,
+   "consensus": 0.22034217739837234,
+   "union": 0.3930604470761711,
+   "n_members": 3,
+   "member": "a vision-language model (strong reader)"
+  },
+  {
+   "agreement": 0.3034681818745247,
+   "consensus": 0.1983333333333333,
+   "union": 0.22438016697850188,
+   "n_members": 3,
+   "member": "a vision-language model (strong reader)"
+  },
+  {
+   "agreement": 0.24983419349234337,
+   "consensus": 0.4669978034384246,
+   "union": 0.2953810158404044,
+   "n_members": 3,
+   "member": "a vision-language model (strong reader)"
+  },
+  {
+   "agreement": 0.27425781466060695,
+   "consensus": 0.35922370838343265,
+   "union": 0.31435975309770536,
+   "n_members": 3,
+   "member": "a vision-language model (strong reader)"
+  },
+  {
+   "agreement": 0.24539787044487538,
+   "consensus": 0.1841938513746571,
+   "union": 0.24575487630192336,
+   "n_members": 3,
+   "member": "a vision-language model (strong reader)"
+  },
+  {
+   "agreement": 0.22510166465705087,
+   "consensus": 0.2920329032557546,
+   "union": 0.28128979073094795,
+   "n_members": 3,
+   "member": "a vision-language model (strong reader)"
+  },
+  {
+   "agreement": 0.25936413704629196,
+   "consensus": 0.6740770139545791,
+   "union": 0.3389994757282803,
+   "n_members": 3,
+   "member": "a vision-language model (strong reader)"
+  },
+  {
+   "agreement": 0.3034681818745247,
+   "consensus": 0.1983333333333333,
+   "union": 0.22438016697850188,
+   "n_members": 3,
+   "member": "a vision-language model (strong reader)"
+  },
+  {
+   "agreement": 0.3106917520346113,
+   "consensus": 0.627682128425931,
+   "union": 0.46845475228395395,
+   "n_members": 3,
+   "member": "a vision-language model (strong reader)"
+  },
+  {
+   "agreement": 0.23971443193304273,
+   "consensus": 0.3358653599933689,
+   "union": 0.16793267999668446,
+   "n_members": 3,
+   "member": "a vision-language model (strong reader)"
+  },
+  {
+   "agreement": 0.2016527898132191,
+   "consensus": 0.4292796146006244,
+   "union": 0.28387511798577186,
+   "n_members": 3,
+   "member": "a vision-language model (strong reader)"
+  },
+  {
+   "agreement": 0.33454225762118456,
+   "consensus": 0.42609904063362114,
+   "union": 0.319267113776086,
+   "n_members": 3,
+   "member": "a vision-language model (strong reader)"
+  },
+  {
+   "agreement": 0.14788974952358352,
+   "consensus": 0.6033232333979883,
+   "union": 0.23140714873784254,
+   "n_members": 3,
+   "member": "a vision-language model (strong reader)"
+  },
+  {
+   "agreement": 0.4410696367888735,
+   "consensus": 0.6880078331455783,
+   "union": 0.5620668452236359,
+   "n_members": 3,
+   "member": "a vision-language model (strong reader)"
+  },
+  {
+   "agreement": 0.21440548443842503,
+   "consensus": 0.5498428318172469,
+   "union": 0.3665618878781646,
+   "n_members": 3,
+   "member": "a vision-language model (strong reader)"
+  },
+  {
+   "agreement": 0.20104587987218722,
+   "consensus": 0.4236258694247472,
+   "union": 0.2541755216548483,
+   "n_members": 3,
+   "member": "a vision-language model (strong reader)"
+  },
+  {
+   "agreement": 0.2355886099627369,
+   "consensus": 0.35762505343782364,
+   "union": 0.2984548400255807,
+   "n_members": 3,
+   "member": "a vision-language model (strong reader)"
+  },
+  {
+   "agreement": 0.3966453056613454,
+   "consensus": 0.32123767049562413,
+   "union": 0.30124158652924543,
+   "n_members": 3,
+   "member": "a vision-language model (strong reader)"
+  },
+  {
+   "agreement": 0.11456053296912494,
+   "consensus": 0.5901398733819888,
+   "union": 0.32408600211989724,
+   "n_members": 3,
+   "member": "a vision-language model (strong reader)"
+  },
+  {
+   "agreement": 0.3034681818745247,
+   "consensus": 0.1983333333333333,
+   "union": 0.22438016697850188,
+   "n_members": 3,
+   "member": "a vision-language model (strong reader)"
+  },
+  {
+   "agreement": 0.18461718561906001,
+   "consensus": 0.5374678046860659,
+   "union": 0.30291626937601795,
+   "n_members": 3,
+   "member": "a vision-language model (strong reader)"
+  },
+  {
+   "agreement": 0.2415320285672042,
+   "consensus": 0.32302252917026236,
+   "union": 0.32726689687769683,
+   "n_members": 3,
+   "member": "a vision-language model (strong reader)"
+  },
+  {
+   "agreement": 0.3363273578720472,
+   "consensus": 0.3185656263843183,
+   "union": 0.25489210771876253,
+   "n_members": 3,
+   "member": "a vision-language model (strong reader)"
+  },
+  {
+   "agreement": 0.18835870937047713,
+   "consensus": 0.12466514617977467,
+   "union": 0.19855450526841145,
+   "n_members": 3,
+   "member": "a vision-language model (strong reader)"
+  },
+  {
+   "agreement": 0.1412786935515583,
+   "consensus": 0.5864886915206924,
+   "union": 0.2932443457603462,
+   "n_members": 3,
+   "member": "a vision-language model (strong reader)"
+  }
+ ],
+ "e4": [
+  {
+   "agreement": 0,
+   "consensus": 0.15,
+   "union": 0.44882457376077345,
+   "n_members": 2,
+   "member": "a weak typed reader of one sense (raw text or numeric receptors)"
+  },
+  {
+   "agreement": 0,
+   "consensus": 0.15,
+   "union": 0.29915838309057896,
+   "n_members": 2,
+   "member": "a weak typed reader of one sense (raw text or numeric receptors)"
+  },
+  {
+   "agreement": 0,
+   "consensus": 0.15,
+   "union": 0.4686023499391433,
+   "n_members": 2,
+   "member": "a weak typed reader of one sense (raw text or numeric receptors)"
+  },
+  {
+   "agreement": 0,
+   "consensus": 0,
+   "union": 0.25148431365314483,
+   "n_members": 2,
+   "member": "a weak typed reader of one sense (raw text or numeric receptors)"
+  },
+  {
+   "agreement": 0,
+   "consensus": 0,
+   "union": 0.27643477336343497,
+   "n_members": 2,
+   "member": "a weak typed reader of one sense (raw text or numeric receptors)"
+  },
+  {
+   "agreement": 0,
+   "consensus": 0.15,
+   "union": 0.25699015528249264,
+   "n_members": 2,
+   "member": "a weak typed reader of one sense (raw text or numeric receptors)"
+  },
+  {
+   "agreement": 0,
+   "consensus": 0.15,
+   "union": 0.387267486841847,
+   "n_members": 2,
+   "member": "a weak typed reader of one sense (raw text or numeric receptors)"
+  },
+  {
+   "agreement": 1,
+   "consensus": 0.15,
+   "union": 0.15,
+   "n_members": 2,
+   "member": "a weak typed reader of one sense (raw text or numeric receptors)"
+  },
+  {
+   "agreement": 1,
+   "consensus": 0.15,
+   "union": 0.15,
+   "n_members": 2,
+   "member": "a weak typed reader of one sense (raw text or numeric receptors)"
+  },
+  {
+   "agreement": 0,
+   "consensus": 0,
+   "union": 0.3172294859183611,
+   "n_members": 2,
+   "member": "a weak typed reader of one sense (raw text or numeric receptors)"
+  },
+  {
+   "agreement": 0.16666666666666666,
+   "consensus": 0.19199427508626843,
+   "union": 0.31527442156855157,
+   "n_members": 2,
+   "member": "a weak typed reader of one sense (raw text or numeric receptors)"
+  },
+  {
+   "agreement": 0.3333333333333333,
+   "consensus": 0.14915838309057894,
+   "union": 0.37161825372479457,
+   "n_members": 2,
+   "member": "a weak typed reader of one sense (raw text or numeric receptors)"
+  },
+  {
+   "agreement": 0,
+   "consensus": 0.15,
+   "union": 0.3455699090083993,
+   "n_members": 2,
+   "member": "a weak typed reader of one sense (raw text or numeric receptors)"
+  },
+  {
+   "agreement": 0,
+   "consensus": 0,
+   "union": 0.2691493938584246,
+   "n_members": 2,
+   "member": "a weak typed reader of one sense (raw text or numeric receptors)"
+  },
+  {
+   "agreement": 0,
+   "consensus": 0,
+   "union": 0.27643477336343497,
+   "n_members": 2,
+   "member": "a weak typed reader of one sense (raw text or numeric receptors)"
+  },
+  {
+   "agreement": 0.2,
+   "consensus": 0.1076719927914419,
+   "union": 0.22015985435685065,
+   "n_members": 2,
+   "member": "a weak typed reader of one sense (raw text or numeric receptors)"
+  },
+  {
+   "agreement": 0,
+   "consensus": 0,
+   "union": 0.3314004908795719,
+   "n_members": 2,
+   "member": "a weak typed reader of one sense (raw text or numeric receptors)"
+  },
+  {
+   "agreement": 0.2,
+   "consensus": 0.2706623774508301,
+   "union": 0.1972040315080726,
+   "n_members": 2,
+   "member": "a weak typed reader of one sense (raw text or numeric receptors)"
+  },
+  {
+   "agreement": 0.25,
+   "consensus": 0.15031419692400316,
+   "union": 0.15173175061669444,
+   "n_members": 2,
+   "member": "a weak typed reader of one sense (raw text or numeric receptors)"
+  },
+  {
+   "agreement": 0,
+   "consensus": 0,
+   "union": 0.17073045306183382,
+   "n_members": 2,
+   "member": "a weak typed reader of one sense (raw text or numeric receptors)"
+  },
+  {
+   "agreement": 0.3333333333333333,
+   "consensus": 0.19199427508626843,
+   "union": 0.3013564352477958,
+   "n_members": 2,
+   "member": "a weak typed reader of one sense (raw text or numeric receptors)"
+  },
+  {
+   "agreement": 0.3333333333333333,
+   "consensus": 0.14915838309057894,
+   "union": 0.569951587058128,
+   "n_members": 2,
+   "member": "a weak typed reader of one sense (raw text or numeric receptors)"
+  },
+  {
+   "agreement": 0,
+   "consensus": 0.15,
+   "union": 0.3455699090083993,
+   "n_members": 2,
+   "member": "a weak typed reader of one sense (raw text or numeric receptors)"
+  },
+  {
+   "agreement": 0,
+   "consensus": 0,
+   "union": 0.2691493938584246,
+   "n_members": 2,
+   "member": "a weak typed reader of one sense (raw text or numeric receptors)"
+  },
+  {
+   "agreement": 0,
+   "consensus": 0,
+   "union": 0.27643477336343497,
+   "n_members": 2,
+   "member": "a weak typed reader of one sense (raw text or numeric receptors)"
+  },
+  {
+   "agreement": 0.16666666666666666,
+   "consensus": 0.1076719927914419,
+   "union": 0.1681312777198178,
+   "n_members": 2,
+   "member": "a weak typed reader of one sense (raw text or numeric receptors)"
+  },
+  {
+   "agreement": 0,
+   "consensus": 0,
+   "union": 0.4071663080442111,
+   "n_members": 2,
+   "member": "a weak typed reader of one sense (raw text or numeric receptors)"
+  },
+  {
+   "agreement": 0,
+   "consensus": 0.15,
+   "union": 0.3790228664597606,
+   "n_members": 2,
+   "member": "a weak typed reader of one sense (raw text or numeric receptors)"
+  },
+  {
+   "agreement": 0.25,
+   "consensus": 0.15031419692400316,
+   "union": 0.15173175061669444,
+   "n_members": 2,
+   "member": "a weak typed reader of one sense (raw text or numeric receptors)"
+  },
+  {
+   "agreement": 0,
+   "consensus": 0,
+   "union": 0.3952923240970791,
+   "n_members": 2,
+   "member": "a weak typed reader of one sense (raw text or numeric receptors)"
+  },
+  {
+   "agreement": 0,
+   "consensus": 0.15,
+   "union": 0.3585090138837607,
+   "n_members": 2,
+   "member": "a weak typed reader of one sense (raw text or numeric receptors)"
+  },
+  {
+   "agreement": 0,
+   "consensus": 0.15,
+   "union": 0.3101475932266684,
+   "n_members": 2,
+   "member": "a weak typed reader of one sense (raw text or numeric receptors)"
+  },
+  {
+   "agreement": 1,
+   "consensus": 0.15,
+   "union": 0.15,
+   "n_members": 2,
+   "member": "a weak typed reader of one sense (raw text or numeric receptors)"
+  },
+  {
+   "agreement": 1,
+   "consensus": 0,
+   "union": 0,
+   "n_members": 2,
+   "member": "a weak typed reader of one sense (raw text or numeric receptors)"
+  },
+  {
+   "agreement": 1,
+   "consensus": 0,
+   "union": 0,
+   "n_members": 2,
+   "member": "a weak typed reader of one sense (raw text or numeric receptors)"
+  },
+  {
+   "agreement": 0,
+   "consensus": 0.15,
+   "union": 0.44413216429797064,
+   "n_members": 2,
+   "member": "a weak typed reader of one sense (raw text or numeric receptors)"
+  },
+  {
+   "agreement": 0,
+   "consensus": 0.15,
+   "union": 0.42537359063423086,
+   "n_members": 2,
+   "member": "a weak typed reader of one sense (raw text or numeric receptors)"
+  },
+  {
+   "agreement": 0,
+   "consensus": 0.15,
+   "union": 0.26086411985931757,
+   "n_members": 2,
+   "member": "a weak typed reader of one sense (raw text or numeric receptors)"
+  },
+  {
+   "agreement": 1,
+   "consensus": 0.15,
+   "union": 0.15,
+   "n_members": 2,
+   "member": "a weak typed reader of one sense (raw text or numeric receptors)"
+  },
+  {
+   "agreement": 0,
+   "consensus": 0,
+   "union": 0.12006333925075084,
+   "n_members": 2,
+   "member": "a weak typed reader of one sense (raw text or numeric receptors)"
+  }
+ ]
+}

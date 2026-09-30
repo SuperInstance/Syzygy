@@ -93,6 +93,16 @@ export async function chat(provider, messages, { model, max_tokens = 800, temper
 export const vlm = (messages, opts = {}) => chat('deepinfra', messages, opts);
 export const llm = (provider, messages, opts = {}) => chat(provider, messages, opts);
 
+// DeepInfra embeddings (OpenAI-compatible). Returns an array of vectors.
+export async function embed(texts, { model = 'Qwen/Qwen3-Embedding-0.6B', tag } = {}) {
+  const body = { model, input: texts, encoding_format: 'float' };
+  const r = await cached('embed', body, async () => {
+    const d = await postJSON('https://api.deepinfra.com/v1/openai/embeddings', { Authorization: `Bearer ${process.env.DEEPINFRA_KEY}` }, body);
+    return { vectors: d.data.map((x) => x.embedding), usage: d.usage, model, text: `${texts.length} embeddings` };
+  }, { tag });
+  return r.vectors;
+}
+
 // TypeSafe Jev: typed answers. questions = { name: {type:'noul'|'choice'|'score', instructions, criteria?} }
 export async function systemOne(state, questions, { model = 'jev-latest', tag, nocache } = {}) {
   const body = { model, state, questions };

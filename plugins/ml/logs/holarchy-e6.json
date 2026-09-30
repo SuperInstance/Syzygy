@@ -1,0 +1,37 @@
+{
+ "E2 critic Qwen3-VL-30B-A3B-Instruct": {
+  "precision": 0.44469444444444445,
+  "recall": 0.3332777777777778,
+  "claimed": 3.111111111111111,
+  "true": 3.5,
+  "claim_ratio": 0.888888888888889
+ },
+ "E2 critic gemma-3-27b-it": {
+  "precision": 0.2453611111111111,
+  "recall": 0.11336111111111112,
+  "claimed": 2.1666666666666665,
+  "true": 3.5,
+  "claim_ratio": 0.619047619047619
+ },
+ "E2 critic Mistral-Small-3.2-24B-Instruct-2506": {
+  "precision": 0.3212777777777778,
+  "recall": 0.2592222222222222,
+  "claimed": 3.6666666666666665,
+  "true": 3.5,
+  "claim_ratio": 1.0476190476190477
+ },
+ "E4 Jev sense receptors": {
+  "precision": 0.20415,
+  "recall": 0.102025,
+  "claimed": 1.025,
+  "true": 3.5,
+  "claim_ratio": 0.2928571428571428
+ },
+ "E4 Jev sense raw": {
+  "precision": 0.345825,
+  "recall": 0.12285000000000001,
+  "claimed": 1.025,
+  "true": 3.5,
+  "claim_ratio": 0.2928571428571428
+ }
+}

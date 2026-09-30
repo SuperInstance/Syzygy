@@ -1,0 +1,121 @@
+{
+ "table": [
+  {
+   "p": 0,
+   "claim_ratio": 0.8533950617283953,
+   "consensus": 0.3537378982632633,
+   "union": 0.2813839484034549,
+   "union_minus_consensus": {
+    "n": 36,
+    "diff": -0.0724,
+    "ci95": [
+     -0.1167,
+     -0.029
+    ],
+    "p_le0": 0.9994
+   }
+  },
+  {
+   "p": 0.3,
+   "claim_ratio": 0.49537037037037046,
+   "consensus": 0.19902540312992378,
+   "union": 0.29969612580393523,
+   "union_minus_consensus": {
+    "n": 36,
+    "diff": 0.1007,
+    "ci95": [
+     0.0536,
+     0.1483
+    ],
+    "p_le0": 0
+   }
+  },
+  {
+   "p": 0.5,
+   "claim_ratio": 0.33333333333333326,
+   "consensus": 0.1543297750025135,
+   "union": 0.2579479647336551,
+   "union_minus_consensus": {
+    "n": 36,
+    "diff": 0.1036,
+    "ci95": [
+     0.0674,
+     0.1393
+    ],
+    "p_le0": 0
+   }
+  },
+  {
+   "p": 0.7,
+   "claim_ratio": 0.2121913580246913,
+   "consensus": 0.1146543608430739,
+   "union": 0.19639446158632456,
+   "union_minus_consensus": {
+    "n": 36,
+    "diff": 0.0817,
+    "ci95": [
+     0.0513,
+     0.1134
+    ],
+    "p_le0": 0
+   }
+  },
+  {
+   "p": 0.85,
+   "claim_ratio": 0.10879629629629634,
+   "consensus": 0.06622864052859487,
+   "union": 0.11478900378797155,
+   "union_minus_consensus": {
+    "n": 36,
+    "diff": 0.0486,
+    "ci95": [
+     0.0244,
+     0.0752
+    ],
+    "p_le0": 0
+   }
+  }
+ ],
+ "sel": [
+  {
+   "p": 0,
+   "calRatio": 0.8641975308641976,
+   "pick": "consensus",
+   "eval": 0.4082729883401634,
+   "alternative": 0.2897135489614259,
+   "fidelity_calibrated_pick": "consensus"
+  },
+  {
+   "p": 0.3,
+   "calRatio": 0.48148148148148145,
+   "pick": "union",
+   "eval": 0.30535644168807907,
+   "alternative": 0.2339948354425735,
+   "fidelity_calibrated_pick": "union"
+  },
+  {
+   "p": 0.5,
+   "calRatio": 0.33333333333333326,
+   "pick": "union",
+   "eval": 0.29646740449672004,
+   "alternative": 0.16804293445749383,
+   "fidelity_calibrated_pick": "union"
+  },
+  {
+   "p": 0.7,
+   "calRatio": 0.2160493827160494,
+   "pick": "union",
+   "eval": 0.22604858520784507,
+   "alternative": 0.12187137719862386,
+   "fidelity_calibrated_pick": "union"
+  },
+  {
+   "p": 0.85,
+   "calRatio": 0.1111111111111111,
+   "pick": "union",
+   "eval": 0.1333649166843897,
+   "alternative": 0.0626892507495091,
+   "fidelity_calibrated_pick": "union"
+  }
+ ]
+}

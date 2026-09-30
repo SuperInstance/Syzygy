@@ -1,0 +1,11 @@
+=== E2 (3 VLM critics): n=36, mean agreement 0.237 ===
+  fixed consensus 0.354 | fixed union 0.281 | oracle per case 0.377
+  threshold fitted on the OTHER dataset (tau 0.34) 0.285 | in-sample tau 0: 0.354 (optimistic)
+  Jev chooses per case 0.281
+  Jev - best fixed rule: -0.0724 CI [-0.1167,-0.029] | transfer - best fixed: -0.0683 CI [-0.1132,-0.0249]
+=== E4 (2 weak Jev senses): n=40, mean agreement 0.206 ===
+  fixed consensus 0.100 | fixed union 0.278 | oracle per case 0.280
+  threshold fitted on the OTHER dataset (tau 0) 0.100 | in-sample tau 0.34: 0.278 (optimistic)
+  Jev chooses per case 0.278
+  Jev - best fixed rule: 0 CI [0,0] | transfer - best fixed: -0.178 CI [-0.2185,-0.138]
+api: 4 calls, 286 cache hits {"typesafe":4}

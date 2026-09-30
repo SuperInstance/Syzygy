@@ -13,7 +13,7 @@
   quantum cell): the code runs and its real outputs are cached and logged, but a
   model's answer is evidence, not a proof, and n = 4 scenes is small.
 - **RUNS** —
-  `node plugins/ml/selftest.mjs` → `plugins/ml selftest: 45 checks, 0 failures`;
+  `node plugins/ml/selftest.mjs` → `plugins/ml selftest: 48 checks, 0 failures`;
   `node plugins/ml/playtest.mjs --stage all` → ceiling, baseline grid, search
   (real API calls; replays from `cache/` for free; `SYZ_ML_OFFLINE=1` forbids
   the network); `--stage run3` = DeepInfra advisors + 3-VLM ensemble +
@@ -33,6 +33,11 @@
   Chromium.
 - **NOT A KERNEL SHARD** — this directory is not freestanding, uses floats and
   the network. I1/I2/I3 do not apply here and nothing here feeds the golden hash.
+- **HOLARCHY** — `holarchy/` holds the many-small-perspectives experiments
+  (E1–E7, community ideation with Jev triage); write-up in
+  [docs/holarchic-learning.md](../../docs/holarchic-learning.md). Headline, causally tested:
+  consensus repairs substitution errors, union repairs omission errors, and a
+  member's track record (claim ratio), not momentary agreement, picks the rule.
 - **BETTER-WHEN** — a real camera feed (the landing page already has one); more
   scenes and repeated critic samples with confidence intervals; a CLIP/SigLIP
   embedding target for the JEPA probe; the critic itself tuned (it reads 0.92

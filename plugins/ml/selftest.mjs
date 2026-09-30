@@ -126,6 +126,20 @@ CHECK(extractJSON('Sure!\n```json\n{"a": {"b": "}"}}\n```\nthanks')?.a?.b === '}
   const { DI_ADVISORS } = await import('./search.mjs');
   CHECK(['kimi', 'qwen', 'gptoss', 'minimax'].every((k) => typeof DI_ADVISORS[k] === 'string'), 'four DeepInfra-hosted advisors are configured');
 }
+{ // holarchy: the organ rule fuses only adjacent same-claim tissues; tissue truth follows coverage
+  const { organs, tissueTruth, TW, TH } = await import('./holarchy/reader.mjs');
+  const tissues = []; for (let ty = 0; ty < TH; ty++) for (let tx = 0; tx < TW; tx++) tissues.push({ tx, ty, box: [tx / TW, ty / TH, (tx + 1) / TW, (ty + 1) / TH] });
+  const claims = Object.fromEntries(tissues.map((t) => [`${t.tx}_${t.ty}`, { what: 'background', motion: 'none' }]));
+  claims['0_0'] = claims['1_0'] = { what: 'building', motion: 'none' }; claims['5_2'] = { what: 'vehicle', motion: 'right' }; claims['3_1'] = { what: 'building', motion: 'none' };
+  const o = organs(tissues, claims).objects;
+  CHECK(o.length === 3 && o.find((x) => x.category === 'vehicle').moving === 'right' && o.filter((x) => x.category === 'building').map((x) => x.tissues).sort().join() === '1,2',
+        'organ rule: adjacent same claims fuse (2 tissues), a distant same claim stays separate, motion carries');
+  const tt = tissueTruth({ objects: [{ category: 'plant', box: [0, 0, 0.2, 0.4] }] }, tissues);
+  CHECK(tt['0_0'] === 'plant' && tt['5_2'] === 'background', 'tissue truth: covered tissue takes the object, uncovered stays background');
+  const { boot } = await import('./holarchy/stats.mjs');
+  const b = boot([1, 1, 1, 1], [0, 0, 0, 0], 2000);
+  CHECK(b.diff === 1 && b.ci95[0] === 1 && b.p_le0 === 0, 'paired bootstrap: a constant +1 difference has CI [1, 1]');
+}
 let refused = false; try { await chat('deepseek', [{ role: 'user', content: 'selftest-never-cached ' + Date.now() }]); } catch (e) { refused = /offline/.test(e.message); }
 CHECK(refused, 'SYZ_ML_OFFLINE=1 refuses an uncached paid call');
 

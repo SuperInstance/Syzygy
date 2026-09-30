@@ -1,0 +1,782 @@
+{
+ "at": "2026-09-30T16:23:10.023Z",
+ "evidence": "MEASURED RESULTS (ground truth, bootstrap 95% CIs) from experiments built out of the community's first ideas:\nE1 holarchic reader: tissues (6x3 tiles) of a character-art frame answer first-person typed questions (TypeSafe Jev), fuse into organs by a local rule, no VLM. Fidelity vs truth: 0.30 on brightness-only text (a VLM reading the same text: 0.28), about 60% of the VLM on edge-glyph text (VLM 0.49-0.51 vs swarm 0.24-0.31). Tissues recognise background well (0.87-1.0) but what object they hold poorly (0.03-0.24): information dies at tissue-level 'what', not at organ assembly. Motion arrows survive (motion recall 0.40). Letting tissues hear neighbours' claims spread object labels into empty sky: background accuracy 0.87 -> 0.63, net fidelity down (not significant).\nE2 community jury: three VLM critics reconstruct the same text. Believing the reconstruction the other two agree with most (no judge, no centre) beats averaging them: 0.354 vs 0.301 (+0.053, CI [0.016, 0.089]); a Jev judge choosing among them +0.042 (CI [0.006, 0.078]); oracle 0.433.\nE3 guided growth: 8x4 tissues sense their patch of the real frame as numbers and choose how to draw themselves (tone / edges / braille / motion arrows); a second round hearing neighbours' CHOICES helps (+0.066, CI [0.002, 0.128]) but the mosaic only ties drawing everything with edges (0.328 vs 0.350, n.s.): mixing styles creates seams. Jev almost never chose the motion style (6 of 320 tissues).\nE4 kaleidoscope: each tissue has two independent weak senses (raw text, numeric receptors). Asserting an object only where both agree collapses fidelity to 0.10 (they rarely agree); their UNION beats the better sense (+0.046, CI [0.019, 0.076]) and ties an oracle that knows which sense to trust.\nPRINCIPLE (provisional): consensus helps when members are individually competent and errors are noise; union helps when members are weak and err in different places; gossiping BELIEFS spreads errors, gossiping CHOICES coordinates.",
+ "gen1_rejudged": {
+  "novelty": 2.286,
+  "leverage": 2.71,
+  "decentral": 2.58,
+  "testable": 0.649,
+  "evidence": 0.697,
+  "merit": 0.464
+ },
+ "gen2": {
+  "novelty": 2.359,
+  "leverage": 3.178,
+  "decentral": 2.355,
+  "testable": 0.615,
+  "evidence": 0.967,
+  "merit": 0.468
+ },
+ "ideas": [
+  {
+   "from": "deepseek",
+   "name": "Holarchic Research Loop: Tissues That Propose Their Own Experiments",
+   "levels": [
+    "tissue",
+    "organ",
+    "organism",
+    "community"
+   ],
+   "mechanism": "Wrap the existing first-round ideas into a meta-organism: a 'research tissue' reads the last round's measured CIs and, via Jev, proposes one variant of an existing idea (a mutation of a projector config, a new Jev rubric, a new tissue role) with an explicit refutation number. The community runs the top-3 variants in parallel this week; the meta-tissue that proposed the winning variant gets its descendant budget increased next round, the losers are archived. No central editor: multiple meta-tissues can coexist and the survivor is decided by measured CIs, not by vote.",
+   "jev_role": "Jev reads the measured-results JSON and writes typed proposals (name, mechanism, hypothesis, refutation number) as structured JSON; Jev also writes the per-variant Jev rubrics used inside each experiment.",
+   "hypothesis": "Across 3 generations, the best community-proposed variant improves the community's headline fidelity (edge-glyph text) by >= 0.05 over the best first-round idea (0.354 consensus); refuted if after 3 generations the best variant is within 0.02 of 0.354, i.e. self-proposed experiments do not compound.",
+   "builds_on": "The full measured table, especially E2's +0.053 consensus headroom and E4's +0.046 union, plus the observed gossip failure (beliefs spread errors, choices coordinate) which motivates 'propose experiments, don't propagate beliefs'.",
+   "cost": "3 Jev meta-proposals per generation x 3 generations = ~9 Jev calls, plus running 3 top variants per generation (each already costed in round 1).",
+   "beyond_classic_ml": "The research loop itself becomes a holarchy: tissues propose experiments, organs run them, the family selects by measured CIs, and the community has no editor — selection pressure acts on the ability to propose falsifiable experiments, not just on model weights.",
+   "jev": {
+    "novelty": 2.57,
+    "testable": 0.6,
+    "leverage": 3.77,
+    "decentral": 3.39,
+    "evidence": 0.98
+   },
+   "merit": 0.5675833333333333
+  },
+  {
+   "from": "Qwen3-235B-A22B-Instruct-2507",
+   "name": "Autocatalytic Tissue Specialization",
+   "levels": [
+    "cell",
+    "tissue",
+    "organ"
+   ],
+   "mechanism": "Tissues start homogeneous but evolve function: each tissue votes via Jev on whether it should specialize into edge, motion, or braille mode based on local error feedback. Neighboring tissues repel conflicting types stigmergically. Over frames, a division of labor emerges.",
+   "jev_role": "Jev evaluates local fidelity loss and answers choice questions: 'Should this tissue become motion-type?' based on recent recall failure and neighbor types.",
+   "hypothesis": "Specialization increases motion recall to >0.50 (current 0.40) and overall fidelity to >0.38, with net improvement over E3’s 0.328",
+   "builds_on": "E3 guided growth (+0.066), motion recall survival (0.40), and gossiping choices (Murmuration)",
+   "cost": "Sequential per-frame adaptation over 5-frame sequences (~1.8x E3)",
+   "beyond_classic_ml": "Self-organizing architecture with emergent functional differentiation without central design",
+   "jev": {
+    "novelty": 2.4,
+    "testable": 0.65,
+    "leverage": 2.93,
+    "decentral": 3.9,
+    "evidence": 0.96
+   },
+   "merit": 0.5672604166666667
+  },
+  {
+   "from": "MiniMax-M3",
+   "name": "Regime-Switching Holarchy: Tissue Learns Whether to Consensus, Union, or Gossip",
+   "levels": [
+    "tissue",
+    "organ",
+    "family"
+   ],
+   "mechanism": "Each 6x3 tissue block first runs two cheap probes: (a) per-member competence on a small brightness-only text (known from E1 to give ~0.30), and (b) pairwise disagreement entropy across 3 independent Jev noul votes on its patch. A Jev choice then selects one of three regimes for that tissue: CONSENSUS (E2 jury-style agreement on the reconstruction) when members are competent AND agreement is high; UNION (E4-style OR of independent senses) when members are weak but disagree; SILENT (no propagation, like the 'empty sky' case in E1) when both competence is low AND entropy is high. Organs then aggregate tissue outputs without a centre, only via the regime labels each tissue broadcasts.",
+   "jev_role": "Performs the typed choice that picks the regime per tissue based on the two probe answers; also runs the noul votes inside CONSENSUS and UNION regimes.",
+   "hypothesis": "Regime-switching beats any single regime averaged across frames. Falsified if pooled fidelity (averaged over the brightness/edge/motion frame mix used in E1+E3) is NOT significantly above the best single-regime baseline of 0.354 (E2 jury) — measured as pooled fidelity with bootstrap 95% CI excluding the 0.354–[0.016,0.089] band.",
+   "builds_on": "E1 (tissue-level 'what' dies at 0.03–0.24; gossiping beliefs into empty sky hurts), E2 (consensus +0.053 when members competent), E4 (union +0.046 when members weak). The provisional principle is the explicit motivator.",
+   "cost": "2 probe questions + 1 regime-choice per tissue per frame, plus the chosen regime's cost. On 8 frames × 18 tissues = ~144 regime choices, ~300ms each on Jev ≈ a few minutes; well within a week.",
+   "beyond_classic_ml": "Classic ML picks one aggregation (average, max, vote) at design time. Here the aggregation rule is itself a per-region typed decision, so the holarchy adapts its own social protocol to local competence — closer to a tissue choosing whether to be a neuron, a glial cell, or silent.",
+   "jev": {
+    "novelty": 2.66,
+    "testable": 0.63,
+    "leverage": 3.21,
+    "decentral": 3.3,
+    "evidence": 0.98
+   },
+   "merit": 0.5521104166666667
+  },
+  {
+   "from": "MiniMax-M3",
+   "name": "Meta-Holo: The Research Loop Itself as a Holarchy (Tissues Propose, Family Selects, Community Validates)",
+   "levels": [
+    "community",
+    "organism"
+   ],
+   "mechanism": "Treat the 15 first-round ideas themselves as a 'cell layer'. Each idea is scored by 3 Jev noul probes on a shared held-out frame set (brightness text, edge-glyph text, motion-heavy text from E1+E3). A 'tissue layer' of 5 idea-clusters (jury / merger / growth / kaleidoscope / lineage) aggregates these via E2 consensus where intra-cluster agreement is high, E4 union where low. A 'family layer' then issues a single typed Jev choice per cluster: 'which cluster's pooled score is highest AND most generalisable across frame types?' The winning cluster's ideas are promoted to a 'community run' that actually executes the new experiments (e.g. the regime-switching holarchy above). The community's measured result then becomes the next round's calibration set — closing the loop.",
+   "jev_role": "Runs the per-idea noul probes, the cluster-level typed choice, and the final community-selection choice; also scores the executed experiment's result against the prior calibration set.",
+   "hypothesis": "The meta-holo picks an experiment whose measured fidelity exceeds the median of the 15 first-round ideas' individually-implemented versions, AND the chosen experiment's CI excludes the prior round's best (0.354 jury). Falsified if the chosen experiment's pooled fidelity is NOT significantly above 0.354 (CI overlaps the jury baseline), or if the meta-selection picks an idea whose standalone score is in the bottom half of the 15 (worse than random selection).",
+   "builds_on": "E2 (consensus on competent reconstructions), E4 (union across weak senses), and the provisional principle that 'gossiping CHOICES coordinates' — here the choice being gossiped is which experiment to run next.",
+   "cost": "15 ideas × 3 probes ≈ 45 Jev calls (~7s); plus the cost of the one chosen experiment (already budgeted in the other two ideas). The meta-layer itself is essentially free.",
+   "beyond_classic_ml": "Classic ML has a fixed objective and a fixed search space chosen by the researcher. Here the research loop — idea generation, experiment selection, result interpretation — is itself a holarchy whose aggregation regime (consensus vs union vs silent) is selected by the same provisional principle the experiments test. The community is no longer just measuring a projector; it is the projector of its own next question.",
+   "jev": {
+    "novelty": 2.96,
+    "testable": 0.64,
+    "leverage": 3.74,
+    "decentral": 2.18,
+    "evidence": 0.97
+   },
+   "merit": 0.5402
+  },
+  {
+   "from": "gpt-oss-120b",
+   "name": "Self‑Organizing Perspective Specialisation (SOPS)",
+   "levels": [
+    "community",
+    "family",
+    "organ"
+   ],
+   "mechanism": "Instantiate a set of perspective agents (brightness, edge, motion, braille, hybrid‑A, hybrid‑B). Every tissue (4×4 tile) queries each perspective’s local Jev‑score on its patch. Perspectives that exceed a confidence threshold spawn a mutated child perspective (e.g., altered edge‑threshold or a new glyph dictionary) via MothQuantum‑seeded mutation. The tissue then adopts the child perspective with the highest score, allowing the system to specialise per region and per frame.",
+   "jev_role": "Scores each perspective’s local projection and decides whether a child perspective should be created (via a ‘noul‑>yes/no’ query).",
+   "hypothesis": "Specialised perspective allocation will increase object‑label fidelity from the low 0.03‑0.24 range observed in E1 to >0.35 on average across frames. Refuted if mean object fidelity ≤0.30 after three growth cycles.",
+   "builds_on": "E1 (tissue‑level loss of object information) and E3 (guided growth improves edge fidelity but mixing styles creates seams).",
+   "cost": "Initial cost = 6 Jev queries per tissue per growth round (≈ 150 ms each). With 6×4=24 tissues and 2 growth rounds, total ≈ 4.3 minutes of Jev time; mutations are cheap integer operations.",
+   "beyond_classic_ml": "Creates a decentralized, evolving ensemble of feature extractors that adapt their parameters locally rather than learning a single monolithic model.",
+   "jev": {
+    "novelty": 2.31,
+    "testable": 0.62,
+    "leverage": 3.03,
+    "decentral": 3.7,
+    "evidence": 0.96
+   },
+   "merit": 0.5386333333333333
+  },
+  {
+   "from": "deepseek",
+   "name": "Consensus-Union Regime Detector (CURD)",
+   "levels": [
+    "tissue",
+    "organ",
+    "community"
+   ],
+   "mechanism": "Each tissue emits two cheap scalar signals about its own patch: (a) pairwise agreement among its k sub-queries, and (b) leave-one-out variance of its own answers across re-phrasings. A small meta-tissue aggregates these into a per-region 'regime vote' — consensus if agreement is high AND variance low, union if both are low, distrust (fall back to the strongest single sense) if variance is high. The regime decision is itself made by a Jev choice question over the region's signals, not a hard-coded threshold. Regions choosing different regimes are stitched by the organ layer only where adjacent regimes agree.",
+   "jev_role": "Jev answers the per-tissue self-report questions (typed noul/score on the tissue's own text answers) and the meta-choice over regime; no Jev sees pixels.",
+   "hypothesis": "A Jev-decided per-region regime selector achieves fidelity >= max(consensus-only 0.354, union-only 0.328) + 0.03 on edge-glyph text, and >= 0.60 on brightness-only text; refuted if the selector is within 0.01 of the better fixed regime on both text types (i.e. regime choice adds nothing).",
+   "builds_on": "E2 (+0.053 consensus over averaging) and E4 (+0.046 union over best sense); the provisional principle itself is the thing being tested as a mechanism.",
+   "cost": "~5 Jev calls per region per frame (self-reports + meta-choice), ~40 regions, one afternoon of inference on existing tissues.",
+   "beyond_classic_ml": "Classic stacking learns one global aggregation rule; here the aggregation regime is itself a per-region, Jev-typed decision with no central editor, so the model can be in 'consensus mode' and 'union mode' at once in different parts of the same frame.",
+   "jev": {
+    "novelty": 2.64,
+    "testable": 0.6,
+    "leverage": 3.27,
+    "decentral": 3,
+    "evidence": 0.97
+   },
+   "merit": 0.51975
+  },
+  {
+   "from": "Qwen3-235B-A22B-Instruct-2507",
+   "name": "Holarchic Research Loop",
+   "levels": [
+    "family",
+    "community"
+   ],
+   "mechanism": "Each projector family runs its own E1-style experiment. A meta-Jev layer hears proposals, outcomes, and discrepancies across families, then negotiates a new shared protocol using typed dialogue. MothQuantum breaks deadlocks. The community collectively evolves its next round.",
+   "jev_role": "Jev acts as peer reviewer and synthesis agent: 'Which of these three protocols resolves the most failures?' and 'Summarize disagreement patterns across families.'",
+   "hypothesis": "The community achieves >0.40 fidelity within two iterations, surpassing E2 oracle (0.433) in half the proposals per idea",
+   "builds_on": "E2 oracle (0.433), PRINCIPLE on gossiping choices vs beliefs, Multi-Jury Review",
+   "cost": "Distributed runs + Jev coordination across 3 families (~same as current community effort)",
+   "beyond_classic_ml": "The research process itself becomes a self-improving, decentralized holarchy with no fixed protocol",
+   "jev": {
+    "novelty": 2.73,
+    "testable": 0.59,
+    "leverage": 3.71,
+    "decentral": 2.47,
+    "evidence": 0.96
+   },
+   "merit": 0.51418125
+  },
+  {
+   "from": "deepseek",
+   "name": "Self-Pruning Tissue Lineage (what-dies-here)",
+   "levels": [
+    "cell",
+    "tissue",
+    "organ",
+    "family"
+   ],
+   "mechanism": "Exploit the measured asymmetry: tissue background-what is 0.87-1.0 but object-what is 0.03-0.24. Give every tissue a descendant budget (say 1-3 children) and let a Jev score decide whether the tissue's 'what' claim is worth propagating or whether the tissue should instead specialise into a pure background/edge/motion sensor. Tissues that fail the object-what Jev question lose their 'what' organ and re-differentiate into a raw numeric receptor (the E4 weak sense). The lineage tree is recorded so a family-level view can see which lineages survived; survivors get more descendants next frame.",
+   "jev_role": "Jev asks each tissue a score question: 'does this text label plausibly name a distinct object present at these coordinates?' Tissues below tau lose their label organ and re-role.",
+   "hypothesis": "Removing object-what claims from low-confidence tissues raises overall fidelity by >= 0.04 over the E1 baseline (0.24-0.31 on edge-glyph text) and background accuracy stays >= 0.85; refuted if fidelity gain is < 0.01 or background accuracy drops below 0.80.",
+   "builds_on": "E1's measured asymmetry (background 0.87-1.0 vs object 0.03-0.24) and the neighbour-gossip failure (0.87 -> 0.63 background when labels spread).",
+   "cost": "One extra Jev score per tissue per frame (~24 tissues) plus a lineage bookkeeper; ~30 min of inference.",
+   "beyond_classic_ml": "The network prunes its own representational capacity per region based on a typed verdict about semantic content, and re-differentiates into a weaker but honest sensor — a structural response to measured incompetence rather than a weight update.",
+   "jev": {
+    "novelty": 2.8,
+    "testable": 0.63,
+    "leverage": 3.01,
+    "decentral": 2.67,
+    "evidence": 0.98
+   },
+   "merit": 0.5105666666666667
+  },
+  {
+   "from": "MiniMax-M3",
+   "name": "Perspective Speciation: Lineage That Splits When Union Helps and Merges When Consensus Helps",
+   "levels": [
+    "family",
+    "community"
+   ],
+   "mechanism": "Start with a small 'founder' community of 6 perspective agents (brightness, edge, motion, braille, hybrid-A, hybrid-B from the E4 kaleidoscope setup). Each generation, each agent spawns 2 mutated children (byte-flips in the integer projector kernel, as in the Family Lineage idea). Children are scored on a calibration set spanning brightness-only, edge-glyph, and motion-heavy frames. Jev then issues a typed choice per parent: 'do your two children's error patterns correlate more than 0.5 (merge back, consensus regime) or anti-correlate (keep split, union regime)?' Agents that merge become one consensus voter (E2-style); agents that split become a union pair (E4-style). Over ~5 generations the community self-organises into specialists vs generalists.",
+   "jev_role": "Scores each child against ground truth; emits the merge-or-split choice per parent based on child error correlation; aggregates the resulting mixed community on the held-out test set.",
+   "hypothesis": "Self-speciated community fidelity on the E1+E3 mixed frame set exceeds a fixed 6-agent community and matches or beats the 0.354 E2 jury baseline on edge frames and the 0.31 E4 union on weak-signal frames simultaneously. Falsified if the speciated community is NOT significantly above 0.354 on edge frames (CI excludes the [0.016,0.089] jury-improvement band) OR not significantly above 0.31 on weak-signal frames (CI excludes E4's +0.046 union band).",
+   "builds_on": "E2 (consensus works when members competent), E4 (union works when members weak and err differently), and the 'Family Lineage of Projector Kernels' first-round idea which proposed mutation without the merge/split choice.",
+   "cost": "6 founders × 2 children × 5 generations = 60 kernels to score; Jev scoring ~150ms × ~50 frames per kernel ≈ a few hours; runnable this week.",
+   "beyond_classic_ml": "Classic ML has a fixed model class and fixed ensemble topology. Here the ensemble's topology (specialist vs generalist, consensus vs union pairs) is itself evolved by a typed Jev choice on error-correlation — the family is a self-organising taxonomy, not a hyperparameter sweep.",
+   "jev": {
+    "novelty": 2.58,
+    "testable": 0.65,
+    "leverage": 3.62,
+    "decentral": 2.03,
+    "evidence": 0.97
+   },
+   "merit": 0.5058020833333334
+  },
+  {
+   "from": "zai",
+   "name": "Recursive Research Loop Holarchy",
+   "levels": [
+    "community",
+    "organism"
+   ],
+   "mechanism": "The entire research community's process is modeled as a holarchy. The lowest level is the 'Experiment Organism' (e.g., E1, E2). The next level is the 'Meta-Organism,' a Jev-powered system that analyzes the results of all current experiments. It is tasked with proposing new experiments by identifying unexplored combinations of principles or weaknesses in existing approaches. For example, it might notice that gossiping beliefs (E1) is harmful, but gossiping choices (E3) is helpful, and propose a novel experiment combining gossiping choices with a consensus regime.",
+   "jev_role": "Jev is the core of the meta-organism. It is fed a JSON summary of all experiments: their measured fidelities, mechanisms, and CIs. It is then prompted with: 'Based on these experimental results, propose a new experiment name, its core mechanism, and a hypothesis. The new experiment should combine insights from at least two existing results to solve an outstanding problem.' Jev's output is then critiqued by a 'community jury' of other Jev instances, selecting the most promising idea to build next.",
+   "hypothesis": "The meta-organism will generate a novel, non-obvious experiment proposal that leads to a measurable improvement. The refutation is that the proposed experiment yields a result (e.g., a fidelity of 0.32) that is not statistically significantly better than the best current experiment (E2 consensus: 0.354), or that the generated idea is trivial or nonsensical.",
+   "builds_on": "This builds on the entire set of first-round results and the community's provisional principle. It turns the research process itself into an object of study and automation, climbing to a higher level of abstraction by making the loop of idea generation and testing a computable entity.",
+   "cost": "Low-to-Medium. Primarily involves prompt engineering and data summarization for Jev. The 'cost' is in research time, not computational resources.",
+   "beyond_classic_ml": "This moves beyond improving a single model to improving the *process* of model improvement. It automates scientific creativity and hypothesis generation, creating a self-improving research system. The holarchy is between data (experiments) and the process that generates new data (research ideas), a leap in abstraction.",
+   "jev": {
+    "novelty": 2.41,
+    "testable": 0.56,
+    "leverage": 3.6,
+    "decentral": 1.55,
+    "evidence": 0.94
+   },
+   "merit": 0.42210000000000003
+  },
+  {
+   "from": "gpt-oss-120b",
+   "name": "Holarchic Meta‑Jury with Quantum Seeding (HMJQS)",
+   "levels": [
+    "family",
+    "organism",
+    "community"
+   ],
+   "mechanism": "Generate N=8 Jury configurations by seeding different random seeds with MothQuantum (each config varies number of VLM critics, weighting scheme, and whether a Jev‑judge is used). For a given frame, a top‑level Jev meta‑critic asks a choice question over which Jury configuration is most likely to succeed, based on a quick heuristic (e.g., edge density, motion variance). The selected Jury then runs its full critic aggregation to produce the final projection. The meta‑jury itself is re‑seeded each epoch.",
+   "jev_role": "Acts as the meta‑critic that selects the best Jury configuration; also scores the final projection for feedback.",
+   "hypothesis": "HMJQS will achieve a fidelity of ≥0.42 on edge‑glyph text, surpassing the best static Jury result of 0.354 (E2) and the oracle ceiling of 0.433. Refuted if the measured fidelity is ≤0.38.",
+   "builds_on": "E2 (community jury outperforms averaging) and the principle that consensus helps when agents are competent; adds a higher‑level selection layer.",
+   "cost": "One Jev meta‑question per frame + up to 6 VLM critic calls for the selected Jury (average 3 critics per Jury). Total ≈ 2–3 VLM calls per frame, similar to baseline experiments, plus negligible quantum seed generation.",
+   "beyond_classic_ml": "Introduces a hierarchical ensemble where not only individual models vote but entire voting schemas are selected dynamically, a level of meta‑learning absent in conventional ensemble methods.",
+   "jev": {
+    "novelty": 2.11,
+    "testable": 0.69,
+    "leverage": 2.98,
+    "decentral": 1.31,
+    "evidence": 0.96
+   },
+   "merit": 0.4093333333333333
+  },
+  {
+   "from": "Qwen3-235B-A22B-Instruct-2507",
+   "name": "Meta-Consensus Regime Selector",
+   "levels": [
+    "organ",
+    "community"
+   ],
+   "mechanism": "Each frame is processed by three parallel regimes: tissue consensus (E3-like), belief union (E4-like), and organ jury (E2-like). A meta-controller organ uses Jev to assess scene properties (e.g., motion density, edge sparsity) and selects the regime expected to perform best. The selection is based on learned triggers from prior results.",
+   "jev_role": "Jev answers noul questions about scene characteristics (e.g., 'Is motion dominant in this frame?') to route to the optimal aggregation strategy.",
+   "hypothesis": "Adaptive selection of consensus vs union vs jury regimes will achieve >0.38 fidelity (current best is 0.354 from E2), with 95% CI excluding 0.354.",
+   "builds_on": "E2 jury (0.354), E4 union (+0.046), and PRINCIPLE on error structure",
+   "cost": "3x projection runs + Jev routing (~2.5x current compute)",
+   "beyond_classic_ml": "Self-configuring system that dynamically chooses its own inference topology based on input-driven regime detection",
+   "jev": {
+    "novelty": 1.98,
+    "testable": 0.62,
+    "leverage": 2.63,
+    "decentral": 1.51,
+    "evidence": 0.97
+   },
+   "merit": 0.3646499999999999
+  },
+  {
+   "from": "gpt-oss-120b",
+   "name": "Adaptive Aggregation Regime Selector (AARS)",
+   "levels": [
+    "organism",
+    "community"
+   ],
+   "mechanism": "Each frame is first evaluated by a lightweight Jev score (e.g., edge‑density heuristic). Based on the recent moving‑average of Jev‑validated fidelity for the current VLM critics, a controller switches between a consensus rule (pick the critic whose reconstruction agrees with the majority) and a union rule (merge all distinct object labels). The selector updates its regime after every frame using a simple reinforcement signal (Δ fidelity).",
+   "jev_role": "Provides the per‑frame fidelity estimate that drives the reinforcement signal and also validates the chosen regime’s output.",
+   "hypothesis": "Dynamic switching between consensus and union will raise overall fidelity on edge‑glyph text from the static consensus level 0.354 (E2) to >0.410 (≥ 0.056 improvement, 95 % CI non‑overlapping). Refuted if measured fidelity ≤0.380.",
+   "builds_on": "E2 (community jury consensus advantage) and E4 (union advantage when members are weak).",
+   "cost": "≈ 1 Jev query per frame for baseline score + 6 VLM critic calls per frame + 1 extra Jev query for validation; well within a single GPU hour on the current cluster.",
+   "beyond_classic_ml": "Implements a meta‑controller that adaptively chooses aggregation strategy based on online performance, a form of self‑tuning ensemble beyond static bagging or voting.",
+   "jev": {
+    "novelty": 1.72,
+    "testable": 0.69,
+    "leverage": 2.56,
+    "decentral": 1.29,
+    "evidence": 0.97
+   },
+   "merit": 0.35624791666666666
+  },
+  {
+   "from": "zai",
+   "name": "Tissue Specialization via Evolutionary Pressure",
+   "levels": [
+    "tissue",
+    "organ"
+   ],
+   "mechanism": "Building on E3's finding that mixing drawing styles creates seams, we introduce a genetic algorithm at the tissue level. Initially, all tissues are identical and can choose from all styles. Over several frames, the system evaluates the collective fidelity of the organ. Tissues that consistently make choices leading to lower local fidelity (e.g., by creating seams or poor object recognition) are 'mutated' or 'pruned' from their gene pool (style options). Successful tissue types proliferate. The process allows for the emergence of specialized tissues, some optimized for backgrounds, others for objects.",
+   "jev_role": "Jev acts as the fitness function and mutator. For each tissue, Jev is asked to score the local quality of its decision after a frame is projected. Based on this score, Jev is prompted to propose a mutation: 'Given this tissue's low score, suggest a new style restriction (e.g., 'braille only' or 'edges only') for this tissue lineage.' The system then tests this new lineage on subsequent frames.",
+   "hypothesis": "This evolutionary process will lead to specialized tissue types that collectively outperform a uniform tissue population. The organ's overall fidelity will increase significantly from E3's 0.328 (mixed style) to above 0.40. Critically, we will observe a decrease in 'seam' artifacts measured by Jev questions on local consistency.",
+   "builds_on": "E3's guided growth, where the choice of style mattered. This experiment escalates from a simple second-round choice to an adaptive, self-organizing structure where tissues specialize based on performance, directly addressing the 'information dies at tissue-level' problem.",
+   "cost": "High. Requires running the simulation for many frames with a persistent tissue 'lineage' and a genetic algorithm loop. Jev will be heavily used for scoring and mutation proposals.",
+   "beyond_classic_ml": "This creates an open-ended, self-modifying structure. Instead of a fixed architecture, the system's fundamental building blocks (tissues) can evolve their capabilities. It mimics biological specialization, where parts of a system develop different functions based on environmental pressures (in this case, the pressure to maximize fidelity).",
+   "jev": {
+    "novelty": 1.89,
+    "testable": 0.46,
+    "leverage": 3.13,
+    "decentral": 1.73,
+    "evidence": 0.97
+   },
+   "merit": 0.33468749999999997
+  },
+  {
+   "from": "zai",
+   "name": "Consensus Regime Selector",
+   "levels": [
+    "organism",
+    "community"
+   ],
+   "mechanism": "The system maintains two distinct aggregation mechanisms—consensus (from E2) and union (from E4)—as parallel 'organs'. For each new frame, a higher-level 'organism' controller, implemented as a small, cheap Jev-governed neural network, chooses which regime to apply based on the frame's characteristics. The controller is trained offline on historical frame data, learning to predict which regime would yield higher fidelity. Its choice for a new frame is then enforced.",
+   "jev_role": "Jev is used to train and validate the regime-selection controller. It generates classification questions: 'Based on this frame's description (object density, motion complexity), will the 'consensus' or 'union' regime yield higher projected fidelity?' The final system uses the controller's direct output, bypassing Jev for real-time decisions to maximize speed.",
+   "hypothesis": "The Jev-governed regime selector will outperform using a single fixed regime, achieving a fidelity higher than the best single baseline (E2 consensus: 0.354, E4 union: ~0.046 over the best sense, ~0.31 for swarm). The hypothesis is that it will achieve an average fidelity of 0.38 or higher across a test set of mixed frame types.",
+   "builds_on": "E2 (consensus helps when competent) and E4 (union helps when weak and err in different places). This experiment directly tests the community's provisional principle by creating a mechanism that decides between these two states.",
+   "cost": "Medium. Requires creating a training set of frame features and Jev-generated labels for the controller, and integrating the controller logic into the projection pipeline. Training is offline, so runtime cost is low.",
+   "beyond_classic_ml": "This moves beyond classic ML by having the system meta-learn its own inference strategy. It introduces a feedback loop where the aggregation method is itself a decision made by a learned component, adapting the process to the data's properties rather than using a one-size-fits-all approach.",
+   "jev": {
+    "novelty": 1.62,
+    "testable": 0.59,
+    "leverage": 2.48,
+    "decentral": 1.29,
+    "evidence": 0.97
+   },
+   "merit": 0.31104791666666665
+  }
+ ],
+ "gen1": [
+  {
+   "from": "MiniMax-M3",
+   "name": "Community Jury: Distributed VLM Critics as Organs",
+   "levels": [
+    "community",
+    "organ"
+   ],
+   "mechanism": "Replace the single averaged VLM critic with a community of 6 small VLM 'organs' (3× Qwen3-VL-7B, 2× Gemma-3-4B, 1× Mistral-Small). Each organ scores a projection; Jev choice picks the most credible organ per frame type, weighted by recent calibration. Organs that systematically disagree are demoted; agreement patterns grow a 'social structure' of which organ to trust on which scene. No central orchestrator decides — the community self-organizes.",
+   "jev_role": "choice: 'which VLM organ's reconstruction is most trustworthy for this frame category?' with per-organ probabilities; noul: 'do organs A and B agree on object X?'",
+   "hypothesis": "The community jury matches the single-best VLM (0.92 ground-truth fidelity) at ≥0.85 while spending ≤40% of the API cost, because typed trust judgments route queries to the right cheap organ.",
+   "cost": "~600 VLM calls (organs) + ~1,200 Jev calls for routing/trust.",
+   "beyond_classic_ml": "A society of small models negotiates epistemic authority via typed trust scores, not a monolithic judge or learned router.",
+   "jev": {
+    "novelty": 2.34,
+    "testable": 0.65,
+    "leverage": 3.42,
+    "decentral": 3.19,
+    "evidence": 0.79
+   },
+   "merit": 0.5500520833333333
+  },
+  {
+   "from": "deepseek",
+   "name": "Jev-Negotiated Glyph Merger (Tissue Voting)",
+   "levels": [
+    "cell",
+    "tissue",
+    "organ"
+   ],
+   "mechanism": "Partition the character grid into overlapping KxK cells. Each cell is a 'cell' agent that runs several Jev queries on its local text patch: (a) choice over which candidate glyph ramp best matches its local density, (b) noul 'does this patch contain a coherent edge?', (c) score the patch's motion-arrow density on a 5-level rubric. Cells emit typed votes; adjacent cells with agreeing edge-presence noul >= 0.7 merge into a 'tissue' whose state is the union of their patches. Tissues then run a second Jev round (choice over the merged glyph vocabulary) to pick a single representative. No global optimizer: the projector config for each region is grown bottom-up from local agreement.",
+   "jev_role": "Per-cell: noul('coherent_edge_here'), choice(candidate glyph ramps), score(motion_density rubric 0-4). Per-tissue: choice(representative ramp) + noul('merge_stable').",
+   "hypothesis": "Bottom-up Jev-negotiated merges raise edge-glyph fidelity from 0.34 to >= 0.42 on held-out feeds, and the fidelity gain correlates (r >= 0.5) with the fraction of cells whose edge-noul exceeded 0.7, confirming that local agreement, not global averaging, drives the gain.",
+   "cost": "~2000 Jev calls per feed (batched into ~40 requests of ~50 questions each), no VLM calls during search; 3 VLM critics only on final promotion.",
+   "beyond_classic_ml": "The projector is not trained by gradient — glyph choice propagates as typed local verdicts that merge into regions, an emergent holarchy with no loss function.",
+   "jev": {
+    "novelty": 2.81,
+    "testable": 0.7,
+    "leverage": 3.03,
+    "decentral": 3.89,
+    "evidence": 0.83
+   },
+   "merit": 0.6283958333333333
+  },
+  {
+   "from": "Kimi-K2.6",
+   "name": "Tissue Consensus Voting",
+   "levels": [
+    "cell",
+    "tissue"
+   ],
+   "mechanism": "Each frame region is a 'cell' with its own Jev evaluator. Instead of one VLM judging full projection fidelity, we ask Jev 50 typed questions per region (edge continuity, motion coherence, glyph legibility). Regions self-organize into 'tissues'—adjacent cells whose Jev scores correlate—by local majority vote on whether to merge. Tissues recursively vote their confidence upward. Final scene reconstruction uses only tissue-consensus projections.",
+   "jev_role": "noul: 'does this region's edge flow match its neighbor's?', score: 'projection clarity 1-5 for this local patch', choice: 'which of 4 motion directions best explains these arrows'",
+   "hypothesis": "A tissue of 7+ regions with internal agreement >0.85 will match ground truth within 0.05 of the three-VLM average, but 3× cheaper. Confirmed if tissue-consensus projection fidelity ≥0.30 (vs 0.34 edge-glyph baseline) using <500 Jev calls total.",
+   "cost": "400-600 Jev calls (~$0.08), zero vision model calls for scoring",
+   "beyond_classic_ml": "No gradient flows globally; structure emerges from peer-validated local typed judgments without a loss function over the whole image.",
+   "jev": {
+    "novelty": 2.5,
+    "testable": 0.66,
+    "leverage": 2.99,
+    "decentral": 3.9,
+    "evidence": 0.8
+   },
+   "merit": 0.5829625
+  },
+  {
+   "from": "MiniMax-M3",
+   "name": "Murmuration of Motion Arrows: Stigmergetic Guided Growth",
+   "levels": [
+    "cell",
+    "organ"
+   ],
+   "mechanism": "Motion arrows are placed by many tiny 'boid-cells' that wander the frame, each leaving an arrow when a Jev noul confirms local flow direction. Cells attract to confirmed arrows (stigmergy) and repel from contradicted ones, so correct motion fields crystallize organically. A tissue-level Jev score only measures final motion recall; cells have no global map. MothQuantum bytes seed the boid randomness so runs are reproducible.",
+   "jev_role": "Per-arrow noul: 'does this arrow direction match the described object motion?'; tissue score: 'motion recall of the grown field'.",
+   "hypothesis": "Stigmergic growth of 500 boid-cells reaches motion recall ≥0.55 (vs. 0.27 baseline) with ≤800 Jev calls, because local arrow-cell consensus beats global motion-arrow search.",
+   "cost": "~800 Jev nouls + ~30 VLM reconstructions for evaluation.",
+   "beyond_classic_ml": "Structure emerges from stigmergic self-organization of thousands of local agents, not from optimizing a global motion-loss.",
+   "jev": {
+    "novelty": 2.48,
+    "testable": 0.61,
+    "leverage": 2.66,
+    "decentral": 3.96,
+    "evidence": 0.81
+   },
+   "merit": 0.5365208333333334
+  },
+  {
+   "from": "deepseek",
+   "name": "Perspective Tournament without a Center",
+   "levels": [
+    "cell",
+    "tissue",
+    "community"
+   ],
+   "mechanism": "Instantiate N=6 'perspective' projectors (brightness, edge, motion, braille, hybrid-A, hybrid-B) as independent agents. Each is a 'cell' view. For any given frame, each perspective asks Jev a typed choice over 'which of the other perspectives agrees with me most?' (pairwise noul 'do we agree on edge count?'). Agreements form a weighted graph; a bounded local gossip (no leader) runs until clusters stabilize. Each cluster's 'community verdict' is the Jev-score-weighted concatenation of member projections. The final projection is the per-region winner from the largest stable cluster.",
+   "jev_role": "Pairwise noul('do perspectives i and j agree on this region?'), choice('which peer is most compatible?'), score('how confident am I in my own region?').",
+   "hypothesis": "Gossip-stabilized perspective clusters beat the best single perspective by >= 0.05 fidelity (0.34 -> >= 0.39) on held-out feeds, and cluster count correlates negatively with per-frame entropy (r <= -0.4), showing convergence is signal-driven, not random.",
+   "cost": "~6 perspectives x ~150 region-queries x ~3 gossip rounds = ~2700 Jev questions, batched to ~30 requests.",
+   "beyond_classic_ml": "No global objective is optimized — perspectives negotiate pairwise typed agreements, a decentralized consensus rather than an end-to-end loss.",
+   "jev": {
+    "novelty": 2.56,
+    "testable": 0.66,
+    "leverage": 3.07,
+    "decentral": 3.88,
+    "evidence": 0.8
+   },
+   "merit": 0.5904125
+  },
+  {
+   "from": "MiniMax-M3",
+   "name": "Edge-Cell Voting on Disagreement Pixels",
+   "levels": [
+    "cell",
+    "tissue"
+   ],
+   "mechanism": "Each projector configuration emits an edge glyph set per frame; for every pixel, many tiny 'edge-cell' critics (cheap Jev nouls) vote whether the local glyph actually traces a real boundary in the VLM-reconstructed scene. Pixels where votes disagree are flagged as 'membrane damage' and trigger local re-growth: neighboring cells extend glyphs into the gap. Tissue-level aggregation only summarizes the count of repaired boundaries, never the pixels themselves. This grows a more complete edge skeleton without ever backpropagating a global loss.",
+   "jev_role": "Per-pixel noul: 'is this glyph position on a real object boundary in the described scene?' Aggregated as score: 'boundary coverage of region R'.",
+   "hypothesis": "Pixel-wise Jev voting + local growth reaches edge-glyph fidelity ≥0.50 (vs. 0.34 baseline) with under 2,000 Jev calls per frame, because many cheap local truths substitute for one global critic.",
+   "cost": "~2,000 Jev nouls + ~50 VLM reconstructions per config (the expensive part is the held-out VLM scoring, not the cells).",
+   "beyond_classic_ml": "No gradient flows through the projector; structure grows from thousands of local yes/no votes that negotiate repair sites without a central loss function.",
+   "jev": {
+    "novelty": 2.59,
+    "testable": 0.63,
+    "leverage": 2.97,
+    "decentral": 3.42,
+    "evidence": 0.7
+   },
+   "merit": 0.5406708333333334
+  },
+  {
+   "from": "zai",
+   "name": "Motion Arrow Auction",
+   "levels": [
+    "family"
+   ],
+   "mechanism": "For each frame sequence, generate a dense field of possible motion vectors. Then, have a 'family' of three Jev agents compete to 'claim' these vectors. Each Jev agent is given a different, overlapping subset of the frame. They each ask `choice(motion_vector_claim='vector_XY', options=['claim', 'ignore'], rubric='motion_confidence_in_my_region')`. The winning vector is the one claimed by the Jev agent with the highest confidence score. The family collectively builds the final motion arrow field.",
+   "jev_role": "Three Jev agents form a family. For a set of candidate motion vectors, each agent is asked to evaluate a different subset. For each vector, they answer `choice(motion_vector_claim='vector_XY', options=['claim', 'ignore'])` and simultaneously `score(rubric='motion_confidence_in_my_region')` for that vector. The vector is assigned to the agent with the highest confidence score.",
+   "hypothesis": "A motion field constructed by this competitive family of Jev agents will achieve a higher motion recall score than one created by a simple heuristic or a single Jev agent evaluating all vectors. This is confirmed if the motion recall exceeds 0.35, refuted if it is below 0.25.",
+   "cost": "For 10 clips, 3 (agents) * 20 (candidate vectors/clip) * 2 (choice and score) = 120 Jev calls. The final VLM evaluation is 10 calls. Total ~130 calls.",
+   "beyond_classic_ml": "This replaces a central decision (one agent for all motion) with a decentralized negotiation (a family of agents for local motion), where structure emerges from localized competition rather than a global plan.",
+   "jev": {
+    "novelty": 2.06,
+    "testable": 0.64,
+    "leverage": 2.12,
+    "decentral": 2.82,
+    "evidence": 0.67
+   },
+   "merit": 0.42583333333333334
+  },
+  {
+   "from": "deepseek",
+   "name": "Guided Growth of Edge Glyphs via Jev Curiosity",
+   "levels": [
+    "cell",
+    "tissue"
+   ],
+   "mechanism": "Start with brightness-only text (fidelity 0.18). Each character position is a 'cell' that may sprout an edge glyph if Jev says noul('is there a luminance discontinuity within 2 chars of me?') > tau. Sprouted cells recruit neighbors: a neighbor is asked choice('adopt same glyph, opposite glyph, or stay blank?'). This grows edge chains organically, only where local evidence supports them. Motion arrows sprout similarly from Jev score('is there directional change here?') above a threshold. Growth halts when a Jev noul('would adding more glyphs improve legibility?') drops below 0.5 for two rounds.",
+   "jev_role": "noul('discontinuity_nearby'), choice('glyph adoption: same/opposite/blank'), score('directional_change 0-4'), noul('more_glyphs_help').",
+   "hypothesis": "Jev-guided sprouting reaches >= 0.40 edge fidelity while using < 30% of the grid as glyphs, versus the current 0.34 baseline at ~55% grid coverage; if coverage stays > 50% for the same fidelity, the guided-growth claim is refuted.",
+   "cost": "~50 growth rounds x ~80 Jev questions = ~4000 questions, batched to ~40 requests.",
+   "beyond_classic_ml": "Structure is grown by local typed curiosity signals, not by backpropagated error — a developmental, not a trained, projector.",
+   "jev": {
+    "novelty": 2.89,
+    "testable": 0.65,
+    "leverage": 2.72,
+    "decentral": 3.45,
+    "evidence": 0.88
+   },
+   "merit": 0.5568125
+  },
+  {
+   "from": "Kimi-K2.6",
+   "name": "Community Protocol for Disagreement",
+   "levels": [
+    "community"
+   ],
+   "mechanism": "Multiple 'species' of critics—Jev-only texture analysts, cheap VLMs (Gemma-3), full VLMs (Qwen3-VL)—form a community with no central arbiter. When species disagree on a projection's fidelity, Jev mediates a structured 'disagreement protocol': it types probabilities for which species is hallucinating based on internal consistency, not ground truth access. Community updates its 'trust weights' per species locally per frame. Resulting consensus predictions feed back to projector search.",
+   "jev_role": "noul: 'is species A internally consistent across its 5 patch judgments?', score: 'trustworthiness of species B this frame 1-5', choice: 'which species' explanation better respects physical constraints (occlusion, lighting)'",
+   "hypothesis": "Community consensus with Jev-mediated trust-updating achieves 0.55 fidelity when full VLMs are included 10% of time, versus 0.50 when full VLMs aggregated uniformly. Falsified if community ≤ uniform or if Jev mediation increases cost >20% without gain.",
+   "cost": "500 Jev calls + 50 Gemma-3 + 10 Qwen3-VL per evaluation batch",
+   "beyond_classic_ml": "Multiple model 'species' negotiate trust through typed meta-judgments about each other's coherence, not ensemble averaging or learned gating; no single model sees others' internals.",
+   "jev": {
+    "novelty": 2.78,
+    "testable": 0.6,
+    "leverage": 3.22,
+    "decentral": 2.9,
+    "evidence": 0.74
+   },
+   "merit": 0.5191666666666667
+  },
+  {
+   "from": "MiniMax-M3",
+   "name": "Family-Level Lineage of Glyph Dialects",
+   "levels": [
+    "family",
+    "organism"
+   ],
+   "mechanism": "Treat each projector config as a 'parent organism' that spawns a small family of children via integer-byte mutations (bit flips in the glyph dictionary). Each child is scored by a single Jev score against a held-out ground-truth rubric. The family keeps the top-scoring dialect; siblings that disagree on hard frames exchange glyphs (sexual recombination of dictionaries). Over generations, families of dialects specialize for different scene categories, mirroring speciation without a central reward.",
+   "jev_role": "score: 'fidelity of this projection on rubric {boundary, motion, position} with levels {poor, ok, good, great}'.",
+   "hypothesis": "After 20 generations across 8 parallel families of size 16, the best family-dialect reaches motion-arrow fidelity ≥0.55 (vs. 0.33 baseline) with total Jev budget under 5,000 calls, because recombination of local glyph dialects beats single-config search.",
+   "cost": "~5,000 Jev scores + 8 VLM reconstructions at generation end.",
+   "beyond_classic_ml": "Evolutionary search with sexual recombination of symbolic glyph dictionaries, not gradient descent on neural weights.",
+   "jev": {
+    "novelty": 2.03,
+    "testable": 0.63,
+    "leverage": 2.63,
+    "decentral": 2.47,
+    "evidence": 0.7
+   },
+   "merit": 0.42928541666666675
+  },
+  {
+   "from": "Kimi-K2.6",
+   "name": "Organ Competition with Quantum Arbitration",
+   "levels": [
+    "tissue",
+    "organ"
+   ],
+   "mechanism": "Three 'organ' projector variants (edge-glyph, motion-arrow, hybrid) each spawn tissues that grow by Jev-validated mutual aid. When organs conflict on a region's label, MothQuantum provides certified random bytes to select which organ 'innervates' that patch this frame. Jev scores the resulting mosaic; organs accrete territory where they win. Held-out frames test whether territory-boundaries generalize.",
+   "jev_role": "score: 'how consistent is this mosaic with physical scene dynamics 1-5', noul: 'does organ A's label here contradict organ B's label there?', choice: 'which organ's history predicts this held-out region best'",
+   "hypothesis": "After 200 frames, the mosaic organ (not any pure organ) achieves fidelity >0.40, and its territorial map on held-out frames correlates >0.7 with map from training frames. Falsified if mosaic ≤ best single organ or correlation <0.5.",
+   "cost": "300 Jev calls per frame eval + 50 quantum bytes/frame, ~$0.15/frame",
+   "beyond_classic_ml": "Competing specialized modules arbitrate via irreducible randomness and typed peer review, not softmax gating or differentiable mixture-of-experts.",
+   "jev": {
+    "novelty": 2.79,
+    "testable": 0.57,
+    "leverage": 3.49,
+    "decentral": 2.7,
+    "evidence": 0.76
+   },
+   "merit": 0.5069958333333334
+  },
+  {
+   "from": "gpt-oss-120b",
+   "name": "Local Edge Consistency Voting",
+   "levels": [
+    "cell",
+    "tissue"
+   ],
+   "mechanism": "Each projection is split into 2×2 character cells. For every cell Jev is asked a series of noul questions like \"Is the dominant edge direction north-east?\" for the eight compass directions. The returned probabilities are used to vote on the most likely direction and replace the glyph accordingly. After voting all cells, the revised projection is scored by the VLM. This replaces a monolithic VLM edge re‑render with millions of cheap local judgments.",
+   "jev_role": "multiple noul queries per cell (8 direction checks) – typed probability yes/no",
+   "hypothesis": "If consistency voting improves coherence, the VLM fidelity score will rise from the baseline 0.34 to >0.40 on at least 80 % of test frames.",
+   "cost": "≈40 000 Jev noul calls (100 frames × 50 cells × 8 directions) + 100 VLM evaluations; < $0.10 total.",
+   "beyond_classic_ml": "Learns via distributed, discrete judgments instead of gradient‑based weight updates.",
+   "jev": {
+    "novelty": 2.06,
+    "testable": 0.73,
+    "leverage": 2.44,
+    "decentral": 2.69,
+    "evidence": 0.63
+   },
+   "merit": 0.4778354166666666
+  },
+  {
+   "from": "deepseek",
+   "name": "Motion-Arrow Recall Repair by Jev Triage",
+   "levels": [
+    "tissue",
+    "organ",
+    "organism"
+   ],
+   "mechanism": "Motion recall is the weak spot (0.27). Run the motion projector as-is to produce an 'organism' output. Then a 'tissue' layer of overlapping 4x4 blocks asks Jev three typed questions per block: noul('was motion present here in the source?'), choice('motion direction: N/NE/E/.../NW/none'), score('confidence 0-4'). Blocks whose noul >= 0.6 but whose current text lacks an arrow get an arrow inserted with the Jev-chosen direction; blocks with arrows but noul <= 0.3 get them removed. A final 'organ' Jev call on the whole grid asks noul('are motion arrows globally consistent?') and vetoes if < 0.4.",
+   "jev_role": "Per-block noul('motion_present'), choice(8 directions + none), score(confidence). Organ-level noul('globally_consistent').",
+   "hypothesis": "Jev triage raises motion recall from 0.27 to >= 0.40 on held-out feeds while keeping overall fidelity >= 0.33 (i.e., no edge regression), and the recall gain is concentrated in blocks whose Jev confidence was in [0.6, 0.9], confirming triage is targeted, not noisy.",
+   "cost": "~256 blocks x 3 questions x 2 passes = ~1500 Jev questions, batched to ~15 requests.",
+   "beyond_classic_ml": "Repair is driven by typed per-block confidence verdicts and an organ-level consistency veto — no differentiable loss connects blocks to the final text.",
+   "jev": {
+    "novelty": 2.46,
+    "testable": 0.71,
+    "leverage": 2.25,
+    "decentral": 1.86,
+    "evidence": 0.96
+   },
+   "merit": 0.42841874999999996
+  },
+  {
+   "from": "zai",
+   "name": "Multi-Jury Projection Review",
+   "levels": [
+    "community"
+   ],
+   "mechanism": "Generate multiple candidate projections for a single video clip using different random seeds. Instead of a single VLM critic, use three Jev instances to score each candidate on three distinct typed rubrics (e.g., 'object_fidelity', 'spatial_coherence', 'motion_correctness'). The winning projection is the one with the highest *total score* across the Jev juries. This is a community of critics agreeing on the best local perspective.",
+   "jev_role": "Jev will be used as a jury of three experts. For each projection, three Jev requests will be made: one asking `score(projection_text, rubric='object_fidelity')`, one `score(..., rubric='spatial_coherence')`, and one `score(..., rubric='motion_correctness')`. The scores are summed to create a total fidelity score for that projection.",
+   "hypothesis": "The total fidelity of the projection selected by the multi-Jev jury will be higher than the fidelity of the projection selected by a single VLM critic. This would be confirmed if the jury-selected projection's fidelity is > 0.45, refuted if it is < 0.35.",
+   "cost": "For 10 video clips, 3 (projections) * 3 (Jev questions) * 10 (clips) = 90 Jev calls. The final evaluation of the best projection with the VLM is 10 calls. Total ~100 calls, dominated by Jev.",
+   "beyond_classic_ml": "This replaces a single, expensive global evaluation (VLM) with a consensus of many cheap, typed, local evaluations, distributing the judgment across a community of agents.",
+   "jev": {
+    "novelty": 1.66,
+    "testable": 0.65,
+    "leverage": 2.51,
+    "decentral": 1.85,
+    "evidence": 0.49
+   },
+   "merit": 0.36997916666666664
+  },
+  {
+   "from": "Kimi-K2.6",
+   "name": "Family Lineage of Projector Kernels",
+   "levels": [
+    "organism",
+    "family"
+   ],
+   "mechanism": "Each projector config is an 'organism' with byte-exact C kernel (deterministic reproduction). Organisms reproduce with Jev-guided mutation: Jev scores whether a single-kernel-parameter change 'improves' a held-out frame's reconstruction without running full VLM. Families are lineages sharing >90% bytecode. A 'family council'—Jev choice among ancestor, parent, child configs—decides which kernel seeds next generation.",
+   "jev_role": "noul: 'does this mutation preserve edge-continuity better than parent?', score: 'expected scene-reconstruction quality if this kernel were evaluated by VLM 1-5', choice: 'which of these 3 related kernels deserves to reproduce based on lineage performance'",
+   "hypothesis": "Family-council selection reaches fidelity 0.45 in 50 generations; random mutation with global VLM scoring reaches 0.38 in same compute. Confirmed if family-method exceeds 0.42 and finds the improvement 2 generations faster.",
+   "cost": "2000 Jev calls for lineage tracking + 100 VLM evaluations for ground-truth verification only",
+   "beyond_classic_ml": "Evolution operates on typed aesthetic judgments of local patches, not fitness from end-to-end backprop; lineage memory substitutes for gradient memory.",
+   "jev": {
+    "novelty": 2.34,
+    "testable": 0.55,
+    "leverage": 2.97,
+    "decentral": 1.75,
+    "evidence": 0.54
+   },
+   "merit": 0.3897708333333334
+  },
+  {
+   "from": "zai",
+   "name": "Edge Glyph Emergence",
+   "levels": [
+    "tissue",
+    "organ"
+   ],
+   "mechanism": "Instead of hand-defining the set of edge glyphs, start with a minimal set and let a Jev 'organ' propose new glyphs. The process is: 1) A 'tissue' level projects the scene with the current glyph set. 2) The organ sends this text to Jev, asking `choice(representation_problem='poor_edge_detail', options=['keep', 'propose_new_glyph'])`. 3) If 'propose_new_glyph', Jev generates a description of a missing edge feature, which is converted to a new byte-exact glyph for the tissue to use in the next iteration.",
+   "jev_role": "Jev acts as a developmental organ. For each projected frame, it is asked to make a choice: `choice(representation_problem='poor_edge_detail', options=['keep', 'propose_new_glyph'])`. If it chooses to propose, it also answers `noul(question='is_this_a_useful_edge_feature?', context=new_glyph_description)` to validate its own creation.",
+   "hypothesis": "Iteratively allowing Jev to propose new glyphs will increase the fidelity score of the projection over a fixed number of iterations. This is confirmed if the fidelity after 5 proposal cycles exceeds 0.40, refuted if it remains below 0.32.",
+   "cost": "For 5 iterations on 10 clips: 5 * 10 = 50 Jev calls for the choice, plus up to 50 for the noul check if all proposals are accepted. Total ~100 Jev calls. The projector recompilation is free as it's deterministic C.",
+   "beyond_classic_ml": "This allows structure (the set of glyphs) to grow organically through guided development, where a cheap typed agent creates new features to solve local representation problems, rather than being fixed by a designer.",
+   "jev": {
+    "novelty": 2.46,
+    "testable": 0.62,
+    "leverage": 2.55,
+    "decentral": 1.33,
+    "evidence": 0.64
+   },
+   "merit": 0.3777583333333333
+  },
+  {
+   "from": "gpt-oss-120b",
+   "name": "Hierarchical Scoring and Targeted Deliberation",
+   "levels": [
+    "organ",
+    "organism"
+   ],
+   "mechanism": "The VLM first produces an object list for each frame (ground‑truth available). For every detected object Jev is asked a score question: \"On a 0‑5 rubric, how accurately does the projected text describe this object?\" Objects scoring ≤2 are sent to a full VLM reconstruction (expensive), while higher‑scoring objects are left untouched. The final composite fidelity is measured against the baseline where every object receives VLM treatment.",
+   "jev_role": "score per object – typed expected value on a 0‑5 accuracy rubric",
+   "hypothesis": "The hybrid pipeline will achieve overall fidelity ≥0.88 (vs 0.92 full VLM) while reducing VLM calls by at least 70 %.",
+   "cost": "≈10 000 Jev score calls (100 frames × 10 objects) + ~30 VLM calls (30 % of baseline); ≈ $0.15 total.",
+   "beyond_classic_ml": "Implements a selective, hierarchical deliberation schedule rather than uniform back‑propagation.",
+   "jev": {
+    "novelty": 1.63,
+    "testable": 0.66,
+    "leverage": 2.58,
+    "decentral": 0.99,
+    "evidence": 0.28
+   },
+   "merit": 0.32283333333333336
+  },
+  {
+   "from": "zai",
+   "name": "Quantum-Guided Projection Search",
+   "levels": [
+    "cell"
+   ],
+   "mechanism": "The search over projector parameters (e.g., brightness thresholds, glyph placements) is a high-dimensional space. Use MothQuantum to generate a small set of random parameter seeds. Each seed represents a 'cell' with a unique first-person view of how to project. Have each 'cell' project a single held-out clip and use Jev to ask `score(projection_text, rubric='holistic_fidelity')`. The 'cell' with the highest score 'survives' and its parameters become the new baseline for the next generation of quantum-random mutations.",
+   "jev_role": "Each 'cell' (a parameter set) creates a projection and sends it to Jev. The Jev acts as the cell's internal sense of quality, answering `score(projection_text, rubric='holistic_fidelity')` to evaluate its own 'viewpoint'. The score determines if the cell's perspective is valid.",
+   "hypothesis": "A genetic search guided by Jev's evaluation of quantum-randomly generated projector parameters will find a configuration with higher fidelity than brute-force search over a larger, non-random set. This is confirmed if the best fidelity found in 50 generations is > 0.50, refuted if it is < 0.38.",
+   "cost": "For 50 generations, 10 (cells/gen) * 1 (score/cell) = 500 Jev calls. Quantum random bytes are free in simulator. The final evaluation is 1 call. Total ~500 calls, dominated by Jev.",
+   "beyond_classic_ml": "This mimics cellular evolution, where cheap, randomized local viewpoints (cells) are selected for their viability based on a simple typed judgment, allowing structure (projector config) to grow through mutation and selection without a loss function gradient.",
+   "jev": {
+    "novelty": 1.61,
+    "testable": 0.65,
+    "leverage": 2.35,
+    "decentral": 1.45,
+    "evidence": 0.23
+   },
+   "merit": 0.3324895833333334
+  },
+  {
+   "from": "gpt-oss-120b",
+   "name": "Motion Arrow Conflict Resolution",
+   "levels": [
+    "tissue",
+    "organ"
+   ],
+   "mechanism": "For each motion‑arrow glyph the system extracts its direction and the adjacent edge glyphs from the previous frame. Jev receives a single choice question: \"Pick the most plausible motion label among {stay, north, east, south, west, unknown}.\" The choice probabilities are used to suppress arrows with <0.6 confidence and to rewrite them with the top‑voted direction. The corrected projection is then evaluated by the VLM.",
+   "jev_role": "choice per arrow – typed selection among named motion labels with probabilities",
+   "hypothesis": "After conflict resolution motion recall will increase from 0.27 to ≥0.35 while overall fidelity remains ≥0.32.",
+   "cost": "≈20 000 Jev choice calls (100 frames × ~200 arrows) + 100 VLM checks; <$0.08 total.",
+   "beyond_classic_ml": "Uses cheap symbolic arbitration to fix temporal inconsistencies rather than end‑to‑end training.",
+   "jev": {
+    "novelty": 2.05,
+    "testable": 0.7,
+    "leverage": 2,
+    "decentral": 2.07,
+    "evidence": 0.88
+   },
+   "merit": 0.3952499999999999
+  },
+  {
+   "from": "gpt-oss-120b",
+   "name": "Community Config Evolution via Quantum Seeding",
+   "levels": [
+    "family",
+    "community"
+   ],
+   "mechanism": "Fifty random projector configurations are generated. Each config yields a projection which is handed to Jev with a noul question: \"Is the projected fidelity (estimated by a cheap edge‑density heuristic) above 0.30?\" Configs receiving a yes are kept; quantum‑generated random bytes decide which kept configs are parents for the next generation, and their parameters are recombined (crossover) to form a new population. After five generations the best config is finally evaluated by the VLM. No VLM is used during evolution.",
+   "jev_role": "noul per config – typed binary predicate on surrogate fidelity",
+   "hypothesis": "After five generations the top evolved config will reach VLM fidelity ≥0.38, surpassing the hand‑tuned baseline of 0.34, without any intermediate VLM calls.",
+   "cost": "≈250 Jev noul calls (50 configs × 5 generations) + negligible MothQuantum bytes + 1 final VLM evaluation; <$0.02 total.",
+   "beyond_classic_ml": "Performs an evolutionary search driven by discrete typed judgments, not gradient descent.",
+   "jev": {
+    "novelty": 1.63,
+    "testable": 0.71,
+    "leverage": 2.23,
+    "decentral": 1.03,
+    "evidence": 0.81
+   },
+   "merit": 0.31886875
+  }
+ ]
+}
