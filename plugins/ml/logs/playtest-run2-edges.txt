@@ -1,3 +1,6 @@
 === search: 2 generations x 4 cells x 2 ===
 g0 seed      #0 U=0.255 vlm=0.322 [0.203 0.34 0.525 0.221] jepa=0.000 mot=0.333 inv=0.929 chars=1216 ms=3.2 mirror {"cols":64,"ramp":"standard","gamma":1,"invert":false,"frames":1}
 g0 seed      #1 U=0.207 vlm=0.282 [0.22 0.153 0.526 0.23] jepa=0.000 mot=0 inv=0.631 chars=1216 ms=7.4 syzygy {"cols":64,"field":"glyph","braille_thresh":100,"edge_thresh2":4000,"orient":"gradient","frames":1}
+g0 seed      #2 U=0.224 vlm=0.248 [0.239 0.095 0.38 0.28] jepa=0.195 mot=0.333 inv=0.905 chars=1216 ms=6.4 motion {"cols":64,"history":12,"window":4,"thresh":24,"min_blob":2,"min_speed":0.3,"bg":"tone","braille_thresh":100,"ramp":"standard","mark":"edge","arrows":"ascii","trail":3,"legend":false}
+g0 seed      #3 U=0.524 vlm=0.549 [0.745 0.401 0.708 0.342] jepa=0.195 mot=1 inv=0.631 chars=1216 ms=6.6 motion {"cols":64,"history":12,"window":4,"thresh":24,"min_blob":2,"min_speed":0.3,"bg":"edges","braille_thresh":100,"ramp":"standard","mark":"edge","arrows":"ascii","trail":3,"legend":false}
+g0 seed      #4 U=0.488 vlm=0.551 [0.733 0.317 0.755 0.398] jepa=0.000 mot=0 inv=0.631 chars=1216 ms=1.1 syzygy {"cols":64,"field":"glyph","braille_thresh":100,"edge_thresh2":4000,"orient":"tangent","frames":1}

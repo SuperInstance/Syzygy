@@ -279,6 +279,7 @@ The README is the general introduction. Each deep-dive below is written for two 
 | **[How the claims are checked](docs/verifying.md)** | the mutation gauge, the drift differ and why tests need testing |
 | **[Diffuse by marks](docs/diffuse-by-marks.md)** | the method: building from a contradictory seed with no shared memory |
 | **[Architecture & scars](docs/marks/ARCHITECTURE.md)** | the seed resolved into one design; SCARF-1 to SCARF-7 |
+| **[Learning to project a feed](docs/ml-projection-landscape.md)** | the ML plugin layer beside the kernel: a vision model scores how much of a scene survives the text, and a search improves the projector |
 | **[Live demo](https://syzygy-1j5.pages.dev/)** · [source](docs/index.html) · [minimal POC](docs/poc/) | to watch it run and check it on your own device |
 
 ---
@@ -305,6 +306,7 @@ Syzygy/
 │   ├── *.md                  the deep-dives linked above
 │   ├── marks/                MARKS.md, ARCHITECTURE.md, ledger.csv, one mark per shard
 │   └── seed/blob.md          the seed of record (never edited)
+├── plugins/ml/               ML projection plugins beside the kernel (Node; network; not freestanding)
 ├── src/  bench/              DRAWN: native orchestrator, timing harness (MARK.md in each)
 └── .github/workflows/ci.yml  the green gate
 ```

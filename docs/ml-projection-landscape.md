@@ -111,6 +111,25 @@ With `orient: 'tangent'` [built] the plugin swaps only `─`↔`│`. The kernel
 ==========================~~~~~~~.>~~~: >=======
 ================================================
 ```
+With `bg: 'edges'` [built], the same arrows and trail sit on the kernel's edge glyphs relabelled to lie along their edges. This is the best config on unseen feeds (§4.6):
+```
+│+++++++++++++++++++++++++++++++++++++++++++++++
+│+++++++++++++++++++++++++++++++++++++╱╱###╲╲+++
+│+++++++++++++++++++++++++++++++++++++│#####│+++
+│++++++++╱╱─╲╲+++++++++++++++++++++++++╲╲#╱╱++++
+│******╱╱:::::╲╲╲*******************────********
+│***╱╱:::::::::::╲╲***************╱:::::╲╲******
+│****│========──╲│***************│:::::::││*****
+│****│====───=│─││***************╲╲::::::│╱*****
+│****│====│.│====│*****************╲╲:╱╱╱*******
+│─────────╲─╱───────────────────────╱││─────────
+│===========================~~~~~~╱─>╲╱=========
+│=========================~~~~~~│:╲──::─>│======
+│=========================~~~~~~~│>~~~│ >╱======
+│===============================================
+```
+House walls and roof, the sun's ring, the tree's crown, the horizon, and a car whose leading edge is `>` with a `~` wake.
+
 Its tracker reads the car at **+2.77 cells/frame → right**. On all four feeds the tracker's direction matches the truth (selftest). On a feed where nothing moves, its output equals the mirror's byte for byte, so motion costs nothing when nothing moves.
 
 ### 4.3 The ceiling: the critic reading the real frames
@@ -141,6 +160,11 @@ Same four feeds, 1216 characters each (64 columns), critic Qwen3-VL-30B. **Text 
 | syzygy (braille) | — | **0.500** | 0.501 | 0.00 | 0.000 | 0.761 | 1216 |
 | motion (tone bg) | 0.224 | 0.248 | 0.233 | 0.33 | **0.195** | 0.905 | 1216 |
 | motion (fused bg) | — | 0.287 | 0.331 | 0.00 | 0.195 | 0.631 | 1216 |
+| syzygy (glyph, `orient: tangent`) | — | **0.551** | 0.573 | 0.00 | 0.000 | 0.631 | 1216 |
+| motion (braille bg) | — | **0.667** | 0.741 | 0.67 | 0.195 | 0.748 | 1216 |
+| **motion (`bg: edges` = tangent glyphs)** | — | **0.549** | 0.601 | **1.00** | 0.195 | 0.631 | 1216 |
+
+The last three rows were added *after* the search in §4.6 and are the product of this loop. The held-out check in §4.6 tells which of them are real.
 
 (Text-mode motion recall: mirror 0.00, motion **0.50**. The same five text-mode candidates with the larger Qwen3-VL-235B critic: mirror 0.110, mirror×2 0.085, syzygy 0.179, motion 0.146, motion+legend **0.304**.)
 
@@ -150,6 +174,7 @@ What the numbers say, and how far to trust them:
 - **How the critic reads changes the ranking.** Shown text tokens, the edge-glyph projection wins (0.306) and the honest mirror almost vanishes (0.068). Shown a *picture* of the same text, the mirror jumps to 0.322 and braille reaches 0.500. A projector is only "good" relative to a reader, so the critic mode belongs in the config, not in the fine print.
 - **The free tonal score points the wrong way.** `inverse` ranks the mirror first and the edge glyphs last, the reverse of the critic. A search that used tone as its objective would optimize away the edges that make the scene legible. The free scorer is still useful as a sanity floor (a shuffled mirror scores < 0.11), not as an objective.
 - **Motion shows up in the right places.** The motion projector is the only one with a nonzero JEPA score (0.195–0.27: the text predicts *where the next frame will change*) and the best text-mode motion recall (0.50). The critic still misses motion more often than it catches it.
+- **Relabelling two glyphs is worth +0.27.** The kernel's `─`/`│` name the gradient axis. Swapping them so every glyph lies *along* its edge takes the edge projection from 0.282 to 0.551 on these feeds, and from 0.245 to 0.494 on unseen ones (§4.6). The kernel's bytes are unchanged; only the reading changed.
 - **Noise is large.** n = 4 scenes, one sample each. The same projector moves by ±0.15 between critic modes and models, and a one-line legend flipped a 235B score from 0.146 to 0.304. Treat single differences below ~0.1 as unresolved.
 
 ### 4.5 The JEPA-lite probe
@@ -164,9 +189,63 @@ What the numbers say, and how far to trust them:
 
 "Predict the next frame" is useless as a signal: every scene is mostly static, so any tone-preserving text scores about 0.98. The signed change can't be learned linearly, because a dark car on grass and a bright ball on a floor move the same way with deltas of opposite sign. *Where* the next change will happen is both learnable and discriminating. It is the one signal here that rewards understanding over time, and it costs no API call.
 
-### 4.6 The evolving search
+### 4.6 The evolving search, and the held-out check that tempers it
 
-SEARCH_SECTION
+[built, thin] `search.mjs` runs generation 0 (every projector at its defaults), then each generation:
+
+1. **Advisor cells propose.** `llm:deepseek`, `llm:kimi` and `llm:zai` each receive the typed schema, the utility formula and the scored history (numbers, plus what the critic *missed* and *invented* per scene), and return JSON proposals with a one-line rationale. `quantum` mutates one of the top-4 parents with 32 bytes from MothQuantum's QRNG. `local` performs the identical mutation driven by xorshift32, as the control arm.
+2. **The gate filters** (§4.7).
+3. **The cascade scores** the survivors: free `inverse`, cheap `jepa`, then the paid critic on all four feeds.
+4. **Winners are promoted** by U = vlm + 0.25·jepa − 0.05·chars/1000 − 0.002·ms. The Pareto front over (vlm, chars, ms) is saved alongside, so anyone can re-rank with other weights. The ms term is measured wall time, so U wobbles by about 0.005 between runs of the same config.
+
+**Run 1** (`node plugins/ml/playtest.mjs --stage all --gens 3 --per-cell 2`; image-mode critic; log in `plugins/ml/logs/playtest-image-run1.txt`):
+
+```
+g1 llm:deepseek #4  U=0.501 vlm=0.647 chars=2784 syzygy {"cols":96,"field":"braille",...}   | Braille field at higher cols may capture ...
+g1 llm:kimi     ERROR 429 ... suspended due to insufficient balance ...
+g1 llm:zai      #6  U=0.508 vlm=0.607 chars=1920 syzygy {"cols":80,"field":"braille","braille_thresh":150,"edge_thresh2":8000}
+g1 quantum      #8  U=0.223 vlm=0.248 chars=1216 motion {... "min_speed":0.05 ...}           | mutate qrng:emu:18ded388-...
+g3 quantum      #22 U=0.536 vlm=0.612 chars=1449 syzygy {"cols":69,"field":"braille",...}     | mutate qrng:emu:b96ecd98-...
+g3 local        #25 U=0.564 vlm=0.672 chars=2100 syzygy {"cols":84,"field":"braille","braille_thresh":149}  | mutate xorshift32
+  seeds best U 0.260 -> searched best U 0.564
+  cell llm:deepseek  n=6 best U 0.501 mean U 0.358
+  cell llm:zai       n=6 best U 0.508 mean U 0.279
+  cell quantum       n=5 best U 0.536 mean U 0.233
+  cell local         n=6 best U 0.564 mean U 0.268
+api calls this run: 119 (cache hits 50) {"deepinfra":88,"deepseek":3,"zai":3,"quantum":3,"typesafe":22}
+```
+
+What happened: the **LLM advisors made the jump**. In generation 1, DeepSeek and ZAI independently switched to the kernel's braille field at more columns, the best idea in the run, and it came from reading the schema, not from the seeds. The **mutation cells made the refinements**: the local cell's 84-column, threshold-149 step on ZAI's config became the final winner, and the quantum cell found the cheapest good point (69 columns, 1449 chars, vlm 0.612). DeepSeek had the best mean proposal (U 0.358). Kimi's account was out of balance for the whole run (three 429s, logged as advisor errors). Every LLM proposal that arrived passed the schema gate. The quantum and local cells are statistically indistinguishable at n = 5–6; nothing here says quantum bytes explore better, and nothing should.
+
+**The held-out check.** A best-of-26 pick on four noisy feeds is biased upward. So `--stage holdout` re-scores the top configs, plus the variants this loop produced afterwards, on **six unseen random feeds** (seeds 100, 118, 122, 125, 127, 136). These are deliberately stranger: cars in the sky, people in front of towers. The critic's ceiling on them is 0.840.
+
+```
+$ node plugins/ml/playtest.mjs --stage holdout
+  mirror defaults                                            vlm 0.405  truth 0.354  motion 0.00  chars 1216
+  syzygy defaults                                            vlm 0.245  truth 0.334  motion 0.20  chars 1216
+  motion defaults                                            vlm 0.220  truth 0.212  motion 0.20  chars 1216
+  syzygy braille defaults                                    vlm 0.382  truth 0.408  motion 0.00  chars 1216
+  search #25 (local), search-set vlm 0.672                   vlm 0.462  truth 0.478  motion 0.00  chars 2100
+  search #22 (quantum), search-set vlm 0.612                 vlm 0.384  truth 0.408  motion 0.00  chars 1449
+  search #6 (llm:zai), search-set vlm 0.607                  vlm 0.392  truth 0.433  motion 0.00  chars 1920
+  syzygy glyph, orient tangent                               vlm 0.494  truth 0.450  motion 0.00  chars 1216
+  motion on tangent-edge bg (bg: edges)                      vlm 0.512  truth 0.475  motion 0.30  chars 1216
+  motion on braille bg (defaults: 64 cols, thresh 100)       vlm 0.370  truth 0.378  motion 0.00  chars 1216
+  motion on braille bg (winner cols/thresh)                  vlm 0.369  truth 0.380  motion 0.20  chars 2100
+  ceiling on these feeds (critic reads real frames vs truth): 0.840
+```
+
+| config | search set (4 feeds) | held out (6 feeds) | holds? |
+|---|---|---|---|
+| mirror (lake-test baseline) | 0.322 | 0.405 | — |
+| search winner #25, braille 84 cols | 0.672 | 0.462 | partly: −0.21, still above mirror |
+| motion on braille | 0.667 | 0.370 | **no** |
+| syzygy, tangent relabel | 0.551 | 0.494 | **yes**, +0.25 over gradient on both |
+| **motion on tangent edges** | 0.549, motion recall 1.00 | **0.512**, motion recall 0.30 | **yes**: best held-out, only config that reads motion on both |
+
+This is the loop working as intended, and it is also why a held-out set must be part of the loop rather than an afterthought. The search overfit its four feeds by about 0.2. The one discovery that survived came from looking at the output (the horizon drawn as `│││`) rather than from the search. Combined with the motion projector, that discovery gives the best config on unseen feeds.
+
+RUN2_SECTION
 
 ### 4.7 The typed gate
 
@@ -228,7 +307,7 @@ $ node plugins/ml/selftest.mjs          # offline: SYZ_ML_OFFLINE=1 is set insid
   ok  : mutation cell: 1000 random mutations, 0 malformed configs
   ok  : SYZ_ML_OFFLINE=1 refuses an uncached paid call
   ...
-plugins/ml selftest: SELFTEST_TOTAL
+plugins/ml selftest: 43 checks, 0 failures
 ```
 
 | file | role |
@@ -254,7 +333,9 @@ plugins/ml selftest: SELFTEST_TOTAL
 - **The tonal proxy is anti-aligned** with semantic fidelity (§4.4). Don't use it as an objective.
 - **Braille costs 3 bytes.** `char_budget` counts code points. A braille or box-drawing character is 3 UTF-8 bytes against 1 for ASCII, so on a serial line braille's 0.500 costs 3× the bytes of mirror's 0.322.
 - **"Quantum" here is a simulator.** The quantum cell draws from MothQuantum's `comet-qrng-v1` in `emu` mode, an Aer simulator that the API itself labels *uncertified*. It exercises the plumbing for un-gameable exploration; it is not a quantum-randomness claim. `mode: 'qpu'` is one argument away and was not spent.
-- **Advisors can ask for impossible things.** LLM proposals that fail the gate are logged with reasons and never scored (§4.6).
+- **The search overfits its feeds.** Its winner lost 0.21 on unseen feeds, and the braille-plus-arrows variant lost 0.30 (§4.6). A search result is a hypothesis until a held-out stage has scored it.
+- **Advisors can fail or ask for impossible things.** Proposals that fail the gate are logged with reasons and never scored. None of the LLM proposals in these runs did, but the Kimi cell returned 429 *insufficient balance* on every call, and an advisor error just removes that cell's proposals for the generation.
+- **Schema growth breaks old configs.** Adding `orient` to the syzygy projector made the search's stored winners invalid (`missing orient`), and the gate correctly refused them. Old configs are now merged onto current defaults before replay. A new parameter must default to the old behaviour, which is why `orient` defaults to the kernel's `gradient`.
 
 ## 7. How it composes
 
@@ -271,11 +352,11 @@ plugins/ml selftest: SELFTEST_TOTAL
 | frame-diff / tracked-blob motion glyphs | **[built]** `projectors/motion.mjs` | median background, blob tracking, arrows, trails, legend; add real optical flow (block matching per cell) for non-rigid motion |
 | VLM reconstruction as GAN-check | **[built, thin]** `scorers/vlm.mjs` | text + image critic modes, two references; next: 3 samples per cell with intervals, more feeds, a real camera clip |
 | VLM wireframe / 3-D sketch as auxiliary target | **[built, 2-D only]** | boxes are the 2-D wireframe; a depth-ordered layer list or a VLM-drawn SVG is **[proposed]** |
-| LLM advisor proposing params | **[built]** `search.mjs` (DeepSeek, Kimi, ZAI) | see §4.6 for how each cell did |
+| LLM advisor proposing params | **[built]** `search.mjs` (DeepSeek, Kimi, ZAI) | the advisors found the braille jump; mutation cells refined it (§4.6). Next: give the advisor the held-out score too, so it is rewarded for what generalizes |
 | typed system-one gate (TypeSafe Jev) | **[built]**, measured 7/8 | advisory; next: ask it semantic questions the schema can't |
 | JEPA-style next-frame predictor | **[built, thin]** linear probe, 16×8 \|Δ\| target | next: frozen image encoder target (CLIP via DeepInfra `clip-ViT-B-32`), a small MLP |
 | quantum draws for exploration | **[built, emu]** `apis.quantumBytes` | a `qpu` run; compare with the xorshift control over many seeds |
-| evolving advisor cells, backtest, promote | **[built, thin]** | 3 generations here; next: cell credit assignment (give more proposals to cells that win) |
+| evolving advisor cells, backtest, promote | **[built, thin]** | 3 + 2 generations here; next: make the held-out stage part of promotion, and assign credit (more proposals to cells whose winners hold out) |
 | chiaroscuro shape-match election (4×6 Hamming) | **[proposed]** | a projector plugin; the contract needs nothing new |
 | half-block colour projection | **[proposed]** | colour is out of the ASCII brief; `▀` with ANSI colour doubles vertical resolution |
 | critic-side learning (a reader tuned to the projector) | **[proposed]** | a projector/reader pair is a code; the gap to 0.92 says the reader matters as much as the writer |
