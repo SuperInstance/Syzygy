@@ -1,0 +1,62 @@
+=== run3: quantum split (emu; jobs 90a352fa, 1bdacfec) ===
+  held-out seeds 9584,18840,41042,48343,14857,47774   test seeds 11204,7816,26699,55740,53424,8362
+g0 seed      #0 U=0.178 vlm=0.243 [0.172 0.263 0.405 0.133] jepa=0.000 mot=0.125 inv=0.929 chars=1216 ms=2.3 mirror {"cols":64,"ramp":"standard","gamma":1,"invert":false,"frames":1}
+g0 seed      #1 U=0.146 vlm=0.220 [0.159 0.226 0.356 0.138] jepa=0.000 mot=0.125 inv=0.631 chars=1216 ms=6.3 syzygy {"cols":64,"field":"glyph","braille_thresh":100,"edge_thresh2":4000,"orient":"gradient","frames":1}
+g0 seed      #2 U=0.205 vlm=0.229 [0.235 0.127 0.365 0.189] jepa=0.195 mot=0.417 inv=0.905 chars=1216 ms=6.0 motion {"cols":64,"history":12,"window":4,"thresh":24,"min_blob":2,"min_speed":0.3,"bg":"tone","braille_thresh":100,"ramp":"standard","mark":"edge","arrows":"ascii","trail":3,"legend":false}
+g0 seed      #3 U=0.346 vlm=0.370 [0.463 0.28 0.553 0.186] jepa=0.195 mot=0.375 inv=0.631 chars=1216 ms=6.1 motion {"cols":64,"history":12,"window":4,"thresh":24,"min_blob":2,"min_speed":0.3,"bg":"edges","braille_thresh":100,"ramp":"standard","mark":"edge","arrows":"ascii","trail":3,"legend":false}
+g0 seed      #4 U=0.307 vlm=0.370 [0.449 0.292 0.502 0.237] jepa=0.000 mot=0.125 inv=0.631 chars=1216 ms=1.3 syzygy {"cols":64,"field":"glyph","braille_thresh":100,"edge_thresh2":4000,"orient":"tangent","frames":1}
+   hold #0 0.177 [0.191 0.125 0.173 0.208 0.142 0.22] (search-set vlm 0.243)
+   hold #1 0.228 [0.199 0.208 0.187 0.246 0.267 0.26] (search-set vlm 0.220)
+   hold #2 0.159 [0.154 0.093 0.173 0.208 0.126 0.201] (search-set vlm 0.229)
+   hold #3 0.364 [0.375 0.349 0.406 0.451 0.268 0.335] (search-set vlm 0.370)
+   hold #4 0.370 [0.288 0.357 0.406 0.451 0.275 0.443] (search-set vlm 0.370)
+g1 llm:di:kimi  #5 U=0.400 vlm=0.426 [0.419 0.382 0.62 0.284] jepa=0.198 mot=0.083 inv=0.630 chars=1216 ms=7.3 motion {"cols":64,"history":12,"window":4,"thresh":24,"min_blob":2,"min_speed":0.3,"bg":"edges","braille_thresh":100,"ramp":"short","mark":"head","arrows":"unicode","trail":2,"legend":false}  jev=0.83 | Best U config uses bg:edges already; switching to shorter ramp reduces chars, unicode arrows may improve vlm parsing of directions, head-only marks reduce noise, shorter trail focuses on current motion to boost jepa prediction of next change without overfitting to history.
+g1 llm:di:qwen  #6 U=0.337 vlm=0.410 [0.429 0.34 0.516 0.357] jepa=0.158 mot=0.167 inv=0.896 chars=1973 ms=6.9 motion {"cols":80,"history":10,"window":3,"thresh":16,"min_blob":3,"min_speed":0.5,"bg":"braille","braille_thresh":120,"ramp":"short","mark":"head","arrows":"unicode","trail":5,"legend":true}  jev=0.87 | Increase detail and temporal sensitivity while improving background fidelity to boost both vlm and jepa without overfitting
+g1 llm:di:gptoss #7 U=0.346 vlm=0.336 [0.435 0.276 0.426 0.208] jepa=0.212 mot=0.333 inv=0.619 chars=672 ms=5.0 motion {"cols":48,"history":14,"window":5,"thresh":20,"min_blob":1,"min_speed":0.2,"bg":"edges","braille_thresh":100,"ramp":"short","mark":"edge","arrows":"unicode","trail":2,"legend":false}  jev=0.86 | smaller width cuts character penalty; higher history/window and lower thresholds capture more motion detail, boosting vlm and jepa while modest compute increase keeps ms low
+g1 llm:di:minimax #8 U=0.341 vlm=0.410 [0.491 0.267 0.446 0.438] jepa=0.170 mot=0.208 inv=0.671 chars=1920 ms=7.7 motion {"cols":80,"history":12,"window":4,"thresh":24,"min_blob":2,"min_speed":0.3,"bg":"edges","braille_thresh":100,"ramp":"standard","mark":"edge","arrows":"ascii","trail":3,"legend":false}  jev=0.84 | slightly wider cols to recover missed scene context (sun/tree/house) while keeping the best bg=edges setting that gave top motion_recall
+g1 llm:deepseek #9 U=0.385 vlm=0.409 [0.397 0.337 0.621 0.281] jepa=0.195 mot=0.083 inv=0.630 chars=1216 ms=5.7 motion {"cols":64,"history":12,"window":4,"thresh":24,"min_blob":2,"min_speed":0.3,"bg":"edges","braille_thresh":100,"ramp":"standard","mark":"head","arrows":"unicode","trail":3,"legend":false}  jev=0.85 | Best config but mark=head and unicode arrows should sharpen motion direction cues for higher vlm/jepa without adding chars.
+g1 quantum      #10 U=0.265 vlm=0.327 [0.307 0.415 0.38 0.208] jepa=0.000 mot=0.125 inv=0.710 chars=1216 ms=1.0 syzygy {"cols":64,"field":"glyph","braille_thresh":68,"edge_thresh2":62039,"orient":"tangent","frames":1}  jev=0.73 | mutate qrng:emu:0d834b85-938e-43b1-b5a4-be3e5d59cf5c
+g1 local        #11 U=0.346 vlm=0.370 [0.463 0.28 0.553 0.186] jepa=0.195 mot=0.375 inv=0.631 chars=1216 ms=5.9 motion {"cols":64,"history":14,"window":4,"thresh":24,"min_blob":2,"min_speed":0.3,"bg":"edges","braille_thresh":100,"ramp":"standard","mark":"edge","arrows":"ascii","trail":3,"legend":false}  jev=0.83 | mutate xorshift32
+   hold #5 0.353 [0.296 0.434 0.406 0.451 0.156 0.372] (search-set vlm 0.426)
+   hold #9 0.361 [0.385 0.355 0.406 0.451 0.204 0.368] (search-set vlm 0.409)
+   hold #11 0.364 [0.375 0.349 0.406 0.451 0.268 0.335] (search-set vlm 0.370)
+g1 best so far: #4 U=0.307 vlm=0.370 hold=0.370 syzygy {"cols":64,"field":"glyph","braille_thresh":100,"edge_thresh2":4000,"orient":"tangent","frames":1}
+g2 llm:di:kimi  #12 U=0.210 vlm=0.225 [0.11 0.249 0.349 0.192] jepa=0.182 mot=0.208 inv=0.625 chars=952 ms=6.1 motion {"cols":56,"history":10,"window":3,"thresh":32,"min_blob":3,"min_speed":0.4,"bg":"fused","braille_thresh":100,"ramp":"short","mark":"head","arrows":"unicode","trail":1,"legend":false}  jev=0.86 | Narrower cols (56) reduces chars/1000 penalty while preserving structure; fused bg may improve static object recall over edges; higher thresh/min_blob filters phantom blobs reducing invented objects; shorter trail+window focuses on immediate motion for jepa; head marks+unicode arrows improve motion direction clarity.
+g2 llm:di:qwen  #13 U=0.291 vlm=0.306 [0.405 0.201 0.503 0.116] jepa=0.180 mot=0 inv=0.625 chars=952 ms=6.3 motion {"cols":56,"history":13,"window":3,"thresh":20,"min_blob":1,"min_speed":0.25,"bg":"edges","braille_thresh":90,"ramp":"short","mark":"head","arrows":"unicode","trail":2,"legend":false}  jev=0.84 | Balances detail and motion clarity; edges background with slightly lower thresh and adaptive trail improves vlm/hold alignment and temporal prediction
+g2 llm:di:gptoss #14 U=0.253 vlm=0.264 [0.303 0.155 0.503 0.095] jepa=0.190 mot=0 inv=0.624 chars=952 ms=5.6 motion {"cols":56,"history":12,"window":4,"thresh":24,"min_blob":2,"min_speed":0.3,"bg":"edges","braille_thresh":100,"ramp":"short","mark":"head","arrows":"unicode","trail":2,"legend":false}  jev=0.84 | Keeps the high‑vlm, high‑jepa settings of the best motion run but cuts characters (~1064 → ~912) and compute time, raising the overall utility.
+g2 llm:di:minimax duplicate, skipped
+g2 llm:deepseek duplicate, skipped
+g2 quantum      duplicate, skipped
+g2 local        #15 U=0.361 vlm=0.423 [0.426 0.372 0.487 0.406] jepa=0.212 mot=0.125 inv=0.671 chars=1920 ms=9.2 motion {"cols":80,"history":12,"window":3,"thresh":24,"min_blob":2,"min_speed":0.3,"bg":"edges","braille_thresh":100,"ramp":"standard","mark":"head","arrows":"unicode","trail":3,"legend":false}  jev=0.85 | mutate xorshift32
+   hold #15 0.336 [0.427 0.283 0.359 0.357 0.27 0.32] (search-set vlm 0.423)
+   hold #13 0.322 [0.323 0.216 0.389 0.446 0.235 0.325] (search-set vlm 0.306)
+   hold #14 0.339 [0.359 0.219 0.389 0.446 0.229 0.395] (search-set vlm 0.264)
+g2 best so far: #4 U=0.307 vlm=0.370 hold=0.370 syzygy {"cols":64,"field":"glyph","braille_thresh":100,"edge_thresh2":4000,"orient":"tangent","frames":1}
+g3 llm:di:kimi  duplicate, skipped
+g3 llm:di:qwen  #16 U=0.367 vlm=0.417 [0.443 0.435 0.507 0.281] jepa=0.189 mot=0 inv=0.638 chars=1584 ms=8.7 motion {"cols":72,"history":13,"window":3,"thresh":20,"min_blob":2,"min_speed":0.25,"bg":"edges","braille_thresh":95,"ramp":"short","mark":"head","arrows":"unicode","trail":2,"legend":false}  jev=0.84 | Balances vlm and jepa by tightening motion detection and background fidelity while reducing chars via moderate cols and trail.
+g3 llm:di:gptoss #17 U=0.393 vlm=0.452 [0.455 0.527 0.467 0.357] jepa=0.212 mot=0.083 inv=0.674 chars=1920 ms=7.9 motion {"cols":80,"history":14,"window":3,"thresh":20,"min_blob":1,"min_speed":0.2,"bg":"edges","braille_thresh":100,"ramp":"standard","mark":"head","arrows":"unicode","trail":1,"legend":false}  jev=0.85 | More columns + longer history and lower thresholds should capture missed objects (sun, tree, car) and improve hold, while a shorter trail reduces character count.
+g3 llm:di:minimax duplicate, skipped
+g3 llm:deepseek #18 U=0.292 vlm=0.337 [0.346 0.248 0.472 0.281] jepa=0.198 mot=0 inv=0.638 chars=1584 ms=7.4 motion {"cols":72,"history":12,"window":4,"thresh":24,"min_blob":2,"min_speed":0.3,"bg":"edges","braille_thresh":100,"ramp":"short","mark":"head","arrows":"unicode","trail":2,"legend":false}  jev=0.84 | Best U config with cols raised to 72 to recover missed scene objects without the 80-col overfit penalty.
+g3 quantum      #19 U=0.372 vlm=0.394 [0.397 0.337 0.561 0.281] jepa=0.201 mot=0 inv=0.630 chars=1216 ms=5.7 motion {"cols":64,"history":12,"window":4,"thresh":24,"min_blob":2,"min_speed":0.441,"bg":"edges","braille_thresh":100,"ramp":"standard","mark":"head","arrows":"unicode","trail":3,"legend":false}  jev=0.83 | mutate qrng:emu:e1a18f9a-1cb1-42c0-8c65-9d8907224ed6
+g3 local        #20 U=0.350 vlm=0.378 [0.463 0.28 0.584 0.186] jepa=0.179 mot=0.292 inv=0.631 chars=1216 ms=6.1 motion {"cols":64,"history":12,"window":4,"thresh":24,"min_blob":5,"min_speed":0.3,"bg":"edges","braille_thresh":100,"ramp":"standard","mark":"edge","arrows":"ascii","trail":3,"legend":false}  jev=0.83 | mutate xorshift32
+   hold #17 0.325 [0.325 0.317 0.36 0.357 0.252 0.337] (search-set vlm 0.452)
+   hold #19 0.363 [0.397 0.355 0.406 0.451 0.204 0.368] (search-set vlm 0.394)
+   hold #16 0.395 [0.503 0.416 0.406 0.427 0.324 0.292] (search-set vlm 0.417)
+g3 best so far: #16 U=0.367 vlm=0.417 hold=0.395 motion {"cols":72,"history":13,"window":3,"thresh":20,"min_blob":2,"min_speed":0.25,"bg":"edges","braille_thresh":95,"ramp":"short","mark":"head","arrows":"unicode","trail":2,"legend":false}
+=== run3 final: 6 configs on 6 untouched TEST feeds, 3-critic ensemble ===
+  mirror defaults                              test 0.176  truth 0.200  motion 0.10  chars 1216  critics 0.197/0.142/0.188
+  syzygy defaults (gradient)                   test 0.217  truth 0.244  motion 0.13  chars 1216  critics 0.26/0.197/0.194
+  syzygy tangent                               test 0.336  truth 0.359  motion 0.10  chars 1216  critics 0.4/0.237/0.371
+  motion bg=edges (runs 1-2 best)              test 0.332  truth 0.347  motion 0.27  chars 1216  critics 0.387/0.235/0.374
+  run3 winner by HOLD #16 (llm:di:qwen)        test 0.340  truth 0.343  motion 0.10  chars 1584  (hold 0.395)  critics 0.453/0.218/0.351
+  run3 winner by U #5 (llm:di:kimi)            test 0.300  truth 0.313  motion 0.07  chars 1216  (hold 0.353)  critics 0.375/0.22/0.304
+  cell seed             n=5 best vlm 0.370  held-out evaluated 5, best hold 0.370
+  cell llm:di:kimi      n=2 best vlm 0.426  held-out evaluated 1, best hold 0.353
+  cell llm:di:qwen      n=3 best vlm 0.417  held-out evaluated 2, best hold 0.395
+  cell llm:di:gptoss    n=3 best vlm 0.452  held-out evaluated 2, best hold 0.339
+  cell llm:di:minimax   n=1 best vlm 0.410  held-out evaluated 0
+  cell llm:deepseek     n=2 best vlm 0.409  held-out evaluated 1, best hold 0.361
+  cell quantum          n=2 best vlm 0.394  held-out evaluated 1, best hold 0.363
+  cell local            n=3 best vlm 0.423  held-out evaluated 2, best hold 0.364
+api calls this run: 556 (cache hits 145) {"quantum":5,"deepinfra":532,"deepseek":3,"typesafe":16}
+report: plugins/ml/logs/playtest-run3.json

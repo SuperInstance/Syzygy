@@ -1,0 +1,407 @@
+{
+ "tag": "run3",
+ "critic": "Qwen/Qwen3-VL-30B-A3B-Instruct",
+ "mode": "image",
+ "started": "2026-09-30T15:14:55.614Z",
+ "run3": {
+  "qmode": "emu",
+  "draws": [
+   {
+    "job_id": "90a352fa-3dac-4a13-a322-8383ff9f81aa",
+    "mode": "emu",
+    "commit": "a1cc269d4270ceda2811bf50e397016b13d723317205dc6835ac78ef777e005d",
+    "hex": "1d9c41c59875b5063235b2a723e916a8606fd1"
+   },
+   {
+    "job_id": "1bdacfec-08d7-49db-85e2-51e9ec3e27af",
+    "mode": "emu",
+    "commit": "364525d2638e96633f8bb3a03bd8d72a462351cf954c6bced905b016c67d44fa",
+    "hex": "e2c8d118d81f990713f5c8bb1314c4a3cce25e7ac1"
+   }
+  ],
+  "holdSeeds": [
+   9584,
+   18840,
+   41042,
+   48343,
+   14857,
+   47774
+  ],
+  "testSeeds": [
+   11204,
+   7816,
+   26699,
+   55740,
+   53424,
+   8362
+  ],
+  "critics": [
+   "Qwen/Qwen3-VL-30B-A3B-Instruct",
+   "google/gemma-3-27b-it",
+   "mistralai/Mistral-Small-3.2-24B-Instruct-2506"
+  ],
+  "cells": [
+   "llm:di:kimi",
+   "llm:di:qwen",
+   "llm:di:gptoss",
+   "llm:di:minimax",
+   "llm:deepseek",
+   "quantum",
+   "local"
+  ],
+  "final": [
+   {
+    "label": "mirror defaults",
+    "projector": "mirror",
+    "params": {
+     "cols": 64,
+     "ramp": "standard",
+     "gamma": 1,
+     "invert": false,
+     "frames": 1
+    },
+    "test": 0.17567776482503503,
+    "test_truth": 0.19975123842609646,
+    "motion": 0.1,
+    "per_scene": [
+     0.176,
+     0.129,
+     0.138,
+     0.305,
+     0.235,
+     0.071
+    ],
+    "per_critic": {
+     "Qwen/Qwen3-VL-30B-A3B-Instruct": 0.197,
+     "google/gemma-3-27b-it": 0.142,
+     "mistralai/Mistral-Small-3.2-24B-Instruct-2506": 0.188
+    },
+    "chars": 1216
+   },
+   {
+    "label": "syzygy defaults (gradient)",
+    "projector": "syzygy",
+    "params": {
+     "cols": 64,
+     "field": "glyph",
+     "braille_thresh": 100,
+     "edge_thresh2": 4000,
+     "orient": "gradient",
+     "frames": 1
+    },
+    "test": 0.21705288199767472,
+    "test_truth": 0.24408896466241828,
+    "motion": 0.13333333333333333,
+    "per_scene": [
+     0.225,
+     0.271,
+     0.155,
+     0.314,
+     0.216,
+     0.121
+    ],
+    "per_critic": {
+     "Qwen/Qwen3-VL-30B-A3B-Instruct": 0.26,
+     "google/gemma-3-27b-it": 0.197,
+     "mistralai/Mistral-Small-3.2-24B-Instruct-2506": 0.194
+    },
+    "chars": 1216
+   },
+   {
+    "label": "syzygy tangent",
+    "projector": "syzygy",
+    "params": {
+     "cols": 64,
+     "field": "glyph",
+     "braille_thresh": 100,
+     "edge_thresh2": 4000,
+     "orient": "tangent",
+     "frames": 1
+    },
+    "test": 0.33616798498408995,
+    "test_truth": 0.3585250898587911,
+    "motion": 0.1,
+    "per_scene": [
+     0.35,
+     0.403,
+     0.343,
+     0.242,
+     0.282,
+     0.397
+    ],
+    "per_critic": {
+     "Qwen/Qwen3-VL-30B-A3B-Instruct": 0.4,
+     "google/gemma-3-27b-it": 0.237,
+     "mistralai/Mistral-Small-3.2-24B-Instruct-2506": 0.371
+    },
+    "chars": 1216
+   },
+   {
+    "label": "motion bg=edges (runs 1-2 best)",
+    "projector": "motion",
+    "params": {
+     "cols": 64,
+     "history": 12,
+     "window": 4,
+     "thresh": 24,
+     "min_blob": 2,
+     "min_speed": 0.3,
+     "bg": "edges",
+     "braille_thresh": 100,
+     "ramp": "standard",
+     "mark": "edge",
+     "arrows": "ascii",
+     "trail": 3,
+     "legend": false
+    },
+    "test": 0.3320184181586779,
+    "test_truth": 0.34704383233744696,
+    "motion": 0.26666666666666666,
+    "per_scene": [
+     0.35,
+     0.46,
+     0.238,
+     0.288,
+     0.308,
+     0.348
+    ],
+    "per_critic": {
+     "Qwen/Qwen3-VL-30B-A3B-Instruct": 0.387,
+     "google/gemma-3-27b-it": 0.235,
+     "mistralai/Mistral-Small-3.2-24B-Instruct-2506": 0.374
+    },
+    "chars": 1216
+   },
+   {
+    "label": "run3 winner by HOLD #16 (llm:di:qwen)",
+    "projector": "motion",
+    "params": {
+     "cols": 72,
+     "history": 13,
+     "window": 3,
+     "thresh": 20,
+     "min_blob": 2,
+     "min_speed": 0.25,
+     "bg": "edges",
+     "braille_thresh": 95,
+     "ramp": "short",
+     "mark": "head",
+     "arrows": "unicode",
+     "trail": 2,
+     "legend": false
+    },
+    "hold": 0.39481773899060957,
+    "test": 0.3404336690145122,
+    "test_truth": 0.3432140905317786,
+    "motion": 0.1,
+    "per_scene": [
+     0.659,
+     0.353,
+     0.239,
+     0.223,
+     0.28,
+     0.288
+    ],
+    "per_critic": {
+     "Qwen/Qwen3-VL-30B-A3B-Instruct": 0.453,
+     "google/gemma-3-27b-it": 0.218,
+     "mistralai/Mistral-Small-3.2-24B-Instruct-2506": 0.351
+    },
+    "chars": 1584
+   },
+   {
+    "label": "run3 winner by U #5 (llm:di:kimi)",
+    "projector": "motion",
+    "params": {
+     "cols": 64,
+     "history": 12,
+     "window": 4,
+     "thresh": 24,
+     "min_blob": 2,
+     "min_speed": 0.3,
+     "bg": "edges",
+     "braille_thresh": 100,
+     "ramp": "short",
+     "mark": "head",
+     "arrows": "unicode",
+     "trail": 2,
+     "legend": false
+    },
+    "hold": 0.352530204832354,
+    "test": 0.2997614162268497,
+    "test_truth": 0.31340473276651826,
+    "motion": 0.06666666666666667,
+    "per_scene": [
+     0.35,
+     0.326,
+     0.317,
+     0.339,
+     0.197,
+     0.27
+    ],
+    "per_critic": {
+     "Qwen/Qwen3-VL-30B-A3B-Instruct": 0.375,
+     "google/gemma-3-27b-it": 0.22,
+     "mistralai/Mistral-Small-3.2-24B-Instruct-2506": 0.304
+    },
+    "chars": 1216
+   }
+  ],
+  "byCell": {
+   "seed": [
+    {
+     "id": 0,
+     "U": 0.1777153974624683,
+     "vlm": 0.2431754794624683,
+     "hold": 0.1765124828348222
+    },
+    {
+     "id": 1,
+     "U": 0.14634151165885637,
+     "vlm": 0.21966614365885637,
+     "hold": 0.2278806602703036
+    },
+    {
+     "id": 2,
+     "U": 0.204973783932019,
+     "vlm": 0.22888873230534149,
+     "hold": 0.15919931121158723
+    },
+    {
+     "id": 3,
+     "U": 0.34598954310029284,
+     "vlm": 0.3703633979319642,
+     "hold": 0.3640467482274023
+    },
+    {
+     "id": 4,
+     "U": 0.3066675256416956,
+     "vlm": 0.3699735731416956,
+     "hold": 0.3700417080070988
+    }
+   ],
+   "llm:di:kimi": [
+    {
+     "id": 5,
+     "U": 0.40028569131821523,
+     "vlm": 0.42632409107944924,
+     "hold": 0.352530204832354
+    },
+    {
+     "id": 12,
+     "U": 0.21044510933470842,
+     "vlm": 0.22474193428759714,
+     "hold": null
+    }
+   ],
+   "llm:di:qwen": [
+    {
+     "id": 6,
+     "U": 0.33739068020385365,
+     "vlm": 0.4104150691994998,
+     "hold": null
+    },
+    {
+     "id": 13,
+     "U": 0.2911677277358721,
+     "vlm": 0.3061975924899684,
+     "hold": 0.32229325232482103
+    },
+    {
+     "id": 16,
+     "U": 0.3669800685854806,
+     "vlm": 0.41653617053410846,
+     "hold": 0.39481773899060957
+    }
+   ],
+   "llm:di:gptoss": [
+    {
+     "id": 7,
+     "U": 0.34577912810671174,
+     "vlm": 0.3364318797989892,
+     "hold": null
+    },
+    {
+     "id": 14,
+     "U": 0.25250972916778724,
+     "vlm": 0.2637803315392398,
+     "hold": 0.3394628953136507
+    },
+    {
+     "id": 17,
+     "U": 0.39284522819027823,
+     "vlm": 0.4517067992205111,
+     "hold": 0.32467314816371323
+    }
+   ],
+   "llm:di:minimax": [
+    {
+     "id": 8,
+     "U": 0.34141432781245806,
+     "vlm": 0.4101996928531312,
+     "hold": null
+    }
+   ],
+   "llm:deepseek": [
+    {
+     "id": 9,
+     "U": 0.38528939630837683,
+     "vlm": 0.408886396171926,
+     "hold": 0.3614606387709259
+    },
+    {
+     "id": 18,
+     "U": 0.29229989900498604,
+     "vlm": 0.33680136699480206,
+     "hold": null
+    }
+   ],
+   "quantum": [
+    {
+     "id": 10,
+     "U": 0.26457229220008566,
+     "vlm": 0.32736847956021414,
+     "hold": null
+    },
+    {
+     "id": 19,
+     "U": 0.37182345038538583,
+     "vlm": 0.3939198590779586,
+     "hold": 0.36349960479584104
+    }
+   ],
+   "local": [
+    {
+     "id": 11,
+     "U": 0.3464277741002928,
+     "vlm": 0.3703633979319642,
+     "hold": 0.3640467482274023
+    },
+    {
+     "id": 15,
+     "U": 0.36104369944281756,
+     "vlm": 0.42257839816066756,
+     "hold": 0.3361420034160574
+    },
+    {
+     "id": 20,
+     "U": 0.3500222377897326,
+     "vlm": 0.37822411443036963,
+     "hold": null
+    }
+   ]
+  },
+  "rejected": []
+ },
+ "api": {
+  "calls": 556,
+  "cacheHits": 145,
+  "byProvider": {
+   "quantum": 5,
+   "deepinfra": 532,
+   "deepseek": 3,
+   "typesafe": 16
+  }
+ },
+ "finished": "2026-09-30T15:38:25.088Z"
+}

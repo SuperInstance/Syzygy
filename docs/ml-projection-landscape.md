@@ -257,7 +257,73 @@ This is the loop working as intended, and it is also why a held-out set must be 
 
 **No run-2 config beat its own warm start on unseen feeds.** Every gain on the search set was the critic's noise on four feeds, and the search dutifully climbed it. The conclusion for the next iteration is structural, not a parameter: promotion must use a score the search cannot see, meaning a held-out split plus several critic samples per cell. Until then, the search's job is to *propose*, and the held-out stage decides.
 
-### 4.7 The typed gate
+### 4.7 Run 3: the fixes, built on DeepInfra, TypeSafe and MothQuantum only
+
+Runs 1 and 2 said the loop needed held-out promotion, less critic noise, and advisors that weren't down (the Moonshot endpoint returned `exceeded_current_quota_error`). Run 3 (`node plugins/ml/playtest.mjs --stage run3`) makes each change using only three providers.
+
+**Advisors, all hosted on DeepInfra** [built]: Kimi-K2.6, Qwen3-235B-A22B, gpt-oss-120b and MiniMax-M3, beside DeepSeek. Getting them to answer was three measured fixes:
+
+| advisor | first attempt | fix |
+|---|---|---|
+| Kimi-K2.6 | 3 × 120 s timeouts: it reasons at length by default | `reasoning_effort: "none"` → 21 s, both proposals valid |
+| MiniMax-M3 | 4000 tokens and 172 s of reasoning, **empty** content | `reasoning_effort: "none"` (probe: 10 tokens) |
+| Qwen3-235B | valid proposals inside broken JSON (one stray `}`) | `extractProposals` salvages each well-formed proposal object |
+| gpt-oss-120b | worked first time (30 s) | — |
+
+**A three-VLM critic ensemble, all on DeepInfra** [built]. Each candidate critic was first shown the real frames and scored against ground truth:
+
+| critic | ceiling | used |
+|---|---|---|
+| Qwen3-VL-30B-A3B | 0.919 | yes |
+| Gemma-3-27B | 0.903 | yes |
+| Mistral-Small-3.2-24B | 0.901 | yes |
+| Llama-4-Scout-17B | 0.656 | no |
+
+Each critic reads the real frames and the text independently, and the three fidelities are averaged (`ctx.critic_models`).
+
+**Quantum-drawn splits** [built, emu]. Two MothQuantum `comet-qrng-v1` draws (job ids and pre-outcome commitment hashes are in `logs/playtest-run3.json`) pick six **held-out** feeds, which steer promotion, and six **test** feeds, which are touched once at the end. The point is that no advisor, seed or person knows in advance which feeds will judge the search. The draws are emu (simulator). A real-QPU draw was attempted: the IBM queue hadn't returned after 13 minutes and the job was still `processing` 25 minutes later (job `37666e50`, still `processing` about 50 minutes after submission when this was written).
+
+**Promotion by held-out score** [built]. After each generation the top 3 new configs by search-set U are re-scored on the held-out feeds (`row.hold`). Parents and the final winner are ranked by `hold`, and the advisors are told in their prompt that `hold` alone decides promotion.
+
+**TypeSafe Jev as a system-one critic** [built, measured weak]. Before run 3, `node plugins/ml/jevcheck.mjs` asked Jev for a 0–4 legibility score on the text of every config the first two searches had scored: 43 configs × 4 feeds, with the VLM fidelities re-read from cache. Jev takes about 150 ms per call.
+
+```
+pair level   (172)   Spearman(jev, vlm) 0.146    Spearman(inverse, vlm) 0.077
+config level  (43)   Spearman(jev, vlm) 0.207    Spearman(inverse, vlm) -0.158    Pearson(jev, vlm) 0.297
+as a filter: send only Jev's top half (22) to the VLM -> 4 of the VLM's top 5 survive
+```
+
+Jev reading the text is a weak but *positive* signal, which is better than the free tonal scorer. It would halve the VLM calls at the cost of one top-5 config in five. At about $0.0002 per VLM call that trade isn't worth it here, so Jev is logged, not used as a gate. It would earn its place where the critic is expensive (a larger VLM, or a human).
+
+**Results.** Warm-started from motion `bg: edges` and syzygy tangent; 3 generations; one proposal per cell per generation; 556 API calls, about $0.08 on DeepInfra. Log: `plugins/ml/logs/playtest-run3.txt`.
+
+```
+   hold #3  0.364  (search-set vlm 0.370)    motion bg=edges, warm start
+   hold #5  0.353  (search-set vlm 0.426)    Kimi-K2.6's g1 proposal: best search-set score, not promoted
+   hold #16 0.395  (search-set vlm 0.417)    Qwen3-235B's g3 proposal: motion, edges, 72 cols, head marks, unicode arrows
+   hold #17 0.325  (search-set vlm 0.452)    gpt-oss-120b's g3 proposal: highest search-set score of the run
+```
+
+Then all finalists on the six **test** feeds, which nothing in the run had seen:
+
+| config | test (3-critic mean) | per critic Qwen / Gemma / Mistral | motion recall | chars |
+|---|---|---|---|---|
+| mirror | 0.176 | 0.197 / 0.142 / 0.188 | 0.10 | 1216 |
+| syzygy as shipped (gradient) | 0.217 | 0.260 / 0.197 / 0.194 | 0.13 | 1216 |
+| syzygy `orient: tangent` | 0.336 | 0.400 / 0.237 / 0.371 | 0.10 | 1216 |
+| motion `bg: edges` (runs 1–2 best) | 0.332 | 0.387 / 0.235 / 0.374 | **0.27** | 1216 |
+| **run-3 winner by held-out** (#16, Qwen3-235B) | **0.340** | 0.453 / 0.218 / 0.351 | 0.10 | 1584 |
+| run-3 winner by search-set U (#5, Kimi-K2.6) | 0.300 | 0.375 / 0.220 / 0.304 | 0.07 | 1216 |
+
+What run 3 establishes:
+
+- **Held-out promotion picks better configs.** On data neither ranking had seen, the config promoted by held-out score beat the one the search set would have promoted (0.340 vs 0.300). With one critic the search/held-out gap was about 0.2; with three critics it is about 0.05 for the seeds (e.g. 0.370 → 0.364). The ensemble takes out most of the noise the first two searches were climbing.
+- **The tangent relabel is the robust finding.** Across three critics and three independent feed sets, relabelling the kernel's `─`/`│` scores about 1.5× the kernel as shipped (0.217 → 0.336 here) and about 1.9× the mirror. Every critic agrees on the direction.
+- **Among tangent-edge projections, the search can't separate the top three.** The held-out winner (0.340), plain tangent (0.336) and motion-on-edges (0.332) are within 0.01. The one clear difference is motion: only `bg: edges` with arrows gets motion recall above noise (0.27, vs 0.07–0.13 for the rest).
+- **The critics disagree on level, not direction.** Gemma scores every config lowest and Qwen scores the search's own winner highest, which is a trace of optimizing against a Qwen-heavy history. All three rank tangent above gradient above mirror.
+- **Every advisor contributed, none dominated.** Best held-out score per cell: Qwen3-235B 0.395, local 0.364, quantum 0.363, DeepSeek 0.361, Kimi 0.353, gpt-oss 0.339. MiniMax's one scored proposal wasn't in its generation's top 3, so it never reached held-out; its other two proposals were duplicates. gpt-oss produced the highest search-set score of the run (0.452) and one of the lowest held-out scores (0.325), the clearest single case of the overfitting that held-out promotion is there to catch.
+
+### 4.8 The typed gate
 
 [built] Every proposal passes `registry.validateParams` first. It is deterministic and free, and it names every fault (unknown key, wrong type, out of range, not in enum). Only a legal config reaches TypeSafe's Jev (`/v1/systemone`, a `noul` question: *"is this config legal and not self-defeating?"*). Jev was measured against 8 hand-labelled configs (`node plugins/ml/gatecheck.mjs`):
 
@@ -362,11 +428,13 @@ plugins/ml selftest: 43 checks, 0 failures
 | frame-diff / tracked-blob motion glyphs | **[built]** `projectors/motion.mjs` | median background, blob tracking, arrows, trails, legend; add real optical flow (block matching per cell) for non-rigid motion |
 | VLM reconstruction as GAN-check | **[built, thin]** `scorers/vlm.mjs` | text + image critic modes, two references; next: 3 samples per cell with intervals, more feeds, a real camera clip |
 | VLM wireframe / 3-D sketch as auxiliary target | **[built, 2-D only]** | boxes are the 2-D wireframe; a depth-ordered layer list or a VLM-drawn SVG is **[proposed]** |
-| LLM advisor proposing params | **[built]** `search.mjs` (DeepSeek, Kimi, ZAI) | the advisors found the braille jump; mutation cells refined it (§4.6). Next: give the advisor the held-out score too, so it is rewarded for what generalizes |
+| LLM advisor proposing params | **[built]** `search.mjs`: DeepSeek, ZAI, and on DeepInfra Kimi-K2.6, Qwen3-235B, gpt-oss-120b, MiniMax-M3 (§4.7) | the advisors found the braille jump; mutation cells refined it (§4.6). Next: give the advisor the held-out score too, so it is rewarded for what generalizes |
 | typed system-one gate (TypeSafe Jev) | **[built]**, measured 7/8 | advisory; next: ask it semantic questions the schema can't |
+| TypeSafe Jev as a cheap critic | **[built, weak]** `scorers/jev.mjs`, `jevcheck.mjs` | Spearman 0.21 with the VLM (§4.7); worth it only when the paid critic is expensive |
+| multi-critic ensemble | **[built]** `ctx.critic_models` | 3 VLMs on DeepInfra; cut the search/held-out gap from ~0.2 to ~0.05 |
 | JEPA-style next-frame predictor | **[built, thin]** linear probe, 16×8 \|Δ\| target | next: frozen image encoder target (CLIP via DeepInfra `clip-ViT-B-32`), a small MLP |
-| quantum draws for exploration | **[built, emu]** `apis.quantumBytes` | a `qpu` run; compare with the xorshift control over many seeds |
-| evolving advisor cells, backtest, promote | **[built, thin]** | 3 + 2 generations here; next: make the held-out stage part of promotion, and assign credit (more proposals to cells whose winners hold out) |
+| quantum draws for exploration | **[built, emu]** `apis.quantumBytes` | mutation cell and the held-out/test split draws; a `qpu` draw was submitted and was still queued ~50 min later |
+| evolving advisor cells, backtest, promote | **[built]** | runs 1–3; run 3 promotes on held-out and checks the result on a quantum-drawn test set. Next: credit assignment (more proposals to cells whose winners hold out), more feeds per split |
 | chiaroscuro shape-match election (4×6 Hamming) | **[proposed]** | a projector plugin; the contract needs nothing new |
 | half-block colour projection | **[proposed]** | colour is out of the ASCII brief; `▀` with ANSI colour doubles vertical resolution |
 | critic-side learning (a reader tuned to the projector) | **[proposed]** | a projector/reader pair is a code; the gap to 0.92 says the reader matters as much as the writer |

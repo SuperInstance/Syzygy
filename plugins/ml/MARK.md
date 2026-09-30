@@ -13,10 +13,11 @@
   quantum cell): the code runs and its real outputs are cached and logged, but a
   model's answer is evidence, not a proof, and n = 4 scenes is small.
 - **RUNS** —
-  `node plugins/ml/selftest.mjs` → `plugins/ml selftest: 40 checks, 0 failures`;
+  `node plugins/ml/selftest.mjs` → `plugins/ml selftest: 45 checks, 0 failures`;
   `node plugins/ml/playtest.mjs --stage all` → ceiling, baseline grid, search
   (real API calls; replays from `cache/` for free; `SYZ_ML_OFFLINE=1` forbids
-  the network).
+  the network); `--stage run3` = DeepInfra advisors + 3-VLM ensemble +
+  held-out promotion + quantum-drawn held-out/test splits.
 - **WHERE IT ATTACHES** — the kernel's JS port `docs/poc/syzygy.js` (byte-exact
   with the C kernel, V02). The `syzygy` projector loads it unmodified and the
   selftest re-derives the golden `0x6dbdd1a8` from the very module it loads. No

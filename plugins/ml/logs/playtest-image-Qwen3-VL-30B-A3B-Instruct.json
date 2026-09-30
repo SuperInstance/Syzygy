@@ -2,7 +2,7 @@
  "tag": "image-Qwen3-VL-30B-A3B-Instruct",
  "critic": "Qwen/Qwen3-VL-30B-A3B-Instruct",
  "mode": "image",
- "started": "2026-09-30T05:27:27.653Z",
+ "started": "2026-09-30T14:48:05.462Z",
  "holdout": {
   "seeds": [
    100,
@@ -311,13 +311,11 @@
   "ceiling": 0.8399998396579681
  },
  "api": {
-  "calls": 6,
-  "cacheHits": 72,
-  "byProvider": {
-   "deepinfra": 6
-  }
+  "calls": 0,
+  "cacheHits": 40,
+  "byProvider": {}
  },
- "finished": "2026-09-30T05:28:04.925Z",
+ "finished": "2026-09-30T14:49:37.152Z",
  "ceiling": [
   {
    "scene": "street",
@@ -470,7 +468,7 @@
    "inverse": 0.9291526465301638,
    "jepa": 0,
    "chars": 1216,
-   "ms": 2.13553525,
+   "ms": 2.2058542500000002,
    "rows": [
     {
      "scene": "street",
@@ -479,7 +477,7 @@
      "motion": 0,
      "inverse": 0.8877046246858125,
      "chars": 1216,
-     "ms": 5.891917,
+     "ms": 6.066054,
      "rec": {
       "setting": "unknown",
       "scene": "a vehicle with a patterned body and a person inside, viewed from a fixed camera",
@@ -518,7 +516,7 @@
      "motion": 1,
      "inverse": 0.9302105097633514,
      "chars": 1216,
-     "ms": 1.354946,
+     "ms": 1.332395,
      "rec": {
       "setting": "unknown",
       "scene": "a character-art rendering of a scene with two figures and a structure, possibly a building, with motion indicated by arrows and tildes.",
@@ -569,7 +567,7 @@
      "motion": 0,
      "inverse": 0.9225263998488415,
      "chars": 1216,
-     "ms": 0.664675,
+     "ms": 0.715001,
      "rec": {
       "setting": "unknown",
       "scene": "a dark scene with glowing patterns and structures",
@@ -632,7 +630,7 @@
      "motion": null,
      "inverse": 0.9761690518226497,
      "chars": 1216,
-     "ms": 0.630603,
+     "ms": 0.709967,
      "rec": {
       "setting": "unknown",
       "scene": "a patterned scene with a central rectangular area and a lower section containing symbols and lines",
@@ -701,7 +699,7 @@
    "inverse": 0.9291526465301638,
    "jepa": 0.08669902102716931,
    "chars": 2432,
-   "ms": 0.8565602499999999,
+   "ms": 0.99638325,
    "rows": [
     {
      "scene": "street",
@@ -710,7 +708,7 @@
      "motion": 0,
      "inverse": 0.8877046246858125,
      "chars": 2432,
-     "ms": 0.866138,
+     "ms": 0.834252,
      "rec": {
       "setting": "unknown",
       "scene": "a character-art rendering of a scene with a central object and surrounding patterns",
@@ -737,7 +735,7 @@
      "motion": 0,
      "inverse": 0.9302105097633514,
      "chars": 2432,
-     "ms": 0.83399,
+     "ms": 0.888725,
      "rec": {
       "setting": "unknown",
       "scene": "a character-art rendering of a scene with a large structure and a figure, showing motion over time",
@@ -776,7 +774,7 @@
      "motion": 0,
      "inverse": 0.9225263998488415,
      "chars": 2432,
-     "ms": 0.826548,
+     "ms": 0.932828,
      "rec": {
       "setting": "unknown",
       "scene": "a dark scene with two vertical structures and a horizontal line of dots, with a small object moving across the bottom",
@@ -839,7 +837,7 @@
      "motion": null,
      "inverse": 0.9761690518226497,
      "chars": 2432,
-     "ms": 0.899565,
+     "ms": 1.329728,
      "rec": {
       "setting": "unknown",
       "scene": "a scene with two structures and a moving object",
@@ -918,7 +916,7 @@
    "inverse": 0.6311385011373358,
    "jepa": 0,
    "chars": 1216,
-   "ms": 8.49521525,
+   "ms": 7.73485425,
    "rows": [
     {
      "scene": "street",
@@ -927,7 +925,7 @@
      "motion": 0,
      "inverse": 0.46715466485558566,
      "chars": 1216,
-     "ms": 9.629709,
+     "ms": 10.8567,
      "rec": {
       "setting": "unknown",
       "scene": "a patterned scene with geometric shapes and lines on a dark background",
@@ -1014,7 +1012,7 @@
      "motion": 0,
      "inverse": 0.4563605001081132,
      "chars": 1216,
-     "ms": 9.768239,
+     "ms": 7.531089,
      "rec": {
       "setting": "outdoor-night",
       "scene": "a night scene with a large structure and a smaller object on the ground",
@@ -1053,7 +1051,7 @@
      "motion": 0,
      "inverse": 0.6869909904125726,
      "chars": 1216,
-     "ms": 10.943777,
+     "ms": 10.383783,
      "rec": {
       "setting": "unknown",
       "scene": "a dark scene with two tall structures and a patterned ground, possibly a digital or abstract environment",
@@ -1116,7 +1114,7 @@
      "motion": null,
      "inverse": 0.9140478491730717,
      "chars": 1216,
-     "ms": 3.639136,
+     "ms": 2.167845,
      "rec": {
       "setting": "outdoor-night",
       "scene": "a dark scene with a vehicle and a person, with a bright object in the sky",
@@ -1173,7 +1171,7 @@
    "inverse": 0.760611335692319,
    "jepa": 0,
    "chars": 1216,
-   "ms": 1.25363275,
+   "ms": 1.471896,
    "rows": [
     {
      "scene": "street",
@@ -1182,7 +1180,7 @@
      "motion": 0,
      "inverse": 0.6639518319101438,
      "chars": 1216,
-     "ms": 1.198093,
+     "ms": 1.881478,
      "rec": {
       "setting": "outdoor-day",
       "scene": "a house and a bicycle in a grid pattern",
@@ -1221,7 +1219,7 @@
      "motion": 0,
      "inverse": 0.5215682282851776,
      "chars": 1216,
-     "ms": 1.162166,
+     "ms": 1.598489,
      "rec": {
       "setting": "unknown",
       "scene": "a dark scene with a large circular object and a walking figure",
@@ -1260,7 +1258,7 @@
      "motion": 0,
      "inverse": 0.8693907327711243,
      "chars": 1216,
-     "ms": 1.408538,
+     "ms": 1.259775,
      "rec": {
       "setting": "outdoor-night",
       "scene": "a crescent moon and two vertical light patterns on a dark background",
@@ -1311,7 +1309,7 @@
      "motion": null,
      "inverse": 0.98753454980283,
      "chars": 1216,
-     "ms": 1.245734,
+     "ms": 1.147842,
      "rec": {
       "setting": "indoor",
       "scene": "a room with a window and a circular object on the floor",
@@ -1354,7 +1352,7 @@
    "inverse": 0.9046107163186072,
    "jepa": 0.19518975850671005,
    "chars": 1216,
-   "ms": 6.5000202499999995,
+   "ms": 5.773956499999999,
    "rows": [
     {
      "scene": "street",
@@ -1363,7 +1361,7 @@
      "motion": 1,
      "inverse": 0.8816936452382034,
      "chars": 1216,
-     "ms": 8.422203,
+     "ms": 7.13425,
      "rec": {
       "setting": "unknown",
       "scene": "a patterned scene with various symbols and lines, including a central shape and motion indicators",
@@ -1426,7 +1424,7 @@
      "motion": 0,
      "inverse": 0.8488325155868275,
      "chars": 1216,
-     "ms": 6.247429,
+     "ms": 5.450386,
      "rec": {
       "setting": "unknown",
       "scene": "a scene with multiple moving objects and patterns on a dark background",
@@ -1501,7 +1499,7 @@
      "motion": 0,
      "inverse": 0.9122497261784525,
      "chars": 1216,
-     "ms": 5.753773,
+     "ms": 5.432369,
      "rec": {
       "setting": "unknown",
       "scene": "a dark scene with two tall structures and a moving object at the bottom",
@@ -1552,7 +1550,7 @@
      "motion": null,
      "inverse": 0.9756669782709456,
      "chars": 1216,
-     "ms": 5.576676,
+     "ms": 5.078821,
      "rec": {
       "setting": "unknown",
       "scene": "a scene with a patterned background and moving elements",
@@ -1609,7 +1607,7 @@
    "inverse": 0.6308685277447328,
    "jepa": 0.19461506267331452,
    "chars": 1216,
-   "ms": 7.515654,
+   "ms": 6.75250725,
    "rows": [
     {
      "scene": "street",
@@ -1618,7 +1616,7 @@
      "motion": 0,
      "inverse": 0.4859922130898074,
      "chars": 1216,
-     "ms": 6.830337,
+     "ms": 6.249072,
      "rec": {
       "setting": "unknown",
       "scene": "a patterned scene with geometric shapes and lines, some moving",
@@ -1681,7 +1679,7 @@
      "motion": 0,
      "inverse": 0.4432657908813744,
      "chars": 1216,
-     "ms": 7.130826,
+     "ms": 6.659084,
      "rec": {
       "setting": "outdoor-night",
       "scene": "a night scene with a person standing in the center and a vehicle on the right",
@@ -1720,7 +1718,7 @@
      "motion": 0,
      "inverse": 0.6798775479203533,
      "chars": 1216,
-     "ms": 7.596787,
+     "ms": 7.514246,
      "rec": {
       "setting": "outdoor-night",
       "scene": "a dark scene with two tall structures and a small object moving across the bottom",
@@ -1771,7 +1769,7 @@
      "motion": null,
      "inverse": 0.9143385590873963,
      "chars": 1216,
-     "ms": 8.504666,
+     "ms": 6.587627,
      "rec": {
       "setting": "unknown",
       "scene": "a patterned scene with lines and symbols on a dark background",
@@ -1840,7 +1838,7 @@
    "inverse": 0.6311385011373358,
    "jepa": 0,
    "chars": 1216,
-   "ms": 1.2585665000000001,
+   "ms": 1.19224075,
    "rows": [
     {
      "scene": "street",
@@ -1849,7 +1847,7 @@
      "motion": 0,
      "inverse": 0.46715466485558566,
      "chars": 1216,
-     "ms": 1.228256,
+     "ms": 1.203826,
      "rec": {
       "setting": "outdoor-day",
       "scene": "a landscape with a house, a tree, and a fence under a clear sky",
@@ -1912,7 +1910,7 @@
      "motion": 0,
      "inverse": 0.4563605001081132,
      "chars": 1216,
-     "ms": 1.241063,
+     "ms": 1.217234,
      "rec": {
       "setting": "unknown",
       "scene": "a patterned scene with a central figure and a structure above, possibly a vehicle or machine, with horizontal lines suggesting motion or texture",
@@ -1951,7 +1949,7 @@
      "motion": 0,
      "inverse": 0.6869909904125726,
      "chars": 1216,
-     "ms": 1.425616,
+     "ms": 1.218765,
      "rec": {
       "setting": "outdoor-night",
       "scene": "a night scene with a crescent moon, two tall structures, and a row of small objects on the ground",
@@ -2014,7 +2012,7 @@
      "motion": null,
      "inverse": 0.9140478491730717,
      "chars": 1216,
-     "ms": 1.139331,
+     "ms": 1.129138,
      "rec": {
       "setting": "unknown",
       "scene": "a patterned background with a central structure and a moving object at the bottom right",
@@ -2059,7 +2057,7 @@
    "inverse": 0.7477894357347827,
    "jepa": 0.1952297717382071,
    "chars": 1216,
-   "ms": 6.26453025,
+   "ms": 5.9833685,
    "rows": [
     {
      "scene": "street",
@@ -2068,7 +2066,7 @@
      "motion": 1,
      "inverse": 0.6769505418086955,
      "chars": 1216,
-     "ms": 6.179222,
+     "ms": 5.853525,
      "rec": {
       "setting": "outdoor-day",
       "scene": "a house and a tree in a landscape with a vehicle moving right",
@@ -2119,7 +2117,7 @@
      "motion": 1,
      "inverse": 0.46670975233576556,
      "chars": 1216,
-     "ms": 6.280017,
+     "ms": 5.482104,
      "rec": {
       "setting": "outdoor-day",
       "scene": "a tree and a building with a person walking in front of it",
@@ -2170,7 +2168,7 @@
      "motion": 0,
      "inverse": 0.8604542763782523,
      "chars": 1216,
-     "ms": 6.243624,
+     "ms": 6.034993,
      "rec": {
       "setting": "outdoor-night",
       "scene": "a night scene with a crescent moon and a building with lights, with motion indicated by arrows at the bottom",
@@ -2233,7 +2231,7 @@
      "motion": null,
      "inverse": 0.9870431724164176,
      "chars": 1216,
-     "ms": 6.355258,
+     "ms": 6.562852,
      "rec": {
       "setting": "indoor",
       "scene": "a room with a window and a bench, with a character moving right and leaving a trail",
@@ -2290,7 +2288,7 @@
    "inverse": 0.6308685277447328,
    "jepa": 0.19461506267331452,
    "chars": 1216,
-   "ms": 11.13417625,
+   "ms": 6.46440425,
    "rows": [
     {
      "scene": "street",
@@ -2299,7 +2297,7 @@
      "motion": 1,
      "inverse": 0.4859922130898074,
      "chars": 1216,
-     "ms": 6.470665,
+     "ms": 6.129945,
      "rec": {
       "setting": "outdoor-day",
       "scene": "a house and a tree in a field with a vehicle moving across the bottom",
@@ -2350,7 +2348,7 @@
      "motion": 1,
      "inverse": 0.4432657908813744,
      "chars": 1216,
-     "ms": 18.348175,
+     "ms": 7.039232,
      "rec": {
       "setting": "unknown",
       "scene": "a character-art rendering of a scene with a large structure and a smaller figure, possibly in a dark environment with motion indicated by arrows and tildes.",
@@ -2389,7 +2387,7 @@
      "motion": 1,
      "inverse": 0.6798775479203533,
      "chars": 1216,
-     "ms": 8.521811,
+     "ms": 6.323047,
      "rec": {
       "setting": "outdoor-night",
       "scene": "a night scene with a crescent moon, two towers, and a moving object in the water",
@@ -2464,7 +2462,7 @@
      "motion": null,
      "inverse": 0.9143385590873963,
      "chars": 1216,
-     "ms": 11.196054,
+     "ms": 6.365393,
      "rec": {
       "setting": "unknown",
       "scene": "a patterned background with a central structure and moving elements at the bottom",
