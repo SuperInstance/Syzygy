@@ -245,7 +245,17 @@ $ node plugins/ml/playtest.mjs --stage holdout
 
 This is the loop working as intended, and it is also why a held-out set must be part of the loop rather than an afterthought. The search overfit its four feeds by about 0.2. The one discovery that survived came from looking at the output (the horizon drawn as `│││`) rather than from the search. Combined with the motion projector, that discovery gives the best config on unseen feeds.
 
-RUN2_SECTION
+**Run 2: warm-started from the held-out winner** (`--stage search --gens 2 --warm '[motion bg:edges, syzygy tangent]'`; DeepSeek, ZAI, quantum, local; Kimi retried and still refused with `exceeded_current_quota_error`). On the search set it climbed from U 0.524 to 0.615: the quantum cell nudged the motion threshold to 29.6 (vlm 0.656, motion recall 0.67), and the local cell's 112-column version reached vlm 0.750. Then held out:
+
+| run-2 config | search set | held out |
+|---|---|---|
+| warm start: motion `bg: edges`, defaults | 0.549 | **0.512** |
+| #9 quantum: same, thresh 29.6 | 0.656 | 0.480 |
+| #18 local: edges, 112 cols, window 3 (3808 chars) | 0.750 | 0.497 |
+| #19 local: braille bg, 96 cols (2784 chars) | 0.712 | 0.461 |
+| #10 quantum: braille bg, min_blob 1 | 0.591 | 0.385 |
+
+**No run-2 config beat its own warm start on unseen feeds.** Every gain on the search set was the critic's noise on four feeds, and the search dutifully climbed it. The conclusion for the next iteration is structural, not a parameter: promotion must use a score the search cannot see, meaning a held-out split plus several critic samples per cell. Until then, the search's job is to *propose*, and the held-out stage decides.
 
 ### 4.7 The typed gate
 

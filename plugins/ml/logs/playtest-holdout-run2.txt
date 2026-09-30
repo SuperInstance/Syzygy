@@ -1,0 +1,16 @@
+=== holdout: 12 configs on 6 unseen feeds (seeds 100,118,122,125,127,136), critic Qwen/Qwen3-VL-30B-A3B-Instruct (image) ===
+  mirror defaults                                            vlm 0.405  truth 0.354  motion 0.00  chars 1216  [0.21 0.752 0.361 0.34 0.525 0.244]
+  syzygy defaults                                            vlm 0.245  truth 0.334  motion 0.20  chars 1216  [0.047 0.15 0.123 0.237 0.21 0.701]
+  motion defaults                                            vlm 0.220  truth 0.212  motion 0.20  chars 1216  [0.24 0 0.338 0.34 0.161 0.238]
+  syzygy braille defaults                                    vlm 0.382  truth 0.408  motion 0.00  chars 1216  [0.499 0.224 0.345 0.365 0.252 0.609]
+  search #9 (quantum), search-set vlm 0.656                  vlm 0.480  truth 0.445  motion 0.10  chars 1216  [0.42 0.276 0.129 0.613 0.79 0.655]
+  search #19 (local), search-set vlm 0.712                   vlm 0.461  truth 0.551  motion 0.00  chars 2784  [0.476 0.119 0.664 0.426 0.484 0.597]
+  search #10 (quantum), search-set vlm 0.591                 vlm 0.385  truth 0.394  motion 0.20  chars 1216  [0.337 0.233 0.276 0.275 0.486 0.701]
+  search #18 (local), search-set vlm 0.750                   vlm 0.497  truth 0.469  motion 0.00  chars 3808  [0.242 0.636 0.318 0.709 0.479 0.6]
+  syzygy glyph, orient tangent                               vlm 0.494  truth 0.450  motion 0.00  chars 1216  [0.355 0.407 0.135 0.604 0.79 0.673]
+  motion on tangent-edge bg (bg: edges)                      vlm 0.512  truth 0.475  motion 0.30  chars 1216  [0.414 0.414 0.338 0.601 0.474 0.828]
+  motion on braille bg (defaults: 64 cols, thresh 100)       vlm 0.370  truth 0.378  motion 0.00  chars 1216  [0.337 0.233 0.276 0.275 0.486 0.615]
+  motion on braille bg (winner cols/thresh)                  vlm 0.370  truth 0.378  motion 0.00  chars 1216  [0.337 0.233 0.276 0.275 0.486 0.615]
+  ceiling on these feeds (critic reads real frames vs truth): 0.840 [0.859 0.653 0.886 0.912 0.754 0.976]
+api calls this run: 19 (cache hits 65) {"deepinfra":19}
+report: plugins/ml/logs/playtest-run2-edges.json
