@@ -6,3 +6,4 @@ import './projectors/motion.mjs';
 import './scorers/inverse.mjs';
 import './scorers/vlm.mjs';
 import './scorers/jepa.mjs';
+import './scorers/jev.mjs';
