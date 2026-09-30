@@ -1,0 +1,349 @@
+{
+ "job_id": "37666e50-1466-4902-b838-add0efe2b118",
+ "mode": "qpu",
+ "random": {
+  "bits": 104,
+  "bytes": 13,
+  "derived": {},
+  "hex": "941bd57fbb6dae7d15820de11b",
+  "requested_bytes": 32
+ },
+ "commitment": {
+  "binds": [
+   "circuit_hash",
+   "backend",
+   "provider_job_id",
+   "salt"
+  ],
+  "commit": "2a6c793a4c540e20ea8bfeb623e87eeaa0176ff7145860a13547f1cdb682e329",
+  "committed_at": "2026-09-30T14:50:28+00:00",
+  "note": "Formed at submit, after the provider accepted the job and before any outcome existed. Publish `commit` before collect completes for it to mean anything to a third party.",
+  "salt": "8c41b6983fea0f0884bcb0a80c0d60c0be8e688660fec808888c21e4cb961ed1"
+ },
+ "provenance": {
+  "backend": "ibm_fez",
+  "built_at": "2026-09-30T14:50:21+00:00",
+  "circuit": {
+   "bell_witness": false,
+   "n_rand": 12,
+   "n_total": 12,
+   "witness_pairs": []
+  },
+  "circuit_hash": "5b38c30bb6aa1d96a4ccadaece82f4a659838467b676e298a124afdbdf7da0a8",
+  "collected_at": "2026-09-30T15:21:39+00:00",
+  "committed_at": "2026-09-30T14:50:28+00:00",
+  "engine": "comet-qrng-v1",
+  "engine_version": "1.0.0",
+  "formatted_at": "2026-09-30T15:21:41+00:00",
+  "initial_layout": [
+   0,
+   1,
+   2,
+   3,
+   4,
+   5,
+   6,
+   7,
+   8,
+   9,
+   10,
+   11
+  ],
+  "mode": "qpu",
+  "provider_job_id": "daui3crg95ks73eiehjg",
+  "qpu_seconds": 2,
+  "readout": "counts",
+  "shots": 256
+ },
+ "entropy": {
+  "assumptions": [
+   "shots are independent repetitions (untestable without per-shot memory)",
+   "per-bit min-entropy = min(per-qubit MCV, pairwise joint MCV/2) at 99% confidence",
+   "qubits within a shot carry no dependence beyond pairwise correlations: this is ASSUMED, not proven \u2014 it is falsified (health failure) only when collision counts on the full register or on 512 random 8/16-qubit sub-registers exceed the pairwise tree model's prediction, which catches any structure collapsing a tested alphabet below ~2\u00b7log2(shots) bits and nothing subtler",
+   "ordering entropy log2(shots!) subtracted because the backend returned counts only",
+   "the assumption-free tier (whole-shot MCV) is capped near log2(shots) bits per shot by sample size and is \u22480 in counts mode"
+  ],
+  "budget_bits": 236.45235157179695,
+  "budget_bits_assumption_free": 0,
+  "budget_bits_modelled": 236.45235157179695,
+  "h_bit": 0.6251460412747434,
+  "h_bit_components": {
+   "pair_joint_mcv_min_per_bit": 0.6251460412747434,
+   "per_qubit_mcv_min": 0.6381872560868151,
+   "whole_shot_mcv_per_bit": 0.45878540737299806,
+   "whole_shot_mcv_per_shot": 5.505424888475977
+  },
+  "h_shot_assumption_free": 5.505424888475977,
+  "health": {
+   "distinct_ratio": 1.7920413335122014,
+   "expected_distinct_bitstrings": 137.2736194191835,
+   "independence_collision": {
+    "full_register": {
+     "expected": 10.380242877342312,
+     "observed": 10,
+     "qubits": [
+      0,
+      1,
+      2,
+      3,
+      4,
+      5,
+      6,
+      7,
+      8,
+      9,
+      10,
+      11
+     ],
+     "sigma": 3.2898451362399106,
+     "z": -0.1155807831662574
+    },
+    "model": "pairwise-tree",
+    "n_failed": 0,
+    "n_subsets": 256,
+    "note": "falsifies the pairwise model when a sub-register's alphabet is collapsed; cannot see structure that keeps every tested alphabet above ~2\u00b7log2(shots) bits",
+    "passed": true,
+    "worst_subset": {
+     "expected": 146.94958206781683,
+     "observed": 172,
+     "qubits": [
+      1,
+      2,
+      4,
+      5,
+      6,
+      7,
+      8,
+      9
+     ],
+     "sigma": 13.928119994906986,
+     "z": 1.798549835968042
+    },
+    "z_threshold": 6
+   },
+   "min_bias_pvalue": 0.052471673332143046,
+   "mode": "order-free",
+   "n_biased_qubits_p<1e-6": 0,
+   "n_significant_pairs": 0,
+   "n_unique_bitstrings": 246,
+   "passed": true,
+   "phi_max_abs": 0.1972421118046462,
+   "stuck_qubits": []
+  },
+  "marginals": {
+   "bias_pvalues": [
+    0.052471673332143046,
+    0.0913120869322853,
+    0.4165571874932289,
+    0.7547307480889927,
+    0.052471673332143046,
+    0.06970049492909308,
+    0.8513150594929157,
+    0.11799770488405265,
+    0.23496858381467964,
+    0.6618328607844562,
+    0.1892478329210554,
+    0.348521255466871
+   ],
+   "h_pair_min_per_bit": 0.6251460412747434,
+   "h_qubit_mcv": [
+    0.6381872560868151,
+    0.6554987594338589,
+    0.7181524608108428,
+    0.7554808102209735,
+    0.6381872560868151,
+    0.6468113655891884,
+    0.7649960049770511,
+    0.6642502425164175,
+    0.6908975540766723,
+    0.7460398823540695,
+    0.6819487881433874,
+    0.7089984784763004
+   ],
+   "n": 12,
+   "n_significant_pairs": 0,
+   "ones": [
+    144,
+    142,
+    121,
+    131,
+    112,
+    113,
+    130,
+    141,
+    118,
+    124,
+    139,
+    120
+   ],
+   "p1": [
+    0.5625,
+    0.5546875,
+    0.47265625,
+    0.51171875,
+    0.4375,
+    0.44140625,
+    0.5078125,
+    0.55078125,
+    0.4609375,
+    0.484375,
+    0.54296875,
+    0.46875
+   ],
+   "phi_max_abs": 0.1972421118046462,
+   "shots": 256,
+   "stuck_qubits": [],
+   "top_correlated_pairs": [
+    {
+     "h_pair": 1.3686005524465616,
+     "p_max_joint": 0.3125,
+     "phi": 0.1972421118046462,
+     "qubits": [
+      0,
+      11
+     ],
+     "z": 3.1558737888743393
+    },
+    {
+     "h_pair": 1.3229289355516478,
+     "p_max_joint": 0.32421875,
+     "phi": -0.15461089514248405,
+     "qubits": [
+      3,
+      5
+     ],
+     "z": -2.473774322279745
+    },
+    {
+     "h_pair": 1.3686005524465616,
+     "p_max_joint": 0.3125,
+     "phi": 0.14372278769860664,
+     "qubits": [
+      4,
+      6
+     ],
+     "z": 2.299564603177706
+    },
+    {
+     "h_pair": 1.3999890915252569,
+     "p_max_joint": 0.3046875,
+     "phi": -0.12748931938580343,
+     "qubits": [
+      1,
+      6
+     ],
+     "z": -2.039829110172855
+    },
+    {
+     "h_pair": 1.2502920825494868,
+     "p_max_joint": 0.34375,
+     "phi": -0.11992448306546419,
+     "qubits": [
+      0,
+      5
+     ],
+     "z": -1.918791729047427
+    },
+    {
+     "h_pair": 1.3686005524465616,
+     "p_max_joint": 0.3125,
+     "phi": 0.11534753971235881,
+     "qubits": [
+      1,
+      3
+     ],
+     "z": 1.845560635397741
+    },
+    {
+     "h_pair": 1.4990997753840207,
+     "p_max_joint": 0.28125,
+     "phi": -0.11483260588525605,
+     "qubits": [
+      8,
+      11
+     ],
+     "z": -1.8373216941640969
+    },
+    {
+     "h_pair": 1.4485778088759438,
+     "p_max_joint": 0.29296875,
+     "phi": -0.11183349135832346,
+     "qubits": [
+      3,
+      10
+     ],
+     "z": -1.7893358617331754
+    },
+    {
+     "h_pair": 1.2933715843486633,
+     "p_max_joint": 0.33203125,
+     "phi": -0.10768516856535651,
+     "qubits": [
+      4,
+      10
+     ],
+     "z": -1.7229626970457042
+    },
+    {
+     "h_pair": 1.4321740437617512,
+     "p_max_joint": 0.296875,
+     "phi": -0.10600643095133228,
+     "qubits": [
+      5,
+      9
+     ],
+     "z": -1.6961028952213164
+    },
+    {
+     "h_pair": 1.3229289355516478,
+     "p_max_joint": 0.32421875,
+     "phi": -0.10174964397035653,
+     "qubits": [
+      1,
+      8
+     ],
+     "z": -1.6279943035257045
+    },
+    {
+     "h_pair": 1.4990997753840207,
+     "p_max_joint": 0.28125,
+     "phi": 0.09896336796707823,
+     "qubits": [
+      2,
+      10
+     ],
+     "z": 1.5834138874732517
+    }
+   ],
+   "z_expectations": [
+    -0.125,
+    -0.109375,
+    0.0546875,
+    -0.0234375,
+    0.125,
+    0.1171875,
+    -0.015625,
+    -0.1015625,
+    0.078125,
+    0.03125,
+    -0.0859375,
+    0.0625
+   ]
+  },
+  "n_rand": 12,
+  "ordering_penalty_bits": 1683.9962872242147,
+  "raw_bits": 3072,
+  "readout": "counts",
+  "shots": 256
+ },
+ "extractor": {
+  "epsilon_log2": 64,
+  "input_bits": 3072,
+  "input_serialisation": "sorted bitstrings repeated by count (canonical multiset)",
+  "kind": "toeplitz",
+  "output_bits": 104,
+  "public_seed": "toeplitz-v1",
+  "seed_id": "toeplitz-v1",
+  "seed_mode": "shipped"
+ }
+}

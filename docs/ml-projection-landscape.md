@@ -281,7 +281,7 @@ Runs 1 and 2 said the loop needed held-out promotion, less critic noise, and adv
 
 Each critic reads the real frames and the text independently, and the three fidelities are averaged (`ctx.critic_models`).
 
-**Quantum-drawn splits** [built, emu]. Two MothQuantum `comet-qrng-v1` draws (job ids and pre-outcome commitment hashes are in `logs/playtest-run3.json`) pick six **held-out** feeds, which steer promotion, and six **test** feeds, which are touched once at the end. The point is that no advisor, seed or person knows in advance which feeds will judge the search. The draws are emu (simulator). A real-QPU draw was attempted: the IBM queue hadn't returned after 13 minutes and the job was still `processing` 25 minutes later (job `37666e50`, still `processing` about 50 minutes after submission when this was written).
+**Quantum-drawn splits** [built, emu]. Two MothQuantum `comet-qrng-v1` draws (job ids and pre-outcome commitment hashes are in `logs/playtest-run3.json`) pick six **held-out** feeds, which steer promotion, and six **test** feeds, which are touched once at the end. The point is that no advisor, seed or person knows in advance which feeds will judge the search. The draws are emu (simulator). A real-QPU draw was also made (job `37666e50`, `logs/qpu-draw-37666e50.json`). It ran on IBM's **`ibm_fez`** and was collected 31 minutes after submission, too late for run 3's splits. It returned **13 of the 32 bytes requested**: after estimating the min-entropy the hardware actually carried, the extractor released only 104 bits. That is the certified path working as advertised, and a real cost: hardware randomness is slow and rationed, so it suits seeding a split, not every mutation.
 
 **Promotion by held-out score** [built]. After each generation the top 3 new configs by search-set U are re-scored on the held-out feeds (`row.hold`). Parents and the final winner are ranked by `hold`, and the advisors are told in their prompt that `hold` alone decides promotion.
 
@@ -433,7 +433,7 @@ plugins/ml selftest: 43 checks, 0 failures
 | TypeSafe Jev as a cheap critic | **[built, weak]** `scorers/jev.mjs`, `jevcheck.mjs` | Spearman 0.21 with the VLM (§4.7); worth it only when the paid critic is expensive |
 | multi-critic ensemble | **[built]** `ctx.critic_models` | 3 VLMs on DeepInfra; cut the search/held-out gap from ~0.2 to ~0.05 |
 | JEPA-style next-frame predictor | **[built, thin]** linear probe, 16×8 \|Δ\| target | next: frozen image encoder target (CLIP via DeepInfra `clip-ViT-B-32`), a small MLP |
-| quantum draws for exploration | **[built, emu]** `apis.quantumBytes` | mutation cell and the held-out/test split draws; a `qpu` draw was submitted and was still queued ~50 min later |
+| quantum draws for exploration | **[built, emu]** `apis.quantumBytes` | mutation cell and the held-out/test split draws (emu); one real `qpu` draw on ibm_fez: 31 min, 13 of 32 bytes after entropy estimation. Next: seed a split from it |
 | evolving advisor cells, backtest, promote | **[built]** | runs 1–3; run 3 promotes on held-out and checks the result on a quantum-drawn test set. Next: credit assignment (more proposals to cells whose winners hold out), more feeds per split |
 | chiaroscuro shape-match election (4×6 Hamming) | **[proposed]** | a projector plugin; the contract needs nothing new |
 | half-block colour projection | **[proposed]** | colour is out of the ASCII brief; `▀` with ANSI colour doubles vertical resolution |
