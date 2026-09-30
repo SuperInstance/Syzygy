@@ -70,6 +70,11 @@ for (const seq of feeds) {
 const still = renderSequence({ ...SCENES[0], objects: SCENES[0].objects.map((o) => ({ ...o, vx: 0, vy: 0 })) });
 const mo = project('motion', still), mi = project('mirror', still);
 CHECK(mo.motion.length === 0 && mo.text_projection === mi.text_projection, 'still feed: motion projector == mirror, byte for byte');
+{ // motion bg=edges on a still feed == syzygy orient=tangent: the edges layer IS the relabelled kernel
+  const a = project('motion', still, { ...defaults('motion'), bg: 'edges' }).text_projection;
+  const b = project('syzygy', still, { ...defaults('syzygy'), orient: 'tangent' }).text_projection;
+  CHECK(a === b, 'still feed: motion bg=edges == syzygy orient=tangent, byte for byte');
+}
 
 // 5. the discriminator arithmetic
 const T = feeds[0].truth;

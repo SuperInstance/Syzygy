@@ -1,0 +1,56 @@
+=== ceiling: Qwen/Qwen3-VL-30B-A3B-Instruct reads the real frames, vs ground truth ===
+  street fidelity 0.989  motion_recall 1
+  park   fidelity 0.935  motion_recall 1
+  night  fidelity 0.920  motion_recall 1
+  room   fidelity 0.833  motion_recall 0
+  MEAN ceiling 0.919
+=== grid: baselines, critic Qwen/Qwen3-VL-30B-A3B-Instruct (image) ===
+  mirror{}                   vlm 0.322  truth 0.325  motion 0.33  jepa 0.000  inverse 0.929  chars 1216  ms 2.5
+  mirror{"frames":2}         vlm 0.214  truth 0.195  motion 0.00  jepa 0.087  inverse 0.929  chars 2432  ms 0.9
+  syzygy{}                   vlm 0.282  truth 0.308  motion 0.00  jepa 0.000  inverse 0.631  chars 1216  ms 8.8
+  syzygy{"field":"braille"}  vlm 0.500  truth 0.501  motion 0.00  jepa 0.000  inverse 0.761  chars 1216  ms 4.0
+  motion{}                   vlm 0.248  truth 0.233  motion 0.33  jepa 0.195  inverse 0.905  chars 1216  ms 7.1
+  motion{"bg":"fused"}       vlm 0.287  truth 0.331  motion 0.00  jepa 0.195  inverse 0.631  chars 1216  ms 7.4
+=== search: 3 generations x 5 cells x 2 ===
+g0 seed      #0 U=0.260 vlm=0.322 [0.203 0.34 0.525 0.221] jepa=0.000 mot=0.333 inv=0.929 chars=1216 ms=0.5 mirror {"cols":64,"ramp":"standard","gamma":1,"invert":false,"frames":1}
+g0 seed      #1 U=0.217 vlm=0.282 [0.22 0.153 0.526 0.23] jepa=0.000 mot=0 inv=0.631 chars=1216 ms=2.0 syzygy {"cols":64,"field":"glyph","braille_thresh":100,"edge_thresh2":4000,"frames":1}
+g0 seed      #2 U=0.222 vlm=0.248 [0.239 0.095 0.38 0.28] jepa=0.195 mot=0.333 inv=0.905 chars=1216 ms=7.2 motion {"cols":64,"history":12,"window":4,"thresh":24,"min_blob":2,"min_speed":0.3,"bg":"tone","ramp":"standard","mark":"edge","arrows":"ascii","trail":3,"legend":false}
+g1 llm:deepseek #3 U=0.277 vlm=0.397 [0.4 0.213 0.526 0.447] jepa=0.171 mot=0 inv=0.874 chars=2784 ms=11.7 motion {"cols":96,"history":12,"window":4,"thresh":24,"min_blob":2,"min_speed":0.3,"bg":"tone","ramp":"short","mark":"head","arrows":"unicode","trail":2,"legend":false}  jev=0.9 | Higher cols plus head marks and unicode arrows should improve motion direction fidelity while short ramp limits character cost.
+g1 llm:deepseek #4 U=0.501 vlm=0.647 [0.478 0.578 0.841 0.693] jepa=0.000 mot=0 inv=0.765 chars=2784 ms=3.7 syzygy {"cols":96,"field":"braille","braille_thresh":100,"edge_thresh2":4000,"frames":1}  jev=0.72 | Braille field at higher cols may capture more object structure and reduce invented glyph artifacts, improving VLM fidelity.
+g1 llm:kimi     ERROR 429 {"error":{"message":"Your account org-74284a792f0743efbe6172ff90745c0c \u003cak-fcw8pkb3f7q111cgqho1\u003e is suspended due to insufficient balance, please recharge your account or check your plan
+g1 llm:zai      #5 U=0.173 vlm=0.270 [0 0 0.738 0.344] jepa=0.000 mot=0 inv=0.901 chars=1920 ms=0.8 mirror {"cols":80,"ramp":"short","gamma":0.7,"invert":false,"frames":1}  jev=0.77 | Increase resolution (cols) and use a shorter ramp with gamma correction to improve detail without adding many characters, potentially raising vlm.
+g1 llm:zai      #6 U=0.508 vlm=0.607 [0.415 0.56 0.762 0.691] jepa=0.000 mot=0 inv=0.897 chars=1920 ms=1.7 syzygy {"cols":80,"field":"braille","braille_thresh":150,"edge_thresh2":8000,"frames":1}  jev=0.72 | Switch to braille for higher detail density, tune thresholds to reduce noise and invented objects, potentially improving vlm and lowering char count.
+g1 quantum      #7 U=0.112 vlm=0.214 [0 0.187 0.334 0.337] jepa=0.087 mot=0 inv=0.929 chars=2432 ms=1.2 mirror {"cols":64,"ramp":"standard","gamma":1,"invert":false,"frames":2}  jev=0.86 | mutate qrng:emu:18ded388-4422-4c0f-83e8-8a17b9cb97d8
+g1 quantum      #8 U=0.223 vlm=0.248 [0.239 0.095 0.38 0.28] jepa=0.191 mot=0.333 inv=0.905 chars=1216 ms=6.4 motion {"cols":64,"history":12,"window":4,"thresh":24,"min_blob":2,"min_speed":0.05,"bg":"tone","ramp":"standard","mark":"edge","arrows":"ascii","trail":3,"legend":false}  jev=0.89 | mutate qrng:emu:18ded388-4422-4c0f-83e8-8a17b9cb97d8
+g1 local        #9 U=0.214 vlm=0.276 [0.214 0.331 0.123 0.436] jepa=0.000 mot=0 inv=0.000 chars=1216 ms=0.6 mirror {"cols":64,"ramp":"standard","gamma":1,"invert":true,"frames":1}  jev=0.76 | mutate xorshift32
+g1 local        #10 U=0.236 vlm=0.267 [0.275 0.319 0.171 0.303] jepa=0.178 mot=0.333 inv=0.655 chars=1216 ms=7.5 motion {"cols":64,"history":12,"window":4,"thresh":24,"min_blob":1,"min_speed":0.3,"bg":"dim","ramp":"standard","mark":"edge","arrows":"unicode","trail":3,"legend":false}  jev=0.89 | mutate xorshift32
+g1 best so far: #6 U=0.508 vlm=0.607 syzygy {"cols":80,"field":"braille","braille_thresh":150,"edge_thresh2":8000,"frames":1}
+g2 llm:deepseek #11 U=0.435 vlm=0.634 [0.565 0.582 0.759 0.633] jepa=0.000 mot=0 inv=0.898 chars=3808 ms=4.7 syzygy {"cols":112,"field":"braille","braille_thresh":130,"edge_thresh2":6000,"frames":1}  jev=0.69 | Higher-res braille edge glyphs should recover small missed objects like car/sun/cloud while staying cheap and text-only.
+g2 llm:deepseek #12 U=0.185 vlm=0.275 [0.323 0.235 0.224 0.316] jepa=0.068 mot=0 inv=0.875 chars=1920 ms=5.3 motion {"cols":80,"history":8,"window":4,"thresh":18,"min_blob":1,"min_speed":0.15,"bg":"tone","ramp":"short","mark":"head","arrows":"unicode","trail":2,"legend":false}  jev=0.9 | Lower thresholds and head marking should boost motion recall/jepa for moving cars and blobs without inventing too much.
+g2 llm:kimi     ERROR 429 {"error":{"message":"Your account org-74284a792f0743efbe6172ff90745c0c \u003cak-fcw8pkb3f7q111cgqho1\u003e is suspended due to insufficient balance, please recharge your account or check your plan
+g2 llm:zai      #13 U=0.437 vlm=0.500 [0.476 0.303 0.584 0.638] jepa=0.000 mot=0 inv=0.761 chars=1216 ms=1.3 syzygy {"cols":64,"field":"braille","braille_thresh":100,"edge_thresh2":4000,"frames":1}  jev=0.76 | Increase vlm by using braille with lower threshold to capture more detail without adding too many chars.
+g2 llm:zai      #14 U=0.172 vlm=0.196 [0 0.187 0.368 0.23] jepa=0.198 mot=0 inv=0.911 chars=1216 ms=6.3 motion {"cols":64,"history":12,"window":4,"thresh":24,"min_blob":1,"min_speed":0.3,"bg":"tone","ramp":"standard","mark":"head","arrows":"unicode","trail":2,"legend":false}  jev=0.91 | Improve jepa and motion_recall by lowering trail and min_blob to better capture subtle motion.
+g2 quantum      duplicate, skipped
+g2 quantum      #15 U=0.203 vlm=0.265 [0.164 0.228 0.362 0.305] jepa=0.000 mot=0 inv=0.805 chars=1216 ms=0.6 mirror {"cols":64,"ramp":"standard","gamma":1.3,"invert":false,"frames":1}  jev=0.86 | mutate qrng:emu:7c98a920-6637-4877-be8e-e4d046af6dfb
+g2 local        #16 U=0.193 vlm=0.290 [0.228 0.315 0.226 0.393] jepa=0.000 mot=0 inv=0.932 chars=1920 ms=0.6 mirror {"cols":80,"ramp":"standard","gamma":1,"invert":false,"frames":1}  jev=0.87 | mutate xorshift32
+g2 local        #17 U=0.228 vlm=0.283 [0.352 0.26 0.123 0.396] jepa=0.000 mot=0.333 inv=0.000 chars=1080 ms=0.6 mirror {"cols":60,"ramp":"standard","gamma":1,"invert":true,"frames":1}  jev=0.7 | mutate xorshift32
+g2 best so far: #6 U=0.508 vlm=0.607 syzygy {"cols":80,"field":"braille","braille_thresh":150,"edge_thresh2":8000,"frames":1}
+g3 llm:deepseek #18 U=0.477 vlm=0.634 [0.572 0.621 0.701 0.644] jepa=0.035 mot=0.333 inv=0.904 chars=3168 ms=4.0 syzygy {"cols":72,"field":"braille","braille_thresh":120,"edge_thresh2":5000,"frames":2}  jev=0.71 | Slightly smaller braille grid with mid thresholds plus 2-frame temporal sampling to catch moving cars/clouds without bloating chars.
+g3 llm:deepseek #19 U=0.273 vlm=0.340 [0.188 0.45 0.532 0.192] jepa=0.189 mot=0 inv=0.671 chars=1920 ms=9.5 motion {"cols":80,"history":10,"window":3,"thresh":18,"min_blob":2,"min_speed":0.15,"bg":"fused","ramp":"short","mark":"head","arrows":"unicode","trail":2,"legend":false}  jev=0.9 | Lower threshold and min_speed with fused background and head marks should recover small moving objects, boosting motion_recall and jepa.
+g3 llm:kimi     ERROR 429 {"error":{"message":"Your account org-74284a792f0743efbe6172ff90745c0c \u003cak-fcw8pkb3f7q111cgqho1\u003e is suspended due to insufficient balance, please recharge your account or check your plan
+g3 llm:zai      #20 U=0.217 vlm=0.280 [0.29 0.281 0.548 0] jepa=0.000 mot=0 inv=0.399 chars=1216 ms=1.2 syzygy {"cols":64,"field":"braille","braille_thresh":200,"edge_thresh2":12000,"frames":1}  jev=0.75 | Increase edge_thresh2 and braille_thresh to reduce false positives and improve object detection accuracy, as seen in the top syzygy config but with a lower column count for fewer characters.
+g3 llm:zai      #21 U=0.169 vlm=0.250 [0.245 0.116 0.331 0.309] jepa=0.102 mot=0 inv=0.877 chars=1920 ms=5.6 motion {"cols":80,"history":8,"window":4,"thresh":36,"min_blob":2,"min_speed":0.2,"bg":"tone","ramp":"short","mark":"head","arrows":"unicode","trail":2,"legend":false}  jev=0.89 | Reduce history and increase thresh to reduce noise, while lowering min_speed to capture slower-moving objects, aiming to improve vlm and jepa without significantly increasing compute or characters.
+g3 quantum      #22 U=0.536 vlm=0.612 [0.486 0.295 0.761 0.905] jepa=0.000 mot=0 inv=0.757 chars=1449 ms=1.6 syzygy {"cols":69,"field":"braille","braille_thresh":100,"edge_thresh2":4000,"frames":1}  jev=0.75 | mutate qrng:emu:b96ecd98-267a-4bec-8afc-d33b4c901249
+g3 quantum      #23 U=0.091 vlm=0.215 [0.146 0.32 0.232 0.163] jepa=0.000 mot=0 inv=0.825 chars=2403 ms=2.2 syzygy {"cols":89,"field":"tone","braille_thresh":165,"edge_thresh2":8000,"frames":1}  jev=0.75 | mutate qrng:emu:b96ecd98-267a-4bec-8afc-d33b4c901249
+g3 local        #24 U=0.173 vlm=0.318 [0.089 0.311 0.525 0.349] jepa=0.000 mot=0 inv=0.694 chars=2784 ms=3.1 syzygy {"cols":96,"field":"glyph","braille_thresh":100,"edge_thresh2":4000,"frames":1}  jev=0.75 | mutate xorshift32
+g3 local        #25 U=0.564 vlm=0.672 [0.567 0.57 0.846 0.706] jepa=0.000 mot=0 inv=0.893 chars=2100 ms=1.8 syzygy {"cols":84,"field":"braille","braille_thresh":149,"edge_thresh2":4000,"frames":1}  jev=0.76 | mutate xorshift32
+g3 best so far: #25 U=0.564 vlm=0.672 syzygy {"cols":84,"field":"braille","braille_thresh":149,"edge_thresh2":4000,"frames":1}
+  seeds best U 0.260 -> searched best U 0.564 (#25 local syzygy {"cols":84,"field":"braille","braille_thresh":149,"edge_thresh2":4000,"frames":1})
+  cell seed          n=3 best U 0.260 mean U 0.233
+  cell llm:deepseek  n=6 best U 0.501 mean U 0.358
+  cell llm:zai       n=6 best U 0.508 mean U 0.279
+  cell quantum       n=5 best U 0.536 mean U 0.233
+  cell local         n=6 best U 0.564 mean U 0.268
+  rejected by gate: 3
+api calls this run: 119 (cache hits 50) {"deepinfra":88,"deepseek":3,"zai":3,"quantum":3,"typesafe":22}
+report: plugins/ml/logs/playtest-image-Qwen3-VL-30B-A3B-Instruct.json

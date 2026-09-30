@@ -16,13 +16,15 @@
 //   grid     the fixed baselines (mirror, mirror x2, syzygy, motion) scored by
 //            every scorer — the lake test, in numbers.
 //   search   the evolving advisor-cell search (search.mjs) from the baselines.
+//   holdout  (explicit only) re-score the search's top configs + variants on
+//            unseen random feeds: the winner's-curse check.
 // Output: plugins/ml/logs/playtest-<tag>.json (+ a printed summary).
 // =============================================================================
 import fs from 'node:fs';
 import path from 'node:path';
 import { fileURLToPath } from 'node:url';
 import { project, score, defaults } from './index.mjs';
-import { SCENES, renderSequence } from './scenes.mjs';
+import { SCENES, renderSequence, randomSpec } from './scenes.mjs';
 import { describeOriginal, DEFAULT_CRITIC } from './scorers/vlm.mjs';
 import { compareScenes } from './compare.mjs';
 import { runSearch, pareto } from './search.mjs';
@@ -37,7 +39,12 @@ const feeds = SCENES.map((s) => renderSequence(s));
 const report = { tag, critic, mode, started: new Date().toISOString() };
 const mean = (a) => a.reduce((s, x) => s + x, 0) / Math.max(1, a.length);
 const OUT = path.join(HERE, 'logs', `playtest-${tag}.json`);
-const save = () => { fs.mkdirSync(path.dirname(OUT), { recursive: true }); fs.writeFileSync(OUT, JSON.stringify(report, null, 1)); };
+// Merge into the existing report so running one stage never erases another's results.
+const save = () => {
+  fs.mkdirSync(path.dirname(OUT), { recursive: true });
+  let prev = {}; try { prev = JSON.parse(fs.readFileSync(OUT, 'utf8')); } catch {}
+  fs.writeFileSync(OUT, JSON.stringify({ ...prev, ...report }, null, 1));
+};
 
 if (stage === 'ceiling' || stage === 'all') {
   console.log(`=== ceiling: ${critic} reads the real frames, vs ground truth ===`);
@@ -53,7 +60,8 @@ if (stage === 'ceiling' || stage === 'all') {
 
 if (stage === 'grid' || stage === 'all') {
   console.log(`=== grid: baselines, critic ${critic} (${mode}) ===`);
-  const cands = [['mirror', {}], ['mirror', { frames: 2 }], ['syzygy', {}], ['syzygy', { field: 'braille' }], ['motion', {}], ['motion', { bg: 'fused' }]];
+  const cands = [['mirror', {}], ['mirror', { frames: 2 }], ['syzygy', {}], ['syzygy', { field: 'braille' }], ['motion', {}], ['motion', { bg: 'fused' }],
+                 ['syzygy', { orient: 'tangent' }], ['motion', { bg: 'braille' }], ['motion', { bg: 'edges' }]];
   report.grid = [];
   for (const [n, over] of cands) {
     const params = { ...defaults(n), ...over }, rows = [];
@@ -93,6 +101,46 @@ if (stage === 'search' || stage === 'all') {
   console.log(`  rejected by gate: ${r.rejected.length}`);
   save();
 }
+if (stage === 'holdout') {
+  // Re-score configs on feeds the search never saw: the winner of a best-of-N
+  // pick on 4 noisy scenes is optimistically biased (winner's curse).
+  const seeds = arg('holdout-seeds', '100,118,122,125,127,136').split(',').map(Number);
+  const hold = seeds.map((s) => renderSequence(randomSpec(s)));
+  const src = JSON.parse(fs.readFileSync(arg('from', OUT.replace('.json', '-search.json')), 'utf8'));
+  const top = [...src.history].sort((a, b) => b.U - a.U).slice(0, +arg('top', 3));
+  const best = top[0];
+  const cands = [
+    ...['mirror', 'syzygy', 'motion'].map((n) => ({ label: `${n} defaults`, projector: n, params: defaults(n) })),
+    { label: 'syzygy braille defaults', projector: 'syzygy', params: { ...defaults('syzygy'), field: 'braille' } },
+    ...top.map((t) => ({ label: `search #${t.id} (${t.cell}), search-set vlm ${t.vlm.toFixed(3)}`, projector: t.projector, params: { ...defaults(t.projector), ...t.params }, searchVlm: t.vlm })),
+    { label: 'syzygy glyph, orient tangent', projector: 'syzygy', params: { ...defaults('syzygy'), orient: 'tangent' } },
+    { label: 'motion on tangent-edge bg (bg: edges)', projector: 'motion', params: { ...defaults('motion'), bg: 'edges' } },
+    { label: 'motion on braille bg (defaults: 64 cols, thresh 100)', projector: 'motion', params: { ...defaults('motion'), bg: 'braille' } },
+    { label: 'motion on braille bg (winner cols/thresh)', projector: 'motion',
+      params: { ...defaults('motion'), bg: 'braille', cols: best.params.cols ?? 84, braille_thresh: best.params.braille_thresh ?? 149 } },
+  ];
+  console.log(`=== holdout: ${cands.length} configs on ${hold.length} unseen feeds (seeds ${seeds.join(',')}), critic ${critic} (${mode}) ===`);
+  report.holdout = { seeds, rows: [] };
+  for (const c of cands) {
+    const rows = [];
+    for (const seq of hold) {
+      const pr = project(c.projector, seq, c.params);
+      const v = await score('vlm', { seq, projection: pr, ctx });
+      rows.push({ scene: seq.truth.scene, vlm: v.fidelity, truth: v.detail.vs_truth.fidelity, motion: v.detail.vs_vlm.motion_recall, chars: pr.char_budget });
+    }
+    const r = { ...c, vlm: mean(rows.map((x) => x.vlm)), truth: mean(rows.map((x) => x.truth)),
+                motion: mean(rows.filter((x) => x.motion !== null).map((x) => x.motion)), chars: mean(rows.map((x) => x.chars)),
+                per_scene: rows.map((x) => +x.vlm.toFixed(3)) };
+    report.holdout.rows.push(r);
+    console.log(`  ${c.label.padEnd(58)} vlm ${r.vlm.toFixed(3)}  truth ${r.truth.toFixed(3)}  motion ${r.motion.toFixed(2)}  chars ${Math.round(r.chars)}  [${r.per_scene.join(' ')}]`);
+  }
+  const ceil = [];
+  for (const seq of hold) ceil.push(compareScenes(seq.truth, (await describeOriginal(seq, { model: critic })).desc).fidelity);
+  report.holdout.ceiling = mean(ceil);
+  console.log(`  ceiling on these feeds (critic reads real frames vs truth): ${mean(ceil).toFixed(3)} [${ceil.map((x) => x.toFixed(3)).join(' ')}]`);
+  save();
+}
+
 report.api = stats; report.finished = new Date().toISOString(); save();
 console.log(`api calls this run: ${stats.calls} (cache hits ${stats.cacheHits}) ${JSON.stringify(stats.byProvider)}`);
 console.log(`report: ${path.relative(process.cwd(), OUT)}`);

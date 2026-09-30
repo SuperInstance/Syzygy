@@ -1,0 +1,875 @@
+{
+ "history": [
+  {
+   "cell": "seed",
+   "projector": "mirror",
+   "params": {
+    "cols": 64,
+    "ramp": "standard",
+    "gamma": 1,
+    "invert": false,
+    "frames": 1
+   },
+   "why": "defaults",
+   "vlm": 0.3221622244161231,
+   "vlm_per_scene": [
+    0.203,
+    0.34,
+    0.525,
+    0.221
+   ],
+   "inverse": 0.9291526465301638,
+   "jepa": 0,
+   "motion_recall": 0.333,
+   "chars": 1216,
+   "ms": 0.5166765,
+   "notes": "street: missed tree/sun; park: missed cloud; park: invented structure; night: missed car",
+   "U": 0.26032887141612304,
+   "id": 0
+  },
+  {
+   "cell": "seed",
+   "projector": "syzygy",
+   "params": {
+    "cols": 64,
+    "field": "glyph",
+    "braille_thresh": 100,
+    "edge_thresh2": 4000,
+    "frames": 1
+   },
+   "why": "defaults",
+   "vlm": 0.2823170272003639,
+   "vlm_per_scene": [
+    0.22,
+    0.153,
+    0.526,
+    0.23
+   ],
+   "inverse": 0.6311385011373358,
+   "jepa": 0,
+   "motion_recall": 0,
+   "chars": 1216,
+   "ms": 2.0218895,
+   "notes": "street: missed car; street: invented lines/dots/dots; park: missed stick figure/tree; park: invented object",
+   "U": 0.2174732482003639,
+   "id": 1
+  },
+  {
+   "cell": "seed",
+   "projector": "motion",
+   "params": {
+    "cols": 64,
+    "history": 12,
+    "window": 4,
+    "thresh": 24,
+    "min_blob": 2,
+    "min_speed": 0.3,
+    "bg": "tone",
+    "ramp": "standard",
+    "mark": "edge",
+    "arrows": "ascii",
+    "trail": 3,
+    "legend": false
+   },
+   "why": "defaults",
+   "vlm": 0.24839390216240337,
+   "vlm_per_scene": [
+    0.239,
+    0.095,
+    0.38,
+    0.28
+   ],
+   "inverse": 0.9046107163186072,
+   "jepa": 0.19518975850671005,
+   "motion_recall": 0.333,
+   "chars": 1216,
+   "ms": 7.183414999999999,
+   "notes": "street: missed house/tree; street: invented shape/tilde; park: missed tree/cloud; park: invented arrow/wave/line",
+   "U": 0.22202451178908092,
+   "id": 2
+  },
+  {
+   "cell": "llm:deepseek",
+   "projector": "motion",
+   "params": {
+    "cols": 96,
+    "history": 12,
+    "window": 4,
+    "thresh": 24,
+    "min_blob": 2,
+    "min_speed": 0.3,
+    "bg": "tone",
+    "ramp": "short",
+    "mark": "head",
+    "arrows": "unicode",
+    "trail": 2,
+    "legend": false
+   },
+   "why": "Higher cols plus head marks and unicode arrows should improve motion direction fidelity while short ramp limits character cost.",
+   "gen": 1,
+   "jev": 0.9,
+   "vlm": 0.396613203013622,
+   "vlm_per_scene": [
+    0.4,
+    0.213,
+    0.526,
+    0.447
+   ],
+   "inverse": 0.8738781609380392,
+   "jepa": 0.17091395733078096,
+   "motion_recall": 0,
+   "chars": 2784,
+   "ms": 11.70633125,
+   "notes": "park: missed cloud; night: missed car/building; night: invented stars/lights",
+   "U": 0.27672902984631725,
+   "id": 3
+  },
+  {
+   "cell": "llm:deepseek",
+   "projector": "syzygy",
+   "params": {
+    "cols": 96,
+    "field": "braille",
+    "braille_thresh": 100,
+    "edge_thresh2": 4000,
+    "frames": 1
+   },
+   "why": "Braille field at higher cols may capture more object structure and reduce invented glyph artifacts, improving VLM fidelity.",
+   "gen": 1,
+   "jev": 0.72,
+   "vlm": 0.6474648884042773,
+   "vlm_per_scene": [
+    0.478,
+    0.578,
+    0.841,
+    0.693
+   ],
+   "inverse": 0.7654653186611902,
+   "jepa": 0,
+   "motion_recall": 0,
+   "chars": 2784,
+   "ms": 3.7413755,
+   "notes": "street: missed car/sun; park: missed cloud; room: missed ball; room: invented light",
+   "U": 0.5007821374042773,
+   "id": 4
+  },
+  {
+   "cell": "llm:zai",
+   "projector": "mirror",
+   "params": {
+    "cols": 80,
+    "ramp": "short",
+    "gamma": 0.7,
+    "invert": false,
+    "frames": 1
+   },
+   "why": "Increase resolution (cols) and use a shorter ramp with gamma correction to improve detail without adding many characters, potentially raising vlm.",
+   "gen": 1,
+   "jev": 0.77,
+   "vlm": 0.27036937027134794,
+   "vlm_per_scene": [
+    0,
+    0,
+    0.738,
+    0.344
+   ],
+   "inverse": 0.9014392484279933,
+   "jepa": 0,
+   "motion_recall": 0,
+   "chars": 1920,
+   "ms": 0.752249,
+   "notes": "street: missed car/house/tree/sun; street: invented pattern; park: missed stick figure/tree/cloud; park: invented pattern",
+   "U": 0.17286487227134795,
+   "id": 5
+  },
+  {
+   "cell": "llm:zai",
+   "projector": "syzygy",
+   "params": {
+    "cols": 80,
+    "field": "braille",
+    "braille_thresh": 150,
+    "edge_thresh2": 8000,
+    "frames": 1
+   },
+   "why": "Switch to braille for higher detail density, tune thresholds to reduce noise and invented objects, potentially improving vlm and lowering char count.",
+   "gen": 1,
+   "jev": 0.72,
+   "vlm": 0.6069263679717442,
+   "vlm_per_scene": [
+    0.415,
+    0.56,
+    0.762,
+    0.691
+   ],
+   "inverse": 0.8969843278494185,
+   "jepa": 0,
+   "motion_recall": 0,
+   "chars": 1920,
+   "ms": 1.712723,
+   "notes": "street: missed car/sun; park: missed cloud; night: missed car; room: missed ball",
+   "U": 0.5075009219717441,
+   "id": 6
+  },
+  {
+   "cell": "quantum",
+   "projector": "mirror",
+   "params": {
+    "cols": 64,
+    "ramp": "standard",
+    "gamma": 1,
+    "invert": false,
+    "frames": 2
+   },
+   "why": "mutate qrng:emu:18ded388-4422-4c0f-83e8-8a17b9cb97d8",
+   "parent": 0,
+   "gen": 1,
+   "jev": 0.86,
+   "vlm": 0.21433707428251977,
+   "vlm_per_scene": [
+    0,
+    0.187,
+    0.334,
+    0.337
+   ],
+   "inverse": 0.9291526465301638,
+   "jepa": 0.08669902102716931,
+   "motion_recall": 0,
+   "chars": 2432,
+   "ms": 1.1742504999999999,
+   "notes": "street: missed car/house/tree/sun; street: invented central object; park: missed tree/cloud; park: invented structure",
+   "U": 0.1120633285393121,
+   "id": 7
+  },
+  {
+   "cell": "quantum",
+   "projector": "motion",
+   "params": {
+    "cols": 64,
+    "history": 12,
+    "window": 4,
+    "thresh": 24,
+    "min_blob": 2,
+    "min_speed": 0.05,
+    "bg": "tone",
+    "ramp": "standard",
+    "mark": "edge",
+    "arrows": "ascii",
+    "trail": 3,
+    "legend": false
+   },
+   "why": "mutate qrng:emu:18ded388-4422-4c0f-83e8-8a17b9cb97d8",
+   "parent": 2,
+   "gen": 1,
+   "jev": 0.89,
+   "vlm": 0.24839390216240337,
+   "vlm_per_scene": [
+    0.239,
+    0.095,
+    0.38,
+    0.28
+   ],
+   "inverse": 0.9046107163186072,
+   "jepa": 0.19147271339348504,
+   "motion_recall": 0.333,
+   "chars": 1216,
+   "ms": 6.37274075,
+   "notes": "street: missed house/tree; street: invented shape/tilde; park: missed tree/cloud; park: invented arrow/wave/line",
+   "U": 0.22271659901077465,
+   "id": 8
+  },
+  {
+   "cell": "local",
+   "projector": "mirror",
+   "params": {
+    "cols": 64,
+    "ramp": "standard",
+    "gamma": 1,
+    "invert": true,
+    "frames": 1
+   },
+   "why": "mutate xorshift32",
+   "parent": 0,
+   "gen": 1,
+   "jev": 0.76,
+   "vlm": 0.2763565151438585,
+   "vlm_per_scene": [
+    0.214,
+    0.331,
+    0.123,
+    0.436
+   ],
+   "inverse": 0,
+   "jepa": 0,
+   "motion_recall": 0,
+   "chars": 1216,
+   "ms": 0.633579,
+   "notes": "street: missed car/tree; street: invented pattern; park: missed cloud; park: invented fence",
+   "U": 0.21428935714385852,
+   "id": 9
+  },
+  {
+   "cell": "local",
+   "projector": "motion",
+   "params": {
+    "cols": 64,
+    "history": 12,
+    "window": 4,
+    "thresh": 24,
+    "min_blob": 1,
+    "min_speed": 0.3,
+    "bg": "dim",
+    "ramp": "standard",
+    "mark": "edge",
+    "arrows": "unicode",
+    "trail": 3,
+    "legend": false
+   },
+   "why": "mutate xorshift32",
+   "parent": 2,
+   "gen": 1,
+   "jev": 0.89,
+   "vlm": 0.2669857083258827,
+   "vlm_per_scene": [
+    0.275,
+    0.319,
+    0.171,
+    0.303
+   ],
+   "inverse": 0.6550532685323718,
+   "jepa": 0.17760908769541217,
+   "motion_recall": 0.333,
+   "chars": 1216,
+   "ms": 7.52826475,
+   "notes": "street: invented line/line/dot pattern; park: missed stick figure; park: invented light; night: missed car/building",
+   "U": 0.23553145074973572,
+   "id": 10
+  },
+  {
+   "cell": "llm:deepseek",
+   "projector": "syzygy",
+   "params": {
+    "cols": 112,
+    "field": "braille",
+    "braille_thresh": 130,
+    "edge_thresh2": 6000,
+    "frames": 1
+   },
+   "why": "Higher-res braille edge glyphs should recover small missed objects like car/sun/cloud while staying cheap and text-only.",
+   "gen": 2,
+   "jev": 0.69,
+   "vlm": 0.6344413769598786,
+   "vlm_per_scene": [
+    0.565,
+    0.582,
+    0.759,
+    0.633
+   ],
+   "inverse": 0.8976726195916024,
+   "jepa": 0,
+   "motion_recall": 0,
+   "chars": 3808,
+   "ms": 4.7328495,
+   "notes": "street: missed car/sun; park: missed cloud; night: missed car; room: missed table",
+   "U": 0.43457567795987856,
+   "id": 11
+  },
+  {
+   "cell": "llm:deepseek",
+   "projector": "motion",
+   "params": {
+    "cols": 80,
+    "history": 8,
+    "window": 4,
+    "thresh": 18,
+    "min_blob": 1,
+    "min_speed": 0.15,
+    "bg": "tone",
+    "ramp": "short",
+    "mark": "head",
+    "arrows": "unicode",
+    "trail": 2,
+    "legend": false
+   },
+   "why": "Lower thresholds and head marking should boost motion recall/jepa for moving cars and blobs without inventing too much.",
+   "gen": 2,
+   "jev": 0.9,
+   "vlm": 0.27450486077832814,
+   "vlm_per_scene": [
+    0.323,
+    0.235,
+    0.224,
+    0.316
+   ],
+   "inverse": 0.8746169718728347,
+   "jepa": 0.067621211361092,
+   "motion_recall": 0,
+   "chars": 1920,
+   "ms": 5.2530642499999995,
+   "notes": "street: missed car/tree; street: invented dark shape/line; park: missed stick figure; park: invented arrow/tilde",
+   "U": 0.18490403511860118,
+   "id": 12
+  },
+  {
+   "cell": "llm:zai",
+   "projector": "syzygy",
+   "params": {
+    "cols": 64,
+    "field": "braille",
+    "braille_thresh": 100,
+    "edge_thresh2": 4000,
+    "frames": 1
+   },
+   "why": "Increase vlm by using braille with lower threshold to capture more detail without adding too many chars.",
+   "gen": 2,
+   "jev": 0.76,
+   "vlm": 0.5001917587975739,
+   "vlm_per_scene": [
+    0.476,
+    0.303,
+    0.584,
+    0.638
+   ],
+   "inverse": 0.760611335692319,
+   "jepa": 0,
+   "motion_recall": 0,
+   "chars": 1216,
+   "ms": 1.3074335000000001,
+   "notes": "street: missed car/sun; park: missed cloud; night: missed car; room: missed table",
+   "U": 0.4367768917975739,
+   "id": 13
+  },
+  {
+   "cell": "llm:zai",
+   "projector": "motion",
+   "params": {
+    "cols": 64,
+    "history": 12,
+    "window": 4,
+    "thresh": 24,
+    "min_blob": 1,
+    "min_speed": 0.3,
+    "bg": "tone",
+    "ramp": "standard",
+    "mark": "head",
+    "arrows": "unicode",
+    "trail": 2,
+    "legend": false
+   },
+   "why": "Improve jepa and motion_recall by lowering trail and min_blob to better capture subtle motion.",
+   "gen": 2,
+   "jev": 0.91,
+   "vlm": 0.19637884464467875,
+   "vlm_per_scene": [
+    0,
+    0.187,
+    0.368,
+    0.23
+   ],
+   "inverse": 0.9108724052307741,
+   "jepa": 0.19755879089945905,
+   "motion_recall": 0,
+   "chars": 1216,
+   "ms": 6.2694285,
+   "notes": "street: missed car/house/tree/sun; street: invented text pattern; park: missed tree/cloud; park: invented structure/arrow",
+   "U": 0.1724296853695435,
+   "id": 14
+  },
+  {
+   "cell": "quantum",
+   "projector": "mirror",
+   "params": {
+    "cols": 64,
+    "ramp": "standard",
+    "gamma": 1.3,
+    "invert": false,
+    "frames": 1
+   },
+   "why": "mutate qrng:emu:7c98a920-6637-4877-be8e-e4d046af6dfb",
+   "parent": 0,
+   "gen": 2,
+   "jev": 0.86,
+   "vlm": 0.2646593846553928,
+   "vlm_per_scene": [
+    0.164,
+    0.228,
+    0.362,
+    0.305
+   ],
+   "inverse": 0.8052315081650216,
+   "jepa": 0,
+   "motion_recall": 0,
+   "chars": 1216,
+   "ms": 0.5996172500000001,
+   "notes": "street: missed tree; street: invented central structure/top right pattern/left pattern; park: missed stick figure; park: invented symbol/symbol",
+   "U": 0.2026601501553928,
+   "id": 15
+  },
+  {
+   "cell": "local",
+   "projector": "mirror",
+   "params": {
+    "cols": 80,
+    "ramp": "standard",
+    "gamma": 1,
+    "invert": false,
+    "frames": 1
+   },
+   "why": "mutate xorshift32",
+   "parent": 0,
+   "gen": 2,
+   "jev": 0.87,
+   "vlm": 0.29042821370317484,
+   "vlm_per_scene": [
+    0.228,
+    0.315,
+    0.226,
+    0.393
+   ],
+   "inverse": 0.9316549594938925,
+   "jepa": 0,
+   "motion_recall": 0,
+   "chars": 1920,
+   "ms": 0.5519930000000001,
+   "notes": "street: missed car/tree; street: invented large object; park: missed tree; night: missed car/building",
+   "U": 0.19332422770317484,
+   "id": 16
+  },
+  {
+   "cell": "local",
+   "projector": "mirror",
+   "params": {
+    "cols": 60,
+    "ramp": "standard",
+    "gamma": 1,
+    "invert": true,
+    "frames": 1
+   },
+   "why": "mutate xorshift32",
+   "parent": 0,
+   "gen": 2,
+   "jev": 0.7,
+   "vlm": 0.2827490717960265,
+   "vlm_per_scene": [
+    0.352,
+    0.26,
+    0.123,
+    0.396
+   ],
+   "inverse": 0,
+   "jepa": 0,
+   "motion_recall": 0.333,
+   "chars": 1080,
+   "ms": 0.56461675,
+   "notes": "street: missed tree; street: invented car/person; park: missed cloud; park: invented symbol",
+   "U": 0.2276198382960265,
+   "id": 17
+  },
+  {
+   "cell": "llm:deepseek",
+   "projector": "syzygy",
+   "params": {
+    "cols": 72,
+    "field": "braille",
+    "braille_thresh": 120,
+    "edge_thresh2": 5000,
+    "frames": 2
+   },
+   "why": "Slightly smaller braille grid with mid thresholds plus 2-frame temporal sampling to catch moving cars/clouds without bloating chars.",
+   "gen": 3,
+   "jev": 0.71,
+   "vlm": 0.634350096849761,
+   "vlm_per_scene": [
+    0.572,
+    0.621,
+    0.701,
+    0.644
+   ],
+   "inverse": 0.9042192803241467,
+   "jepa": 0.03514145027936011,
+   "motion_recall": 0.333,
+   "chars": 3168,
+   "ms": 3.98446925,
+   "notes": "street: missed sun; park: missed cloud; park: invented character; night: missed car",
+   "U": 0.47676652091960103,
+   "id": 18
+  },
+  {
+   "cell": "llm:deepseek",
+   "projector": "motion",
+   "params": {
+    "cols": 80,
+    "history": 10,
+    "window": 3,
+    "thresh": 18,
+    "min_blob": 2,
+    "min_speed": 0.15,
+    "bg": "fused",
+    "ramp": "short",
+    "mark": "head",
+    "arrows": "unicode",
+    "trail": 2,
+    "legend": false
+   },
+   "why": "Lower threshold and min_speed with fused background and head marks should recover small moving objects, boosting motion_recall and jepa.",
+   "gen": 3,
+   "jev": 0.9,
+   "vlm": 0.34047488292542255,
+   "vlm_per_scene": [
+    0.188,
+    0.45,
+    0.532,
+    0.192
+   ],
+   "inverse": 0.6712002993241049,
+   "jepa": 0.1894432114231973,
+   "motion_recall": 0,
+   "chars": 1920,
+   "ms": 9.52876375,
+   "notes": "street: missed tree/sun; street: invented figure; park: missed tree; night: missed car",
+   "U": 0.27277815828122187,
+   "id": 19
+  },
+  {
+   "cell": "llm:zai",
+   "projector": "syzygy",
+   "params": {
+    "cols": 64,
+    "field": "braille",
+    "braille_thresh": 200,
+    "edge_thresh2": 12000,
+    "frames": 1
+   },
+   "why": "Increase edge_thresh2 and braille_thresh to reduce false positives and improve object detection accuracy, as seen in the top syzygy config but with a lower column count for fewer characters.",
+   "gen": 3,
+   "jev": 0.75,
+   "vlm": 0.2799527002600578,
+   "vlm_per_scene": [
+    0.29,
+    0.281,
+    0.548,
+    0
+   ],
+   "inverse": 0.3991786318170636,
+   "jepa": 0,
+   "motion_recall": 0,
+   "chars": 1216,
+   "ms": 1.22671475,
+   "notes": "street: missed tree; park: missed stick figure/tree; night: missed car/building; night: invented cluster",
+   "U": 0.21669927076005782,
+   "id": 20
+  },
+  {
+   "cell": "llm:zai",
+   "projector": "motion",
+   "params": {
+    "cols": 80,
+    "history": 8,
+    "window": 4,
+    "thresh": 36,
+    "min_blob": 2,
+    "min_speed": 0.2,
+    "bg": "tone",
+    "ramp": "short",
+    "mark": "head",
+    "arrows": "unicode",
+    "trail": 2,
+    "legend": false
+   },
+   "why": "Reduce history and increase thresh to reduce noise, while lowering min_speed to capture slower-moving objects, aiming to improve vlm and jepa without significantly increasing compute or characters.",
+   "gen": 3,
+   "jev": 0.89,
+   "vlm": 0.25027188581868476,
+   "vlm_per_scene": [
+    0.245,
+    0.116,
+    0.331,
+    0.309
+   ],
+   "inverse": 0.8767809984548199,
+   "jepa": 0.10234838806405733,
+   "motion_recall": 0,
+   "chars": 1920,
+   "ms": 5.56178725,
+   "notes": "street: missed car/sun; street: invented pattern; park: missed tree/cloud; night: missed car",
+   "U": 0.1687354083346991,
+   "id": 21
+  },
+  {
+   "cell": "quantum",
+   "projector": "syzygy",
+   "params": {
+    "cols": 69,
+    "field": "braille",
+    "braille_thresh": 100,
+    "edge_thresh2": 4000,
+    "frames": 1
+   },
+   "why": "mutate qrng:emu:b96ecd98-267a-4bec-8afc-d33b4c901249",
+   "parent": 13,
+   "gen": 3,
+   "jev": 0.75,
+   "vlm": 0.6119075096228903,
+   "vlm_per_scene": [
+    0.486,
+    0.295,
+    0.761,
+    0.905
+   ],
+   "inverse": 0.7573358224256843,
+   "jepa": 0,
+   "motion_recall": 0,
+   "chars": 1449,
+   "ms": 1.58865125,
+   "notes": "street: missed car/sun; park: missed cloud; night: missed car",
+   "U": 0.5362802071228903,
+   "id": 22
+  },
+  {
+   "cell": "quantum",
+   "projector": "syzygy",
+   "params": {
+    "cols": 89,
+    "field": "tone",
+    "braille_thresh": 165,
+    "edge_thresh2": 8000,
+    "frames": 1
+   },
+   "why": "mutate qrng:emu:b96ecd98-267a-4bec-8afc-d33b4c901249",
+   "parent": 6,
+   "gen": 3,
+   "jev": 0.75,
+   "vlm": 0.21514199559664438,
+   "vlm_per_scene": [
+    0.146,
+    0.32,
+    0.232,
+    0.163
+   ],
+   "inverse": 0.825491330508432,
+   "jepa": 0,
+   "motion_recall": 0,
+   "chars": 2403,
+   "ms": 2.207376,
+   "notes": "street: missed tree; street: invented line/line/line; park: missed tree; night: missed car/building",
+   "U": 0.09057724359664437,
+   "id": 23
+  },
+  {
+   "cell": "local",
+   "projector": "syzygy",
+   "params": {
+    "cols": 96,
+    "field": "glyph",
+    "braille_thresh": 100,
+    "edge_thresh2": 4000,
+    "frames": 1
+   },
+   "why": "mutate xorshift32",
+   "parent": 4,
+   "gen": 3,
+   "jev": 0.75,
+   "vlm": 0.31848552704905675,
+   "vlm_per_scene": [
+    0.089,
+    0.311,
+    0.525,
+    0.349
+   ],
+   "inverse": 0.6940295808109789,
+   "jepa": 0,
+   "motion_recall": 0,
+   "chars": 2784,
+   "ms": 3.0947585,
+   "notes": "street: missed car/tree/sun; street: invented hexagon/lines/dots; park: missed tree; night: missed car",
+   "U": 0.17309601004905675,
+   "id": 24
+  },
+  {
+   "cell": "local",
+   "projector": "syzygy",
+   "params": {
+    "cols": 84,
+    "field": "braille",
+    "braille_thresh": 149,
+    "edge_thresh2": 4000,
+    "frames": 1
+   },
+   "why": "mutate xorshift32",
+   "parent": 13,
+   "gen": 3,
+   "jev": 0.76,
+   "vlm": 0.6723061707474217,
+   "vlm_per_scene": [
+    0.567,
+    0.57,
+    0.846,
+    0.706
+   ],
+   "inverse": 0.8925446906839186,
+   "jepa": 0,
+   "motion_recall": 0,
+   "chars": 2100,
+   "ms": 1.8215587500000001,
+   "notes": "street: missed car/sun; park: missed cloud; room: missed ball",
+   "U": 0.5636630532474217,
+   "id": 25
+  }
+ ],
+ "rejected": [
+  {
+   "gen": 1,
+   "cell": "llm:kimi",
+   "error": "429 {\"error\":{\"message\":\"Your account org-74284a792f0743efbe6172ff90745c0c \\u003cak-fcw8pkb3f7q111cgqho1\\u003e is suspended due to insufficient balance, please recharge your account or check your plan",
+   "reasons": [
+    "advisor error"
+   ]
+  },
+  {
+   "gen": 2,
+   "cell": "llm:kimi",
+   "error": "429 {\"error\":{\"message\":\"Your account org-74284a792f0743efbe6172ff90745c0c \\u003cak-fcw8pkb3f7q111cgqho1\\u003e is suspended due to insufficient balance, please recharge your account or check your plan",
+   "reasons": [
+    "advisor error"
+   ]
+  },
+  {
+   "gen": 3,
+   "cell": "llm:kimi",
+   "error": "429 {\"error\":{\"message\":\"Your account org-74284a792f0743efbe6172ff90745c0c \\u003cak-fcw8pkb3f7q111cgqho1\\u003e is suspended due to insufficient balance, please recharge your account or check your plan",
+   "reasons": [
+    "advisor error"
+   ]
+  }
+ ],
+ "genLog": [
+  {
+   "gen": 1,
+   "proposed": 9,
+   "scored": 8,
+   "best_U": 0.5075009219717441,
+   "best_id": 6
+  },
+  {
+   "gen": 2,
+   "proposed": 9,
+   "scored": 7,
+   "best_U": 0.5075009219717441,
+   "best_id": 6
+  },
+  {
+   "gen": 3,
+   "proposed": 9,
+   "scored": 8,
+   "best_U": 0.5636630532474217,
+   "best_id": 25
+  }
+ ],
+ "front": [
+  0,
+  13,
+  17,
+  22,
+  25
+ ]
+}
