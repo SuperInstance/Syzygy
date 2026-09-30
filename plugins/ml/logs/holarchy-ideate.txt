@@ -1,0 +1,28 @@
+Qwen3-235B-A22B-Instruct-2507: 0 ideas
+deepseek: 4 ideas
+gpt-oss-120b: 4 ideas
+MiniMax-M3: 4 ideas
+zai: 4 ideas
+Kimi-K2.6: 4 ideas
+
+20 ideas triaged by Jev (merit = mean(novelty, leverage, decentral)/4 x (0.25 + 0.75 testable))
+0.548  nov 2.32 lev 3.61 dec 3.46 test 0.60  [MiniMax-M3] Community Jury: Distributed VLM Critics as Organs (community/organ)
+0.543  nov 2.94 lev 3.19 dec 3.94 test 0.53  [deepseek] Jev-Negotiated Glyph Merger (Tissue Voting) (cell/tissue/organ)
+0.542  nov 2.64 lev 3.18 dec 3.88 test 0.56  [Kimi-K2.6] Tissue Consensus Voting (cell/tissue)
+0.501  nov 2.63 lev 3.04 dec 3.95 test 0.50  [MiniMax-M3] Murmuration of Motion Arrows: Stigmergetic Guided Growth (cell/organ)
+0.494  nov 2.60 lev 3.12 dec 3.88 test 0.49  [deepseek] Perspective Tournament without a Center (cell/tissue/community)
+0.485  nov 2.70 lev 3.09 dec 3.63 test 0.49  [MiniMax-M3] Edge-Cell Voting on Disagreement Pixels (cell/tissue)
+0.444  nov 2.12 lev 2.52 dec 3.23 test 0.57  [zai] Motion Arrow Auction (family)
+0.443  nov 2.90 lev 2.82 dec 2.21 test 0.56  [deepseek] Guided Growth of Edge Glyphs via Jev Curiosity (cell/tissue)
+0.439  nov 2.75 lev 3.02 dec 2.46 test 0.52  [Kimi-K2.6] Community Protocol for Disagreement (community)
+0.435  nov 2.03 lev 2.62 dec 3.05 test 0.57  [MiniMax-M3] Family-Level Lineage of Glyph Dialects (family/organism)
+0.434  nov 2.97 lev 3.61 dec 2.52 test 0.43  [Kimi-K2.6] Organ Competition with Quantum Arbitration (tissue/organ)
+0.389  nov 2.06 lev 2.49 dec 2.05 test 0.61  [gpt-oss-120b] Local Edge Consistency Voting (cell/tissue)
+0.369  nov 2.48 lev 2.48 dec 1.44 test 0.59  [deepseek] Motion-Arrow Recall Repair by Jev Triage (tissue/organ/organism)
+0.332  nov 1.60 lev 2.62 dec 1.53 test 0.59  [zai] Multi-Jury Projection Review (community)
+0.322  nov 2.35 lev 2.87 dec 1.04 test 0.49  [Kimi-K2.6] Family Lineage of Projector Kernels (organism/family)
+0.319  nov 2.37 lev 2.80 dec 0.88 test 0.51  [zai] Edge Glyph Emergence (tissue/organ)
+0.316  nov 1.67 lev 2.68 dec 0.64 test 0.68  [gpt-oss-120b] Hierarchical Scoring and Targeted Deliberation (organ/organism)
+0.286  nov 1.79 lev 2.56 dec 1.28 test 0.48  [zai] Quantum-Guided Projection Search (cell)
+0.284  nov 1.84 lev 2.10 dec 0.59 test 0.67  [gpt-oss-120b] Motion Arrow Conflict Resolution (tissue/organ)
+0.250  nov 1.55 lev 2.26 dec 0.61 test 0.57  [gpt-oss-120b] Community Config Evolution via Quantum Seeding (family/community)

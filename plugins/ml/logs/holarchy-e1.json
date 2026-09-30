@@ -1,0 +1,2018 @@
+{
+ "summary": {
+  "mirror": {
+   "vlm": 0.28001101089896513,
+   "receptors_r1": {
+    "fidelity": 0.105,
+    "tissue_acc": 0.706,
+    "object_tissue_acc": 0,
+    "background_acc": 1,
+    "organ_recall": 0,
+    "organ_precision": 0,
+    "setting": 0.7,
+    "motion_recall": 0
+   },
+   "receptors_r2": {
+    "fidelity": 0.105,
+    "tissue_acc": 0.706,
+    "object_tissue_acc": 0,
+    "background_acc": 1,
+    "organ_recall": 0,
+    "organ_precision": 0,
+    "setting": 0.7,
+    "motion_recall": 0
+   },
+   "raw_r1": {
+    "fidelity": 0.301,
+    "tissue_acc": 0.739,
+    "object_tissue_acc": 0.128,
+    "background_acc": 1,
+    "organ_recall": 0.175,
+    "organ_precision": 0.45,
+    "setting": 0.7,
+    "motion_recall": 0
+   },
+   "raw_r2": {
+    "fidelity": 0.254,
+    "tissue_acc": 0.672,
+    "object_tissue_acc": 0.183,
+    "background_acc": 0.873,
+    "organ_recall": 0.15,
+    "organ_precision": 0.45,
+    "setting": 0.7,
+    "motion_recall": 0
+   }
+  },
+  "syzygy tangent": {
+   "vlm": 0.5057513372004371,
+   "receptors_r1": {
+    "fidelity": 0.242,
+    "tissue_acc": 0.639,
+    "object_tissue_acc": 0.097,
+    "background_acc": 0.866,
+    "organ_recall": 0.175,
+    "organ_precision": 0.383,
+    "setting": 0.2,
+    "motion_recall": 0
+   },
+   "receptors_r2": {
+    "fidelity": 0.235,
+    "tissue_acc": 0.517,
+    "object_tissue_acc": 0.236,
+    "background_acc": 0.628,
+    "organ_recall": 0.175,
+    "organ_precision": 0.5,
+    "setting": 0.2,
+    "motion_recall": 0
+   },
+   "raw_r1": {
+    "fidelity": 0.216,
+    "tissue_acc": 0.728,
+    "object_tissue_acc": 0.097,
+    "background_acc": 0.989,
+    "organ_recall": 0.117,
+    "organ_precision": 0.333,
+    "setting": 0.2,
+    "motion_recall": 0
+   },
+   "raw_r2": {
+    "fidelity": 0.201,
+    "tissue_acc": 0.683,
+    "object_tissue_acc": 0.153,
+    "background_acc": 0.89,
+    "organ_recall": 0.15,
+    "organ_precision": 0.433,
+    "setting": 0.2,
+    "motion_recall": 0
+   }
+  },
+  "motion edges": {
+   "vlm": 0.4876053919734484,
+   "receptors_r1": {
+    "fidelity": 0.305,
+    "tissue_acc": 0.65,
+    "object_tissue_acc": 0.139,
+    "background_acc": 0.868,
+    "organ_recall": 0.233,
+    "organ_precision": 0.433,
+    "setting": 0.2,
+    "motion_recall": 0.4
+   },
+   "receptors_r2": {
+    "fidelity": 0.274,
+    "tissue_acc": 0.533,
+    "object_tissue_acc": 0.236,
+    "background_acc": 0.656,
+    "organ_recall": 0.233,
+    "organ_precision": 0.47,
+    "setting": 0.2,
+    "motion_recall": 0.4
+   },
+   "raw_r1": {
+    "fidelity": 0.193,
+    "tissue_acc": 0.728,
+    "object_tissue_acc": 0.086,
+    "background_acc": 1,
+    "organ_recall": 0.117,
+    "organ_precision": 0.35,
+    "setting": 0.2,
+    "motion_recall": 0.1
+   },
+   "raw_r2": {
+    "fidelity": 0.153,
+    "tissue_acc": 0.683,
+    "object_tissue_acc": 0.117,
+    "background_acc": 0.91,
+    "organ_recall": 0.117,
+    "organ_precision": 0.325,
+    "setting": 0.2,
+    "motion_recall": 0
+   }
+  },
+  "braille": {
+   "vlm": 0.36249150450492584,
+   "receptors_r1": {
+    "fidelity": 0.105,
+    "tissue_acc": 0.706,
+    "object_tissue_acc": 0,
+    "background_acc": 1,
+    "organ_recall": 0,
+    "organ_precision": 0,
+    "setting": 0.7,
+    "motion_recall": 0
+   },
+   "receptors_r2": {
+    "fidelity": 0.105,
+    "tissue_acc": 0.706,
+    "object_tissue_acc": 0,
+    "background_acc": 1,
+    "organ_recall": 0,
+    "organ_precision": 0,
+    "setting": 0.7,
+    "motion_recall": 0
+   },
+   "raw_r1": {
+    "fidelity": 0.222,
+    "tissue_acc": 0.717,
+    "object_tissue_acc": 0.028,
+    "background_acc": 1,
+    "organ_recall": 0.083,
+    "organ_precision": 0.25,
+    "setting": 0.7,
+    "motion_recall": 0
+   },
+   "raw_r2": {
+    "fidelity": 0.225,
+    "tissue_acc": 0.706,
+    "object_tissue_acc": 0.039,
+    "background_acc": 0.972,
+    "organ_recall": 0.083,
+    "organ_precision": 0.2,
+    "setting": 0.7,
+    "motion_recall": 0
+   }
+  }
+ },
+ "rows": [
+  {
+   "projector": "mirror",
+   "feed": "street",
+   "vlm_truth": 0.20585536136174631,
+   "vlm_motion": 0,
+   "receptors_r1": {
+    "fidelity": 0.15,
+    "tissue_acc": 0.5,
+    "object_tissue_acc": 0,
+    "background_acc": 1,
+    "organ_recall": 0,
+    "organ_precision": 0,
+    "setting": 1,
+    "motion_recall": 0
+   },
+   "receptors_r2": {
+    "fidelity": 0.15,
+    "tissue_acc": 0.5,
+    "object_tissue_acc": 0,
+    "background_acc": 1,
+    "organ_recall": 0,
+    "organ_precision": 0,
+    "setting": 1,
+    "motion_recall": 0
+   },
+   "raw_r1": {
+    "fidelity": 0.44882457376077345,
+    "tissue_acc": 0.5555555555555556,
+    "object_tissue_acc": 0.1111111111111111,
+    "background_acc": 1,
+    "organ_recall": 0.25,
+    "organ_precision": 0.5,
+    "setting": 1,
+    "motion_recall": 0
+   },
+   "raw_r2": {
+    "fidelity": 0.4605050162106633,
+    "tissue_acc": 0.5555555555555556,
+    "object_tissue_acc": 0.3333333333333333,
+    "background_acc": 0.7777777777777778,
+    "organ_recall": 0.25,
+    "organ_precision": 0.5,
+    "setting": 1,
+    "motion_recall": 0
+   }
+  },
+  {
+   "projector": "mirror",
+   "feed": "park",
+   "vlm_truth": 0.31043051420264683,
+   "vlm_motion": 1,
+   "receptors_r1": {
+    "fidelity": 0.15,
+    "tissue_acc": 0.6666666666666666,
+    "object_tissue_acc": 0,
+    "background_acc": 1,
+    "organ_recall": 0,
+    "organ_precision": 0,
+    "setting": 1,
+    "motion_recall": 0
+   },
+   "receptors_r2": {
+    "fidelity": 0.15,
+    "tissue_acc": 0.6666666666666666,
+    "object_tissue_acc": 0,
+    "background_acc": 1,
+    "organ_recall": 0,
+    "organ_precision": 0,
+    "setting": 1,
+    "motion_recall": 0
+   },
+   "raw_r1": {
+    "fidelity": 0.29915838309057896,
+    "tissue_acc": 0.6666666666666666,
+    "object_tissue_acc": 0,
+    "background_acc": 1,
+    "organ_recall": 0,
+    "organ_precision": 0,
+    "setting": 1,
+    "motion_recall": 0
+   },
+   "raw_r2": {
+    "fidelity": 0.29554103356866096,
+    "tissue_acc": 0.5555555555555556,
+    "object_tissue_acc": 0,
+    "background_acc": 0.8333333333333334,
+    "organ_recall": 0,
+    "organ_precision": 0,
+    "setting": 1,
+    "motion_recall": 0
+   }
+  },
+  {
+   "projector": "mirror",
+   "feed": "night",
+   "vlm_truth": 0.5341479038564028,
+   "vlm_motion": 0,
+   "receptors_r1": {
+    "fidelity": 0.15,
+    "tissue_acc": 0.6666666666666666,
+    "object_tissue_acc": 0,
+    "background_acc": 1,
+    "organ_recall": 0,
+    "organ_precision": 0,
+    "setting": 1,
+    "motion_recall": 0
+   },
+   "receptors_r2": {
+    "fidelity": 0.15,
+    "tissue_acc": 0.6666666666666666,
+    "object_tissue_acc": 0,
+    "background_acc": 1,
+    "organ_recall": 0,
+    "organ_precision": 0,
+    "setting": 1,
+    "motion_recall": 0
+   },
+   "raw_r1": {
+    "fidelity": 0.4686023499391433,
+    "tissue_acc": 0.7222222222222222,
+    "object_tissue_acc": 0.16666666666666666,
+    "background_acc": 1,
+    "organ_recall": 0.25,
+    "organ_precision": 0.5,
+    "setting": 1,
+    "motion_recall": 0
+   },
+   "raw_r2": {
+    "fidelity": 0.15,
+    "tissue_acc": 0.6666666666666666,
+    "object_tissue_acc": 0,
+    "background_acc": 1,
+    "organ_recall": 0,
+    "organ_precision": 0,
+    "setting": 1,
+    "motion_recall": 0
+   }
+  },
+  {
+   "projector": "mirror",
+   "feed": "room",
+   "vlm_truth": 0.25054923915050054,
+   "vlm_motion": 0,
+   "receptors_r1": {
+    "fidelity": 0,
+    "tissue_acc": 0.7777777777777778,
+    "object_tissue_acc": 0,
+    "background_acc": 1,
+    "organ_recall": 0,
+    "organ_precision": 0,
+    "setting": 0,
+    "motion_recall": 0
+   },
+   "receptors_r2": {
+    "fidelity": 0,
+    "tissue_acc": 0.7777777777777778,
+    "object_tissue_acc": 0,
+    "background_acc": 1,
+    "organ_recall": 0,
+    "organ_precision": 0,
+    "setting": 0,
+    "motion_recall": 0
+   },
+   "raw_r1": {
+    "fidelity": 0.25148431365314483,
+    "tissue_acc": 0.8333333333333334,
+    "object_tissue_acc": 0.25,
+    "background_acc": 1,
+    "organ_recall": 0.333,
+    "organ_precision": 1,
+    "setting": 0,
+    "motion_recall": 0
+   },
+   "raw_r2": {
+    "fidelity": 0.2691493938584246,
+    "tissue_acc": 0.7222222222222222,
+    "object_tissue_acc": 0.25,
+    "background_acc": 0.8571428571428571,
+    "organ_recall": 0.333,
+    "organ_precision": 1,
+    "setting": 0,
+    "motion_recall": 0
+   }
+  },
+  {
+   "projector": "mirror",
+   "feed": "rand11204",
+   "vlm_truth": 0.29209027507027996,
+   "vlm_motion": 0,
+   "receptors_r1": {
+    "fidelity": 0,
+    "tissue_acc": 0.8333333333333334,
+    "object_tissue_acc": 0,
+    "background_acc": 1,
+    "organ_recall": 0,
+    "organ_precision": 0,
+    "setting": 0,
+    "motion_recall": 0
+   },
+   "receptors_r2": {
+    "fidelity": 0,
+    "tissue_acc": 0.8333333333333334,
+    "object_tissue_acc": 0,
+    "background_acc": 1,
+    "organ_recall": 0,
+    "organ_precision": 0,
+    "setting": 0,
+    "motion_recall": 0
+   },
+   "raw_r1": {
+    "fidelity": 0.27643477336343497,
+    "tissue_acc": 0.8888888888888888,
+    "object_tissue_acc": 0.3333333333333333,
+    "background_acc": 1,
+    "organ_recall": 0.333,
+    "organ_precision": 1,
+    "setting": 0,
+    "motion_recall": 0
+   },
+   "raw_r2": {
+    "fidelity": 0.2579120084511657,
+    "tissue_acc": 0.7777777777777778,
+    "object_tissue_acc": 0.3333333333333333,
+    "background_acc": 0.8666666666666667,
+    "organ_recall": 0.333,
+    "organ_precision": 1,
+    "setting": 0,
+    "motion_recall": 0
+   }
+  },
+  {
+   "projector": "mirror",
+   "feed": "rand7816",
+   "vlm_truth": 0.2244516598844989,
+   "vlm_motion": 0,
+   "receptors_r1": {
+    "fidelity": 0.15,
+    "tissue_acc": 0.6111111111111112,
+    "object_tissue_acc": 0,
+    "background_acc": 1,
+    "organ_recall": 0,
+    "organ_precision": 0,
+    "setting": 1,
+    "motion_recall": 0
+   },
+   "receptors_r2": {
+    "fidelity": 0.15,
+    "tissue_acc": 0.6111111111111112,
+    "object_tissue_acc": 0,
+    "background_acc": 1,
+    "organ_recall": 0,
+    "organ_precision": 0,
+    "setting": 1,
+    "motion_recall": 0
+   },
+   "raw_r1": {
+    "fidelity": 0.25699015528249264,
+    "tissue_acc": 0.6111111111111112,
+    "object_tissue_acc": 0,
+    "background_acc": 1,
+    "organ_recall": 0,
+    "organ_precision": 0,
+    "setting": 1,
+    "motion_recall": 0
+   },
+   "raw_r2": {
+    "fidelity": 0.2565404277687353,
+    "tissue_acc": 0.6111111111111112,
+    "object_tissue_acc": 0,
+    "background_acc": 1,
+    "organ_recall": 0,
+    "organ_precision": 0,
+    "setting": 1,
+    "motion_recall": 0
+   }
+  },
+  {
+   "projector": "mirror",
+   "feed": "rand26699",
+   "vlm_truth": 0.22447592363686905,
+   "vlm_motion": 0,
+   "receptors_r1": {
+    "fidelity": 0.15,
+    "tissue_acc": 0.6666666666666666,
+    "object_tissue_acc": 0,
+    "background_acc": 1,
+    "organ_recall": 0,
+    "organ_precision": 0,
+    "setting": 1,
+    "motion_recall": 0
+   },
+   "receptors_r2": {
+    "fidelity": 0.15,
+    "tissue_acc": 0.6666666666666666,
+    "object_tissue_acc": 0,
+    "background_acc": 1,
+    "organ_recall": 0,
+    "organ_precision": 0,
+    "setting": 1,
+    "motion_recall": 0
+   },
+   "raw_r1": {
+    "fidelity": 0.387267486841847,
+    "tissue_acc": 0.7222222222222222,
+    "object_tissue_acc": 0.16666666666666666,
+    "background_acc": 1,
+    "organ_recall": 0.333,
+    "organ_precision": 1,
+    "setting": 1,
+    "motion_recall": 0
+   },
+   "raw_r2": {
+    "fidelity": 0.38283687646505393,
+    "tissue_acc": 0.7222222222222222,
+    "object_tissue_acc": 0.6666666666666666,
+    "background_acc": 0.75,
+    "organ_recall": 0.333,
+    "organ_precision": 1,
+    "setting": 1,
+    "motion_recall": 0
+   }
+  },
+  {
+   "projector": "mirror",
+   "feed": "rand55740",
+   "vlm_truth": 0.4372731163381432,
+   "vlm_motion": 0,
+   "receptors_r1": {
+    "fidelity": 0.15,
+    "tissue_acc": 0.7777777777777778,
+    "object_tissue_acc": 0,
+    "background_acc": 1,
+    "organ_recall": 0,
+    "organ_precision": 0,
+    "setting": 1,
+    "motion_recall": 0
+   },
+   "receptors_r2": {
+    "fidelity": 0.15,
+    "tissue_acc": 0.7777777777777778,
+    "object_tissue_acc": 0,
+    "background_acc": 1,
+    "organ_recall": 0,
+    "organ_precision": 0,
+    "setting": 1,
+    "motion_recall": 0
+   },
+   "raw_r1": {
+    "fidelity": 0.15,
+    "tissue_acc": 0.7777777777777778,
+    "object_tissue_acc": 0,
+    "background_acc": 1,
+    "organ_recall": 0,
+    "organ_precision": 0,
+    "setting": 1,
+    "motion_recall": 0
+   },
+   "raw_r2": {
+    "fidelity": 0.15,
+    "tissue_acc": 0.7222222222222222,
+    "object_tissue_acc": 0,
+    "background_acc": 0.9285714285714286,
+    "organ_recall": 0,
+    "organ_precision": 0,
+    "setting": 1,
+    "motion_recall": 0
+   }
+  },
+  {
+   "projector": "mirror",
+   "feed": "rand53424",
+   "vlm_truth": 0.14662731829678075,
+   "vlm_motion": 0,
+   "receptors_r1": {
+    "fidelity": 0.15,
+    "tissue_acc": 0.7777777777777778,
+    "object_tissue_acc": 0,
+    "background_acc": 1,
+    "organ_recall": 0,
+    "organ_precision": 0,
+    "setting": 1,
+    "motion_recall": 0
+   },
+   "receptors_r2": {
+    "fidelity": 0.15,
+    "tissue_acc": 0.7777777777777778,
+    "object_tissue_acc": 0,
+    "background_acc": 1,
+    "organ_recall": 0,
+    "organ_precision": 0,
+    "setting": 1,
+    "motion_recall": 0
+   },
+   "raw_r1": {
+    "fidelity": 0.15,
+    "tissue_acc": 0.7777777777777778,
+    "object_tissue_acc": 0,
+    "background_acc": 1,
+    "organ_recall": 0,
+    "organ_precision": 0,
+    "setting": 1,
+    "motion_recall": 0
+   },
+   "raw_r2": {
+    "fidelity": 0.15,
+    "tissue_acc": 0.7777777777777778,
+    "object_tissue_acc": 0,
+    "background_acc": 1,
+    "organ_recall": 0,
+    "organ_precision": 0,
+    "setting": 1,
+    "motion_recall": 0
+   }
+  },
+  {
+   "projector": "mirror",
+   "feed": "rand8362",
+   "vlm_truth": 0.17420879719178306,
+   "vlm_motion": 0,
+   "receptors_r1": {
+    "fidelity": 0,
+    "tissue_acc": 0.7777777777777778,
+    "object_tissue_acc": 0,
+    "background_acc": 1,
+    "organ_recall": 0,
+    "organ_precision": 0,
+    "setting": 0,
+    "motion_recall": 0
+   },
+   "receptors_r2": {
+    "fidelity": 0,
+    "tissue_acc": 0.7777777777777778,
+    "object_tissue_acc": 0,
+    "background_acc": 1,
+    "organ_recall": 0,
+    "organ_precision": 0,
+    "setting": 0,
+    "motion_recall": 0
+   },
+   "raw_r1": {
+    "fidelity": 0.3172294859183611,
+    "tissue_acc": 0.8333333333333334,
+    "object_tissue_acc": 0.25,
+    "background_acc": 1,
+    "organ_recall": 0.25,
+    "organ_precision": 0.5,
+    "setting": 0,
+    "motion_recall": 0
+   },
+   "raw_r2": {
+    "fidelity": 0.17147624725436852,
+    "tissue_acc": 0.6111111111111112,
+    "object_tissue_acc": 0.25,
+    "background_acc": 0.7142857142857143,
+    "organ_recall": 0.25,
+    "organ_precision": 1,
+    "setting": 0,
+    "motion_recall": 0
+   }
+  },
+  {
+   "projector": "syzygy tangent",
+   "feed": "street",
+   "vlm_truth": 0.7304502834560233,
+   "vlm_motion": 0,
+   "receptors_r1": {
+    "fidelity": 0.3103924339962601,
+    "tissue_acc": 0.6111111111111112,
+    "object_tissue_acc": 0.2222222222222222,
+    "background_acc": 1,
+    "organ_recall": 0.25,
+    "organ_precision": 0.333,
+    "setting": 0,
+    "motion_recall": 0
+   },
+   "receptors_r2": {
+    "fidelity": 0.31209113283511675,
+    "tissue_acc": 0.5555555555555556,
+    "object_tissue_acc": 0.4444444444444444,
+    "background_acc": 0.6666666666666666,
+    "organ_recall": 0.25,
+    "organ_precision": 0.5,
+    "setting": 0,
+    "motion_recall": 0
+   },
+   "raw_r1": {
+    "fidelity": 0.3148792035592692,
+    "tissue_acc": 0.5555555555555556,
+    "object_tissue_acc": 0.2222222222222222,
+    "background_acc": 0.8888888888888888,
+    "organ_recall": 0.25,
+    "organ_precision": 0.333,
+    "setting": 0,
+    "motion_recall": 0
+   },
+   "raw_r2": {
+    "fidelity": 0.32574956315320375,
+    "tissue_acc": 0.5555555555555556,
+    "object_tissue_acc": 0.4444444444444444,
+    "background_acc": 0.6666666666666666,
+    "organ_recall": 0.25,
+    "organ_precision": 0.333,
+    "setting": 0,
+    "motion_recall": 0
+   }
+  },
+  {
+   "projector": "syzygy tangent",
+   "feed": "park",
+   "vlm_truth": 0.33822811404653613,
+   "vlm_motion": 0,
+   "receptors_r1": {
+    "fidelity": 0.20505167087720919,
+    "tissue_acc": 0.6666666666666666,
+    "object_tissue_acc": 0,
+    "background_acc": 1,
+    "organ_recall": 0,
+    "organ_precision": 0,
+    "setting": 0,
+    "motion_recall": 0
+   },
+   "receptors_r2": {
+    "fidelity": 0.28295066028152854,
+    "tissue_acc": 0.5555555555555556,
+    "object_tissue_acc": 0,
+    "background_acc": 0.8333333333333334,
+    "organ_recall": 0,
+    "organ_precision": 0,
+    "setting": 0,
+    "motion_recall": 0
+   },
+   "raw_r1": {
+    "fidelity": 0.31572496593816435,
+    "tissue_acc": 0.6666666666666666,
+    "object_tissue_acc": 0,
+    "background_acc": 1,
+    "organ_recall": 0,
+    "organ_precision": 0,
+    "setting": 0,
+    "motion_recall": 0
+   },
+   "raw_r2": {
+    "fidelity": 0.14284041643230447,
+    "tissue_acc": 0.5,
+    "object_tissue_acc": 0,
+    "background_acc": 0.75,
+    "organ_recall": 0,
+    "organ_precision": 0,
+    "setting": 0,
+    "motion_recall": 0
+   }
+  },
+  {
+   "projector": "syzygy tangent",
+   "feed": "night",
+   "vlm_truth": 0.7995445950151269,
+   "vlm_motion": 0,
+   "receptors_r1": {
+    "fidelity": 0.3455699090083993,
+    "tissue_acc": 0.7777777777777778,
+    "object_tissue_acc": 0.3333333333333333,
+    "background_acc": 1,
+    "organ_recall": 0.25,
+    "organ_precision": 1,
+    "setting": 1,
+    "motion_recall": 0
+   },
+   "receptors_r2": {
+    "fidelity": 0.33830096259753595,
+    "tissue_acc": 0.7777777777777778,
+    "object_tissue_acc": 0.5,
+    "background_acc": 0.9166666666666666,
+    "organ_recall": 0.25,
+    "organ_precision": 1,
+    "setting": 1,
+    "motion_recall": 0
+   },
+   "raw_r1": {
+    "fidelity": 0.15,
+    "tissue_acc": 0.6666666666666666,
+    "object_tissue_acc": 0,
+    "background_acc": 1,
+    "organ_recall": 0,
+    "organ_precision": 0,
+    "setting": 1,
+    "motion_recall": 0
+   },
+   "raw_r2": {
+    "fidelity": 0.15,
+    "tissue_acc": 0.6666666666666666,
+    "object_tissue_acc": 0,
+    "background_acc": 1,
+    "organ_recall": 0,
+    "organ_precision": 0,
+    "setting": 1,
+    "motion_recall": 0
+   }
+  },
+  {
+   "projector": "syzygy tangent",
+   "feed": "room",
+   "vlm_truth": 0.424275203899003,
+   "vlm_motion": 1,
+   "receptors_r1": {
+    "fidelity": 0.2691493938584246,
+    "tissue_acc": 0.6666666666666666,
+    "object_tissue_acc": 0.25,
+    "background_acc": 0.7857142857142857,
+    "organ_recall": 0.333,
+    "organ_precision": 0.5,
+    "setting": 0,
+    "motion_recall": 0
+   },
+   "receptors_r2": {
+    "fidelity": 0.2691493938584246,
+    "tissue_acc": 0.6111111111111112,
+    "object_tissue_acc": 0.5,
+    "background_acc": 0.6428571428571429,
+    "organ_recall": 0.333,
+    "organ_precision": 0.5,
+    "setting": 0,
+    "motion_recall": 0
+   },
+   "raw_r1": {
+    "fidelity": 0,
+    "tissue_acc": 0.7777777777777778,
+    "object_tissue_acc": 0,
+    "background_acc": 1,
+    "organ_recall": 0,
+    "organ_precision": 0,
+    "setting": 0,
+    "motion_recall": 0
+   },
+   "raw_r2": {
+    "fidelity": 0.24789503301905666,
+    "tissue_acc": 0.7222222222222222,
+    "object_tissue_acc": 0,
+    "background_acc": 0.9285714285714286,
+    "organ_recall": 0.333,
+    "organ_precision": 1,
+    "setting": 0,
+    "motion_recall": 0
+   }
+  },
+  {
+   "projector": "syzygy tangent",
+   "feed": "rand11204",
+   "vlm_truth": 0.1983333333333333,
+   "vlm_motion": 0,
+   "receptors_r1": {
+    "fidelity": 0.22932620364436387,
+    "tissue_acc": 0.7777777777777778,
+    "object_tissue_acc": 0,
+    "background_acc": 0.9333333333333333,
+    "organ_recall": 0.333,
+    "organ_precision": 1,
+    "setting": 0,
+    "motion_recall": 0
+   },
+   "receptors_r2": {
+    "fidelity": 0.22540135510401252,
+    "tissue_acc": 0.6666666666666666,
+    "object_tissue_acc": 0,
+    "background_acc": 0.8,
+    "organ_recall": 0.333,
+    "organ_precision": 1,
+    "setting": 0,
+    "motion_recall": 0
+   },
+   "raw_r1": {
+    "fidelity": 0.27643477336343497,
+    "tissue_acc": 0.8888888888888888,
+    "object_tissue_acc": 0.3333333333333333,
+    "background_acc": 1,
+    "organ_recall": 0.333,
+    "organ_precision": 1,
+    "setting": 0,
+    "motion_recall": 0
+   },
+   "raw_r2": {
+    "fidelity": 0.27643477336343497,
+    "tissue_acc": 0.8888888888888888,
+    "object_tissue_acc": 0.3333333333333333,
+    "background_acc": 1,
+    "organ_recall": 0.333,
+    "organ_precision": 1,
+    "setting": 0,
+    "motion_recall": 0
+   }
+  },
+  {
+   "projector": "syzygy tangent",
+   "feed": "rand7816",
+   "vlm_truth": 0.4669978034384246,
+   "vlm_motion": 0,
+   "receptors_r1": {
+    "fidelity": 0.1076719927914419,
+    "tissue_acc": 0.5555555555555556,
+    "object_tissue_acc": 0,
+    "background_acc": 0.9090909090909091,
+    "organ_recall": 0,
+    "organ_precision": 0,
+    "setting": 0,
+    "motion_recall": 0
+   },
+   "receptors_r2": {
+    "fidelity": 0.10469495222535356,
+    "tissue_acc": 0.3888888888888889,
+    "object_tissue_acc": 0,
+    "background_acc": 0.6363636363636364,
+    "organ_recall": 0,
+    "organ_precision": 0,
+    "setting": 0,
+    "motion_recall": 0
+   },
+   "raw_r1": {
+    "fidelity": 0.22015985435685065,
+    "tissue_acc": 0.6111111111111112,
+    "object_tissue_acc": 0,
+    "background_acc": 1,
+    "organ_recall": 0,
+    "organ_precision": 0,
+    "setting": 0,
+    "motion_recall": 0
+   },
+   "raw_r2": {
+    "fidelity": 0.11770989678001084,
+    "tissue_acc": 0.6111111111111112,
+    "object_tissue_acc": 0,
+    "background_acc": 1,
+    "organ_recall": 0,
+    "organ_precision": 0,
+    "setting": 0,
+    "motion_recall": 0
+   }
+  },
+  {
+   "projector": "syzygy tangent",
+   "feed": "rand26699",
+   "vlm_truth": 0.523932921829509,
+   "vlm_motion": 0,
+   "receptors_r1": {
+    "fidelity": 0.3065980414188441,
+    "tissue_acc": 0.5555555555555556,
+    "object_tissue_acc": 0.16666666666666666,
+    "background_acc": 0.75,
+    "organ_recall": 0.333,
+    "organ_precision": 0.5,
+    "setting": 0,
+    "motion_recall": 0
+   },
+   "receptors_r2": {
+    "fidelity": 0.2313253095383217,
+    "tissue_acc": 0.5555555555555556,
+    "object_tissue_acc": 0.6666666666666666,
+    "background_acc": 0.5,
+    "organ_recall": 0.333,
+    "organ_precision": 1,
+    "setting": 0,
+    "motion_recall": 0
+   },
+   "raw_r1": {
+    "fidelity": 0.2551856465818272,
+    "tissue_acc": 0.7222222222222222,
+    "object_tissue_acc": 0.16666666666666666,
+    "background_acc": 1,
+    "organ_recall": 0.333,
+    "organ_precision": 1,
+    "setting": 0,
+    "motion_recall": 0
+   },
+   "raw_r2": {
+    "fidelity": 0.26414212686897887,
+    "tissue_acc": 0.7777777777777778,
+    "object_tissue_acc": 0.5,
+    "background_acc": 0.9166666666666666,
+    "organ_recall": 0.333,
+    "organ_precision": 1,
+    "setting": 0,
+    "motion_recall": 0
+   }
+  },
+  {
+   "projector": "syzygy tangent",
+   "feed": "rand55740",
+   "vlm_truth": 0.5078047308389907,
+   "vlm_motion": 0,
+   "receptors_r1": {
+    "fidelity": 0.1972040315080726,
+    "tissue_acc": 0.5555555555555556,
+    "object_tissue_acc": 0,
+    "background_acc": 0.7142857142857143,
+    "organ_recall": 0,
+    "organ_precision": 0,
+    "setting": 1,
+    "motion_recall": 0
+   },
+   "receptors_r2": {
+    "fidelity": 0.25209964468752455,
+    "tissue_acc": 0.3888888888888889,
+    "object_tissue_acc": 0,
+    "background_acc": 0.5,
+    "organ_recall": 0,
+    "organ_precision": 0,
+    "setting": 1,
+    "motion_recall": 0
+   },
+   "raw_r1": {
+    "fidelity": 0.2706623774508301,
+    "tissue_acc": 0.7777777777777778,
+    "object_tissue_acc": 0,
+    "background_acc": 1,
+    "organ_recall": 0,
+    "organ_precision": 0,
+    "setting": 1,
+    "motion_recall": 0
+   },
+   "raw_r2": {
+    "fidelity": 0.15,
+    "tissue_acc": 0.7222222222222222,
+    "object_tissue_acc": 0,
+    "background_acc": 0.9285714285714286,
+    "organ_recall": 0,
+    "organ_precision": 0,
+    "setting": 1,
+    "motion_recall": 0
+   }
+  },
+  {
+   "projector": "syzygy tangent",
+   "feed": "rand53424",
+   "vlm_truth": 0.39386937219284385,
+   "vlm_motion": 0,
+   "receptors_r1": {
+    "fidelity": 0.15173175061669444,
+    "tissue_acc": 0.6666666666666666,
+    "object_tissue_acc": 0,
+    "background_acc": 0.8571428571428571,
+    "organ_recall": 0,
+    "organ_precision": 0,
+    "setting": 0,
+    "motion_recall": 0
+   },
+   "receptors_r2": {
+    "fidelity": 0.1485408139934782,
+    "tissue_acc": 0.4444444444444444,
+    "object_tissue_acc": 0,
+    "background_acc": 0.5714285714285714,
+    "organ_recall": 0,
+    "organ_precision": 0,
+    "setting": 0,
+    "motion_recall": 0
+   },
+   "raw_r1": {
+    "fidelity": 0.15031419692400316,
+    "tissue_acc": 0.7777777777777778,
+    "object_tissue_acc": 0,
+    "background_acc": 1,
+    "organ_recall": 0,
+    "organ_precision": 0,
+    "setting": 0,
+    "motion_recall": 0
+   },
+   "raw_r2": {
+    "fidelity": 0.1485408139934782,
+    "tissue_acc": 0.6666666666666666,
+    "object_tissue_acc": 0,
+    "background_acc": 0.8571428571428571,
+    "organ_recall": 0,
+    "organ_precision": 0,
+    "setting": 0,
+    "motion_recall": 0
+   }
+  },
+  {
+   "projector": "syzygy tangent",
+   "feed": "rand8362",
+   "vlm_truth": 0.6740770139545791,
+   "vlm_motion": 0,
+   "receptors_r1": {
+    "fidelity": 0.29424489567077877,
+    "tissue_acc": 0.5555555555555556,
+    "object_tissue_acc": 0,
+    "background_acc": 0.7142857142857143,
+    "organ_recall": 0.25,
+    "organ_precision": 0.5,
+    "setting": 0,
+    "motion_recall": 0
+   },
+   "receptors_r2": {
+    "fidelity": 0.1807604377393134,
+    "tissue_acc": 0.2222222222222222,
+    "object_tissue_acc": 0.25,
+    "background_acc": 0.21428571428571427,
+    "organ_recall": 0.25,
+    "organ_precision": 1,
+    "setting": 0,
+    "motion_recall": 0
+   },
+   "raw_r1": {
+    "fidelity": 0.20506333925075088,
+    "tissue_acc": 0.8333333333333334,
+    "object_tissue_acc": 0.25,
+    "background_acc": 1,
+    "organ_recall": 0.25,
+    "organ_precision": 1,
+    "setting": 0,
+    "motion_recall": 0
+   },
+   "raw_r2": {
+    "fidelity": 0.18343689692907733,
+    "tissue_acc": 0.7222222222222222,
+    "object_tissue_acc": 0.25,
+    "background_acc": 0.8571428571428571,
+    "organ_recall": 0.25,
+    "organ_precision": 1,
+    "setting": 0,
+    "motion_recall": 0
+   }
+  },
+  {
+   "projector": "motion edges",
+   "feed": "street",
+   "vlm_truth": 0.7421894678836074,
+   "vlm_motion": 1,
+   "receptors_r1": {
+    "fidelity": 0.3013564352477958,
+    "tissue_acc": 0.6111111111111112,
+    "object_tissue_acc": 0.2222222222222222,
+    "background_acc": 1,
+    "organ_recall": 0.25,
+    "organ_precision": 0.333,
+    "setting": 0,
+    "motion_recall": 0
+   },
+   "receptors_r2": {
+    "fidelity": 0.31209113283511675,
+    "tissue_acc": 0.6111111111111112,
+    "object_tissue_acc": 0.4444444444444444,
+    "background_acc": 0.7777777777777778,
+    "organ_recall": 0.25,
+    "organ_precision": 0.5,
+    "setting": 0,
+    "motion_recall": 0
+   },
+   "raw_r1": {
+    "fidelity": 0.19199427508626843,
+    "tissue_acc": 0.5555555555555556,
+    "object_tissue_acc": 0.1111111111111111,
+    "background_acc": 1,
+    "organ_recall": 0.25,
+    "organ_precision": 0.5,
+    "setting": 0,
+    "motion_recall": 0
+   },
+   "raw_r2": {
+    "fidelity": 0.20011966701325717,
+    "tissue_acc": 0.5555555555555556,
+    "object_tissue_acc": 0.3333333333333333,
+    "background_acc": 0.7777777777777778,
+    "organ_recall": 0.25,
+    "organ_precision": 0.25,
+    "setting": 0,
+    "motion_recall": 0
+   }
+  },
+  {
+   "projector": "motion edges",
+   "feed": "park",
+   "vlm_truth": 0.4293526423814834,
+   "vlm_motion": 1,
+   "receptors_r1": {
+    "fidelity": 0.4033850042105425,
+    "tissue_acc": 0.7222222222222222,
+    "object_tissue_acc": 0.16666666666666666,
+    "background_acc": 1,
+    "organ_recall": 0.333,
+    "organ_precision": 0.5,
+    "setting": 0,
+    "motion_recall": 1
+   },
+   "receptors_r2": {
+    "fidelity": 0.33390045840852844,
+    "tissue_acc": 0.6111111111111112,
+    "object_tissue_acc": 0.16666666666666666,
+    "background_acc": 0.8333333333333334,
+    "organ_recall": 0.333,
+    "organ_precision": 0.2,
+    "setting": 0,
+    "motion_recall": 1
+   },
+   "raw_r1": {
+    "fidelity": 0.31572496593816435,
+    "tissue_acc": 0.6666666666666666,
+    "object_tissue_acc": 0,
+    "background_acc": 1,
+    "organ_recall": 0,
+    "organ_precision": 0,
+    "setting": 0,
+    "motion_recall": 0
+   },
+   "raw_r2": {
+    "fidelity": 0.16015008755280052,
+    "tissue_acc": 0.5555555555555556,
+    "object_tissue_acc": 0,
+    "background_acc": 0.8333333333333334,
+    "organ_recall": 0,
+    "organ_precision": 0,
+    "setting": 0,
+    "motion_recall": 0
+   }
+  },
+  {
+   "projector": "motion edges",
+   "feed": "night",
+   "vlm_truth": 0.7396543463310774,
+   "vlm_motion": 1,
+   "receptors_r1": {
+    "fidelity": 0.3455699090083993,
+    "tissue_acc": 0.7777777777777778,
+    "object_tissue_acc": 0.3333333333333333,
+    "background_acc": 1,
+    "organ_recall": 0.25,
+    "organ_precision": 1,
+    "setting": 1,
+    "motion_recall": 0
+   },
+   "receptors_r2": {
+    "fidelity": 0.33830096259753595,
+    "tissue_acc": 0.7777777777777778,
+    "object_tissue_acc": 0.5,
+    "background_acc": 0.9166666666666666,
+    "organ_recall": 0.25,
+    "organ_precision": 1,
+    "setting": 1,
+    "motion_recall": 0
+   },
+   "raw_r1": {
+    "fidelity": 0.15,
+    "tissue_acc": 0.6666666666666666,
+    "object_tissue_acc": 0,
+    "background_acc": 1,
+    "organ_recall": 0,
+    "organ_precision": 0,
+    "setting": 1,
+    "motion_recall": 0
+   },
+   "raw_r2": {
+    "fidelity": 0.15,
+    "tissue_acc": 0.6666666666666666,
+    "object_tissue_acc": 0,
+    "background_acc": 1,
+    "organ_recall": 0,
+    "organ_precision": 0,
+    "setting": 1,
+    "motion_recall": 0
+   }
+  },
+  {
+   "projector": "motion edges",
+   "feed": "room",
+   "vlm_truth": 0.4917872436436832,
+   "vlm_motion": 1,
+   "receptors_r1": {
+    "fidelity": 0.2691493938584246,
+    "tissue_acc": 0.6111111111111112,
+    "object_tissue_acc": 0.25,
+    "background_acc": 0.7142857142857143,
+    "organ_recall": 0.333,
+    "organ_precision": 0.5,
+    "setting": 0,
+    "motion_recall": 0
+   },
+   "receptors_r2": {
+    "fidelity": 0.2691493938584246,
+    "tissue_acc": 0.6111111111111112,
+    "object_tissue_acc": 0.5,
+    "background_acc": 0.6428571428571429,
+    "organ_recall": 0.333,
+    "organ_precision": 0.5,
+    "setting": 0,
+    "motion_recall": 0
+   },
+   "raw_r1": {
+    "fidelity": 0,
+    "tissue_acc": 0.7777777777777778,
+    "object_tissue_acc": 0,
+    "background_acc": 1,
+    "organ_recall": 0,
+    "organ_precision": 0,
+    "setting": 0,
+    "motion_recall": 0
+   },
+   "raw_r2": {
+    "fidelity": 0,
+    "tissue_acc": 0.7777777777777778,
+    "object_tissue_acc": 0,
+    "background_acc": 1,
+    "organ_recall": 0,
+    "organ_precision": 0,
+    "setting": 0,
+    "motion_recall": 0
+   }
+  },
+  {
+   "projector": "motion edges",
+   "feed": "rand11204",
+   "vlm_truth": 0.1983333333333333,
+   "vlm_motion": 0,
+   "receptors_r1": {
+    "fidelity": 0.22932620364436387,
+    "tissue_acc": 0.7777777777777778,
+    "object_tissue_acc": 0,
+    "background_acc": 0.9333333333333333,
+    "organ_recall": 0.333,
+    "organ_precision": 1,
+    "setting": 0,
+    "motion_recall": 0
+   },
+   "receptors_r2": {
+    "fidelity": 0.22540135510401252,
+    "tissue_acc": 0.6666666666666666,
+    "object_tissue_acc": 0,
+    "background_acc": 0.8,
+    "organ_recall": 0.333,
+    "organ_precision": 1,
+    "setting": 0,
+    "motion_recall": 0
+   },
+   "raw_r1": {
+    "fidelity": 0.27643477336343497,
+    "tissue_acc": 0.8888888888888888,
+    "object_tissue_acc": 0.3333333333333333,
+    "background_acc": 1,
+    "organ_recall": 0.333,
+    "organ_precision": 1,
+    "setting": 0,
+    "motion_recall": 0
+   },
+   "raw_r2": {
+    "fidelity": 0.27643477336343497,
+    "tissue_acc": 0.8888888888888888,
+    "object_tissue_acc": 0.3333333333333333,
+    "background_acc": 1,
+    "organ_recall": 0.333,
+    "organ_precision": 1,
+    "setting": 0,
+    "motion_recall": 0
+   }
+  },
+  {
+   "projector": "motion edges",
+   "feed": "rand7816",
+   "vlm_truth": 0.627682128425931,
+   "vlm_motion": 0,
+   "receptors_r1": {
+    "fidelity": 0.0439219927914419,
+    "tissue_acc": 0.5555555555555556,
+    "object_tissue_acc": 0,
+    "background_acc": 0.9090909090909091,
+    "organ_recall": 0,
+    "organ_precision": 0,
+    "setting": 0,
+    "motion_recall": 0
+   },
+   "receptors_r2": {
+    "fidelity": 0.04094495222535356,
+    "tissue_acc": 0.4444444444444444,
+    "object_tissue_acc": 0,
+    "background_acc": 0.7272727272727273,
+    "organ_recall": 0,
+    "organ_precision": 0,
+    "setting": 0,
+    "motion_recall": 0
+   },
+   "raw_r1": {
+    "fidelity": 0.23188127771981784,
+    "tissue_acc": 0.6111111111111112,
+    "object_tissue_acc": 0,
+    "background_acc": 1,
+    "organ_recall": 0,
+    "organ_precision": 0,
+    "setting": 0,
+    "motion_recall": 1
+   },
+   "raw_r2": {
+    "fidelity": 0.05352967314214126,
+    "tissue_acc": 0.6111111111111112,
+    "object_tissue_acc": 0,
+    "background_acc": 1,
+    "organ_recall": 0,
+    "organ_precision": 0,
+    "setting": 0,
+    "motion_recall": 0
+   }
+  },
+  {
+   "projector": "motion edges",
+   "feed": "rand26699",
+   "vlm_truth": 0.3358653599933689,
+   "vlm_motion": 0,
+   "receptors_r1": {
+    "fidelity": 0.3865415418620444,
+    "tissue_acc": 0.6111111111111112,
+    "object_tissue_acc": 0.16666666666666666,
+    "background_acc": 0.8333333333333334,
+    "organ_recall": 0.333,
+    "organ_precision": 0.5,
+    "setting": 0,
+    "motion_recall": 1
+   },
+   "receptors_r2": {
+    "fidelity": 0.38726701163456123,
+    "tissue_acc": 0.5,
+    "object_tissue_acc": 0.5,
+    "background_acc": 0.5,
+    "organ_recall": 0.333,
+    "organ_precision": 0.5,
+    "setting": 0,
+    "motion_recall": 1
+   },
+   "raw_r1": {
+    "fidelity": 0.2551856465818272,
+    "tissue_acc": 0.7222222222222222,
+    "object_tissue_acc": 0.16666666666666666,
+    "background_acc": 1,
+    "organ_recall": 0.333,
+    "organ_precision": 1,
+    "setting": 0,
+    "motion_recall": 0
+   },
+   "raw_r2": {
+    "fidelity": 0.26414212686897887,
+    "tissue_acc": 0.7777777777777778,
+    "object_tissue_acc": 0.5,
+    "background_acc": 0.9166666666666666,
+    "organ_recall": 0.333,
+    "organ_precision": 1,
+    "setting": 0,
+    "motion_recall": 0
+   }
+  },
+  {
+   "projector": "motion edges",
+   "feed": "rand55740",
+   "vlm_truth": 0.3768518412134679,
+   "vlm_motion": 0,
+   "receptors_r1": {
+    "fidelity": 0.3790228664597606,
+    "tissue_acc": 0.5555555555555556,
+    "object_tissue_acc": 0,
+    "background_acc": 0.7142857142857143,
+    "organ_recall": 0,
+    "organ_precision": 0,
+    "setting": 1,
+    "motion_recall": 1
+   },
+   "receptors_r2": {
+    "fidelity": 0.38681007963458397,
+    "tissue_acc": 0.4444444444444444,
+    "object_tissue_acc": 0,
+    "background_acc": 0.5714285714285714,
+    "organ_recall": 0,
+    "organ_precision": 0,
+    "setting": 1,
+    "motion_recall": 1
+   },
+   "raw_r1": {
+    "fidelity": 0.15,
+    "tissue_acc": 0.7777777777777778,
+    "object_tissue_acc": 0,
+    "background_acc": 1,
+    "organ_recall": 0,
+    "organ_precision": 0,
+    "setting": 1,
+    "motion_recall": 0
+   },
+   "raw_r2": {
+    "fidelity": 0.15,
+    "tissue_acc": 0.7777777777777778,
+    "object_tissue_acc": 0,
+    "background_acc": 1,
+    "organ_recall": 0,
+    "organ_precision": 0,
+    "setting": 1,
+    "motion_recall": 0
+   }
+  },
+  {
+   "projector": "motion edges",
+   "feed": "rand53424",
+   "vlm_truth": 0.33101432313054285,
+   "vlm_motion": 1,
+   "receptors_r1": {
+    "fidelity": 0.15173175061669444,
+    "tissue_acc": 0.6666666666666666,
+    "object_tissue_acc": 0,
+    "background_acc": 0.8571428571428571,
+    "organ_recall": 0,
+    "organ_precision": 0,
+    "setting": 0,
+    "motion_recall": 0
+   },
+   "receptors_r2": {
+    "fidelity": 0.1485408139934782,
+    "tissue_acc": 0.4444444444444444,
+    "object_tissue_acc": 0,
+    "background_acc": 0.5714285714285714,
+    "organ_recall": 0,
+    "organ_precision": 0,
+    "setting": 0,
+    "motion_recall": 0
+   },
+   "raw_r1": {
+    "fidelity": 0.15031419692400316,
+    "tissue_acc": 0.7777777777777778,
+    "object_tissue_acc": 0,
+    "background_acc": 1,
+    "organ_recall": 0,
+    "organ_precision": 0,
+    "setting": 0,
+    "motion_recall": 0
+   },
+   "raw_r2": {
+    "fidelity": 0.15415074765170292,
+    "tissue_acc": 0.5555555555555556,
+    "object_tissue_acc": 0,
+    "background_acc": 0.7142857142857143,
+    "organ_recall": 0,
+    "organ_precision": 0,
+    "setting": 0,
+    "motion_recall": 0
+   }
+  },
+  {
+   "projector": "motion edges",
+   "feed": "rand8362",
+   "vlm_truth": 0.6033232333979883,
+   "vlm_motion": 1,
+   "receptors_r1": {
+    "fidelity": 0.5367236228651983,
+    "tissue_acc": 0.6111111111111112,
+    "object_tissue_acc": 0.25,
+    "background_acc": 0.7142857142857143,
+    "organ_recall": 0.5,
+    "organ_precision": 0.5,
+    "setting": 0,
+    "motion_recall": 1
+   },
+   "receptors_r2": {
+    "fidelity": 0.2953586600623135,
+    "tissue_acc": 0.2222222222222222,
+    "object_tissue_acc": 0.25,
+    "background_acc": 0.21428571428571427,
+    "organ_recall": 0.5,
+    "organ_precision": 1,
+    "setting": 0,
+    "motion_recall": 1
+   },
+   "raw_r1": {
+    "fidelity": 0.20506333925075088,
+    "tissue_acc": 0.8333333333333334,
+    "object_tissue_acc": 0.25,
+    "background_acc": 1,
+    "organ_recall": 0.25,
+    "organ_precision": 1,
+    "setting": 0,
+    "motion_recall": 0
+   },
+   "raw_r2": {
+    "fidelity": 0.11968689692907733,
+    "tissue_acc": 0.6666666666666666,
+    "object_tissue_acc": 0,
+    "background_acc": 0.8571428571428571,
+    "organ_recall": 0.25,
+    "organ_precision": 1,
+    "setting": 0,
+    "motion_recall": 0
+   }
+  },
+  {
+   "projector": "braille",
+   "feed": "street",
+   "vlm_truth": 0.47383187544617533,
+   "vlm_motion": 0,
+   "receptors_r1": {
+    "fidelity": 0.15,
+    "tissue_acc": 0.5,
+    "object_tissue_acc": 0,
+    "background_acc": 1,
+    "organ_recall": 0,
+    "organ_precision": 0,
+    "setting": 1,
+    "motion_recall": 0
+   },
+   "receptors_r2": {
+    "fidelity": 0.15,
+    "tissue_acc": 0.5,
+    "object_tissue_acc": 0,
+    "background_acc": 1,
+    "organ_recall": 0,
+    "organ_precision": 0,
+    "setting": 1,
+    "motion_recall": 0
+   },
+   "raw_r1": {
+    "fidelity": 0.3585090138837607,
+    "tissue_acc": 0.5555555555555556,
+    "object_tissue_acc": 0.1111111111111111,
+    "background_acc": 1,
+    "organ_recall": 0.25,
+    "organ_precision": 1,
+    "setting": 1,
+    "motion_recall": 0
+   },
+   "raw_r2": {
+    "fidelity": 0.4157421297602365,
+    "tissue_acc": 0.5555555555555556,
+    "object_tissue_acc": 0.2222222222222222,
+    "background_acc": 0.8888888888888888,
+    "organ_recall": 0.25,
+    "organ_precision": 0.5,
+    "setting": 1,
+    "motion_recall": 0
+   }
+  },
+  {
+   "projector": "braille",
+   "feed": "park",
+   "vlm_truth": 0.33678375708100694,
+   "vlm_motion": 0,
+   "receptors_r1": {
+    "fidelity": 0.15,
+    "tissue_acc": 0.6666666666666666,
+    "object_tissue_acc": 0,
+    "background_acc": 1,
+    "organ_recall": 0,
+    "organ_precision": 0,
+    "setting": 1,
+    "motion_recall": 0
+   },
+   "receptors_r2": {
+    "fidelity": 0.15,
+    "tissue_acc": 0.6666666666666666,
+    "object_tissue_acc": 0,
+    "background_acc": 1,
+    "organ_recall": 0,
+    "organ_precision": 0,
+    "setting": 1,
+    "motion_recall": 0
+   },
+   "raw_r1": {
+    "fidelity": 0.3101475932266684,
+    "tissue_acc": 0.6666666666666666,
+    "object_tissue_acc": 0,
+    "background_acc": 1,
+    "organ_recall": 0,
+    "organ_precision": 0,
+    "setting": 1,
+    "motion_recall": 0
+   },
+   "raw_r2": {
+    "fidelity": 0.4408370317788267,
+    "tissue_acc": 0.5555555555555556,
+    "object_tissue_acc": 0,
+    "background_acc": 0.8333333333333334,
+    "organ_recall": 0,
+    "organ_precision": 0,
+    "setting": 1,
+    "motion_recall": 0
+   }
+  },
+  {
+   "projector": "braille",
+   "feed": "night",
+   "vlm_truth": 0.5775563205131695,
+   "vlm_motion": 0,
+   "receptors_r1": {
+    "fidelity": 0.15,
+    "tissue_acc": 0.6666666666666666,
+    "object_tissue_acc": 0,
+    "background_acc": 1,
+    "organ_recall": 0,
+    "organ_precision": 0,
+    "setting": 1,
+    "motion_recall": 0
+   },
+   "receptors_r2": {
+    "fidelity": 0.15,
+    "tissue_acc": 0.6666666666666666,
+    "object_tissue_acc": 0,
+    "background_acc": 1,
+    "organ_recall": 0,
+    "organ_precision": 0,
+    "setting": 1,
+    "motion_recall": 0
+   },
+   "raw_r1": {
+    "fidelity": 0.15,
+    "tissue_acc": 0.6666666666666666,
+    "object_tissue_acc": 0,
+    "background_acc": 1,
+    "organ_recall": 0,
+    "organ_precision": 0,
+    "setting": 1,
+    "motion_recall": 0
+   },
+   "raw_r2": {
+    "fidelity": 0.15,
+    "tissue_acc": 0.6666666666666666,
+    "object_tissue_acc": 0,
+    "background_acc": 1,
+    "organ_recall": 0,
+    "organ_precision": 0,
+    "setting": 1,
+    "motion_recall": 0
+   }
+  },
+  {
+   "projector": "braille",
+   "feed": "room",
+   "vlm_truth": 0.6142493090462425,
+   "vlm_motion": 0,
+   "receptors_r1": {
+    "fidelity": 0,
+    "tissue_acc": 0.7777777777777778,
+    "object_tissue_acc": 0,
+    "background_acc": 1,
+    "organ_recall": 0,
+    "organ_precision": 0,
+    "setting": 0,
+    "motion_recall": 0
+   },
+   "receptors_r2": {
+    "fidelity": 0,
+    "tissue_acc": 0.7777777777777778,
+    "object_tissue_acc": 0,
+    "background_acc": 1,
+    "organ_recall": 0,
+    "organ_precision": 0,
+    "setting": 0,
+    "motion_recall": 0
+   },
+   "raw_r1": {
+    "fidelity": 0,
+    "tissue_acc": 0.7777777777777778,
+    "object_tissue_acc": 0,
+    "background_acc": 1,
+    "organ_recall": 0,
+    "organ_precision": 0,
+    "setting": 0,
+    "motion_recall": 0
+   },
+   "raw_r2": {
+    "fidelity": 0,
+    "tissue_acc": 0.7777777777777778,
+    "object_tissue_acc": 0,
+    "background_acc": 1,
+    "organ_recall": 0,
+    "organ_precision": 0,
+    "setting": 0,
+    "motion_recall": 0
+   }
+  },
+  {
+   "projector": "braille",
+   "feed": "rand11204",
+   "vlm_truth": 0.1415028071557916,
+   "vlm_motion": 0,
+   "receptors_r1": {
+    "fidelity": 0,
+    "tissue_acc": 0.8333333333333334,
+    "object_tissue_acc": 0,
+    "background_acc": 1,
+    "organ_recall": 0,
+    "organ_precision": 0,
+    "setting": 0,
+    "motion_recall": 0
+   },
+   "receptors_r2": {
+    "fidelity": 0,
+    "tissue_acc": 0.8333333333333334,
+    "object_tissue_acc": 0,
+    "background_acc": 1,
+    "organ_recall": 0,
+    "organ_precision": 0,
+    "setting": 0,
+    "motion_recall": 0
+   },
+   "raw_r1": {
+    "fidelity": 0,
+    "tissue_acc": 0.8333333333333334,
+    "object_tissue_acc": 0,
+    "background_acc": 1,
+    "organ_recall": 0,
+    "organ_precision": 0,
+    "setting": 0,
+    "motion_recall": 0
+   },
+   "raw_r2": {
+    "fidelity": 0,
+    "tissue_acc": 0.8333333333333334,
+    "object_tissue_acc": 0,
+    "background_acc": 1,
+    "organ_recall": 0,
+    "organ_precision": 0,
+    "setting": 0,
+    "motion_recall": 0
+   }
+  },
+  {
+   "projector": "braille",
+   "feed": "rand7816",
+   "vlm_truth": 0.32176829983901173,
+   "vlm_motion": 0,
+   "receptors_r1": {
+    "fidelity": 0.15,
+    "tissue_acc": 0.6111111111111112,
+    "object_tissue_acc": 0,
+    "background_acc": 1,
+    "organ_recall": 0,
+    "organ_precision": 0,
+    "setting": 1,
+    "motion_recall": 0
+   },
+   "receptors_r2": {
+    "fidelity": 0.15,
+    "tissue_acc": 0.6111111111111112,
+    "object_tissue_acc": 0,
+    "background_acc": 1,
+    "organ_recall": 0,
+    "organ_precision": 0,
+    "setting": 1,
+    "motion_recall": 0
+   },
+   "raw_r1": {
+    "fidelity": 0.44413216429797064,
+    "tissue_acc": 0.6111111111111112,
+    "object_tissue_acc": 0,
+    "background_acc": 1,
+    "organ_recall": 0.25,
+    "organ_precision": 0.5,
+    "setting": 1,
+    "motion_recall": 0
+   },
+   "raw_r2": {
+    "fidelity": 0.44421576130185414,
+    "tissue_acc": 0.6111111111111112,
+    "object_tissue_acc": 0,
+    "background_acc": 1,
+    "organ_recall": 0.25,
+    "organ_precision": 0.5,
+    "setting": 1,
+    "motion_recall": 0
+   }
+  },
+  {
+   "projector": "braille",
+   "feed": "rand26699",
+   "vlm_truth": 0.15205211363419077,
+   "vlm_motion": 0,
+   "receptors_r1": {
+    "fidelity": 0.15,
+    "tissue_acc": 0.6666666666666666,
+    "object_tissue_acc": 0,
+    "background_acc": 1,
+    "organ_recall": 0,
+    "organ_precision": 0,
+    "setting": 1,
+    "motion_recall": 0
+   },
+   "receptors_r2": {
+    "fidelity": 0.15,
+    "tissue_acc": 0.6666666666666666,
+    "object_tissue_acc": 0,
+    "background_acc": 1,
+    "organ_recall": 0,
+    "organ_precision": 0,
+    "setting": 1,
+    "motion_recall": 0
+   },
+   "raw_r1": {
+    "fidelity": 0.42537359063423086,
+    "tissue_acc": 0.7222222222222222,
+    "object_tissue_acc": 0.16666666666666666,
+    "background_acc": 1,
+    "organ_recall": 0.333,
+    "organ_precision": 1,
+    "setting": 1,
+    "motion_recall": 0
+   },
+   "raw_r2": {
+    "fidelity": 0.387267486841847,
+    "tissue_acc": 0.7222222222222222,
+    "object_tissue_acc": 0.16666666666666666,
+    "background_acc": 1,
+    "organ_recall": 0.333,
+    "organ_precision": 1,
+    "setting": 1,
+    "motion_recall": 0
+   }
+  },
+  {
+   "projector": "braille",
+   "feed": "rand55740",
+   "vlm_truth": 0.1207678068209535,
+   "vlm_motion": 0,
+   "receptors_r1": {
+    "fidelity": 0.15,
+    "tissue_acc": 0.7777777777777778,
+    "object_tissue_acc": 0,
+    "background_acc": 1,
+    "organ_recall": 0,
+    "organ_precision": 0,
+    "setting": 1,
+    "motion_recall": 0
+   },
+   "receptors_r2": {
+    "fidelity": 0.15,
+    "tissue_acc": 0.7777777777777778,
+    "object_tissue_acc": 0,
+    "background_acc": 1,
+    "organ_recall": 0,
+    "organ_precision": 0,
+    "setting": 1,
+    "motion_recall": 0
+   },
+   "raw_r1": {
+    "fidelity": 0.26086411985931757,
+    "tissue_acc": 0.7777777777777778,
+    "object_tissue_acc": 0,
+    "background_acc": 1,
+    "organ_recall": 0,
+    "organ_precision": 0,
+    "setting": 1,
+    "motion_recall": 0
+   },
+   "raw_r2": {
+    "fidelity": 0.26086411985931757,
+    "tissue_acc": 0.7777777777777778,
+    "object_tissue_acc": 0,
+    "background_acc": 1,
+    "organ_recall": 0,
+    "organ_precision": 0,
+    "setting": 1,
+    "motion_recall": 0
+   }
+  },
+  {
+   "projector": "braille",
+   "feed": "rand53424",
+   "vlm_truth": 0.18155126775724884,
+   "vlm_motion": 0,
+   "receptors_r1": {
+    "fidelity": 0.15,
+    "tissue_acc": 0.7777777777777778,
+    "object_tissue_acc": 0,
+    "background_acc": 1,
+    "organ_recall": 0,
+    "organ_precision": 0,
+    "setting": 1,
+    "motion_recall": 0
+   },
+   "receptors_r2": {
+    "fidelity": 0.15,
+    "tissue_acc": 0.7777777777777778,
+    "object_tissue_acc": 0,
+    "background_acc": 1,
+    "organ_recall": 0,
+    "organ_precision": 0,
+    "setting": 1,
+    "motion_recall": 0
+   },
+   "raw_r1": {
+    "fidelity": 0.15,
+    "tissue_acc": 0.7777777777777778,
+    "object_tissue_acc": 0,
+    "background_acc": 1,
+    "organ_recall": 0,
+    "organ_precision": 0,
+    "setting": 1,
+    "motion_recall": 0
+   },
+   "raw_r2": {
+    "fidelity": 0.15,
+    "tissue_acc": 0.7777777777777778,
+    "object_tissue_acc": 0,
+    "background_acc": 1,
+    "organ_recall": 0,
+    "organ_precision": 0,
+    "setting": 1,
+    "motion_recall": 0
+   }
+  },
+  {
+   "projector": "braille",
+   "feed": "rand8362",
+   "vlm_truth": 0.7048514877554679,
+   "vlm_motion": 0,
+   "receptors_r1": {
+    "fidelity": 0,
+    "tissue_acc": 0.7777777777777778,
+    "object_tissue_acc": 0,
+    "background_acc": 1,
+    "organ_recall": 0,
+    "organ_precision": 0,
+    "setting": 0,
+    "motion_recall": 0
+   },
+   "receptors_r2": {
+    "fidelity": 0,
+    "tissue_acc": 0.7777777777777778,
+    "object_tissue_acc": 0,
+    "background_acc": 1,
+    "organ_recall": 0,
+    "organ_precision": 0,
+    "setting": 0,
+    "motion_recall": 0
+   },
+   "raw_r1": {
+    "fidelity": 0.12006333925075084,
+    "tissue_acc": 0.7777777777777778,
+    "object_tissue_acc": 0,
+    "background_acc": 1,
+    "organ_recall": 0,
+    "organ_precision": 0,
+    "setting": 0,
+    "motion_recall": 0
+   },
+   "raw_r2": {
+    "fidelity": 0,
+    "tissue_acc": 0.7777777777777778,
+    "object_tissue_acc": 0,
+    "background_acc": 1,
+    "organ_recall": 0,
+    "organ_precision": 0,
+    "setting": 0,
+    "motion_recall": 0
+   }
+  }
+ ]
+}

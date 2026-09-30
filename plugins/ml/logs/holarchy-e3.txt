@@ -1,0 +1,22 @@
+street     jev_r1 0.41  jev_r2 0.28  hand 0.38  random 0.28  tone 0.17  edges 0.45  braille 0.38  motion 0.46
+park       jev_r1 0.28  jev_r2 0.37  hand 0.36  random 0.23  tone 0.26  edges 0.29  braille 0.38  motion 0.28
+night      jev_r1 0.43  jev_r2 0.47  hand 0.62  random 0.50  tone 0.40  edges 0.50  braille 0.42  motion 0.55
+room       jev_r1 0.19  jev_r2 0.40  hand 0.24  random 0.25  tone 0.13  edges 0.24  braille 0.58  motion 0.19
+rand11204  jev_r1 0.23  jev_r2 0.32  hand 0.23  random 0.16  tone 0.18  edges 0.35  braille 0.07  motion 0.35
+rand7816   jev_r1 0.27  jev_r2 0.35  hand 0.34  random 0.32  tone 0.13  edges 0.40  braille 0.34  motion 0.46
+rand26699  jev_r1 0.08  jev_r2 0.30  hand 0.21  random 0.28  tone 0.14  edges 0.34  braille 0.20  motion 0.24
+rand55740  jev_r1 0.31  jev_r2 0.25  hand 0.25  random 0.28  tone 0.31  edges 0.24  braille 0.20  motion 0.29
+rand53424  jev_r1 0.17  jev_r2 0.25  hand 0.20  random 0.17  tone 0.23  edges 0.28  braille 0.20  motion 0.31
+rand8362   jev_r1 0.24  jev_r2 0.28  hand 0.29  random 0.14  tone 0.07  edges 0.40  braille 0.45  motion 0.35
+
+=== E3 guided growth (10 feeds; 3-VLM ensemble) ===
+  jev_r1   vs VLM-ref 0.262  vs truth 0.291  motion 0.04
+  jev_r2   vs VLM-ref 0.328  vs truth 0.321  motion 0.00
+  hand     vs VLM-ref 0.311  vs truth 0.352  motion 0.22
+  random   vs VLM-ref 0.262  vs truth 0.240  motion 0.22
+  tone     vs VLM-ref 0.203  vs truth 0.219  motion 0.11
+  edges    vs VLM-ref 0.350  vs truth 0.354  motion 0.11
+  braille  vs VLM-ref 0.322  vs truth 0.328  motion 0.09
+  motion   vs VLM-ref 0.347  vs truth 0.353  motion 0.31
+  choices: {"jev_r1":{"tone":157,"edges":155,"motion":8},"jev_r2":{"edges":122,"tone":192,"motion":6},"hand":{"tone":174,"edges":108,"braille":13,"motion":25}}
+api: 160 calls, 130 cache hits {"typesafe":20,"deepinfra":140}

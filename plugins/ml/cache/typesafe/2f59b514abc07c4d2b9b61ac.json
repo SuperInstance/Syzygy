@@ -1,0 +1,1 @@
+{"answers":{"believe":{"type":"choice","choice":"C","confidence":0.69,"probabilities":{"A":0.15,"C":0.79,"B":0.06}}},"usage":{"input_tokens":839,"output_tokens":39},"model":"jev-1.13.0","text":"{\"believe\":{\"type\":\"choice\",\"choice\":\"C\",\"confidence\":0.69,\"probabilities\":{\"A\":0.15,\"C\":0.79,\"B\":0.06}}}","ms":293}

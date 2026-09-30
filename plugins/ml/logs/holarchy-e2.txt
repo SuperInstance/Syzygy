@@ -1,0 +1,9 @@
+=== E2 community jury: 36 cases (6 run-3 finalists x 6 test feeds), fidelity vs ground truth ===
+  average of 3 (run-3 practice) / random pick        0.301
+  peer consensus: most-agreed-with reconstruction    0.354
+  Jev chooses (reconstructions only)                 0.343
+  Jev chooses (+ peer-agreement numbers)             0.346
+  oracle: best of 3 vs truth                         0.433
+  Jev picked: {"Qwen3-VL-30B-A3B-Instruct":14,"gemma-3-27b-it":11,"Mistral-Small-3.2-24B-Instruct-2506":11}  with peer info: {"Qwen3-VL-30B-A3B-Instruct":16,"gemma-3-27b-it":3,"Mistral-Small-3.2-24B-Instruct-2506":17}
+  share of the (oracle - average) gap closed: peer 40%, jev 32%, jev+peer 34%
+api: 68 calls, 130 cache hits {"typesafe":68}

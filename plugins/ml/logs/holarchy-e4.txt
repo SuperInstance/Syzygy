@@ -1,0 +1,14 @@
+=== E4 kaleidoscope rule (40 readings: 4 projectors x 10 feeds; 0 new API calls) ===
+  receptors sense alone (E1)                     fidelity 0.189   background kept 0.933
+  raw-text sense alone (E1)                      fidelity 0.233   background kept 0.997
+  union: either sense                            fidelity 0.278   background kept 0.931
+  kaleidoscope: both senses agree                fidelity 0.100   background kept 1.000
+  kaleidoscope + evidence-weighted neighbours    fidelity 0.099   background kept 0.995
+  agree - receptors                  diff -0.0886  95% CI [-0.1334, -0.0479]  P(<=0) 1
+  agree - raw                        diff -0.1323  95% CI [-0.1687, -0.0964]  P(<=0) 1
+  agreeNbr - agree                   diff -0.0013  95% CI [-0.0043, 0.0005]  P(<=0) 0.8144
+  agree - either                     diff -0.178  95% CI [-0.2185, -0.138]  P(<=0) 1
+  either - raw (union vs better sense) diff +0.0457  95% CI [0.0188, 0.0756]  P(<=0) 0.0001
+  either - best single (oracle pick) diff -0.0033  95% CI [-0.017, 0.0108]  P(<=0) 0.6851
+  agree - best single (oracle pick)  diff -0.1813  95% CI [-0.2209, -0.1423]  P(<=0) 1
+api: 0 calls, 160 cache hits

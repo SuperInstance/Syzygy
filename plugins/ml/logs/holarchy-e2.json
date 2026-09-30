@@ -1,0 +1,796 @@
+{
+ "rows": [
+  {
+   "config": "mirror defaults",
+   "feed": "rand11204",
+   "truth": [
+    0.29209027507027996,
+    0,
+    0.16491498382344744
+   ],
+   "peer": [
+    0.1979468777079743,
+    0.14875,
+    0.049196877707974304
+   ],
+   "mean": 0.15233508629790912,
+   "oracle": 0.29209027507027996,
+   "random": 0.15233508629790912,
+   "peerPick": 0.29209027507027996,
+   "jev": 0.16491498382344744,
+   "jevPeer": 0.29209027507027996,
+   "jevChoice": "mistralai/Mistral-Small-3.2-24B-Instruct-2506",
+   "jevPeerChoice": "Qwen/Qwen3-VL-30B-A3B-Instruct"
+  },
+  {
+   "config": "mirror defaults",
+   "feed": "rand7816",
+   "truth": [
+    0.2244516598844989,
+    0.10621752116029445,
+    0.1253027220311716
+   ],
+   "peer": [
+    0.09519999999999999,
+    0.126,
+    0.2212
+   ],
+   "mean": 0.15199063435865498,
+   "oracle": 0.2244516598844989,
+   "random": 0.15199063435865498,
+   "peerPick": 0.1253027220311716,
+   "jev": 0.1253027220311716,
+   "jevPeer": 0.1253027220311716,
+   "jevChoice": "mistralai/Mistral-Small-3.2-24B-Instruct-2506",
+   "jevPeerChoice": "mistralai/Mistral-Small-3.2-24B-Instruct-2506"
+  },
+  {
+   "config": "mirror defaults",
+   "feed": "rand26699",
+   "truth": [
+    0.22447592363686905,
+    0.15,
+    0.1626536982773643
+   ],
+   "peer": [
+    0.12405073626438876,
+    0.15128322658769205,
+    0.06336356299144777
+   ],
+   "mean": 0.17904320730474446,
+   "oracle": 0.22447592363686905,
+   "random": 0.17904320730474446,
+   "peerPick": 0.15,
+   "jev": 0.15,
+   "jevPeer": 0.15,
+   "jevChoice": "google/gemma-3-27b-it",
+   "jevPeerChoice": "google/gemma-3-27b-it"
+  },
+  {
+   "config": "mirror defaults",
+   "feed": "rand55740",
+   "truth": [
+    0.4372731163381432,
+    0.2641959385900395,
+    0.3348732852545128
+   ],
+   "peer": [
+    0.22072747323323616,
+    0.21556874999999998,
+    0.20934622323323615
+   ],
+   "mean": 0.34544744672756517,
+   "oracle": 0.4372731163381432,
+   "random": 0.34544744672756517,
+   "peerPick": 0.4372731163381432,
+   "jev": 0.4372731163381432,
+   "jevPeer": 0.4372731163381432,
+   "jevChoice": "Qwen/Qwen3-VL-30B-A3B-Instruct",
+   "jevPeerChoice": "Qwen/Qwen3-VL-30B-A3B-Instruct"
+  },
+  {
+   "config": "mirror defaults",
+   "feed": "rand53424",
+   "truth": [
+    0.14662731829678075,
+    0.36315910212984953,
+    0.3295712284194457
+   ],
+   "peer": [
+    0.13053095983285318,
+    0.18407471524880178,
+    0.1402437554159486
+   ],
+   "mean": 0.27978588294869194,
+   "oracle": 0.36315910212984953,
+   "random": 0.27978588294869194,
+   "peerPick": 0.36315910212984953,
+   "jev": 0.36315910212984953,
+   "jevPeer": 0.36315910212984953,
+   "jevChoice": "google/gemma-3-27b-it",
+   "jevPeerChoice": "google/gemma-3-27b-it"
+  },
+  {
+   "config": "mirror defaults",
+   "feed": "rand8362",
+   "truth": [
+    0.17420879719178306,
+    0.04763751066718739,
+    0.04786921089806933
+   ],
+   "peer": [
+    0.11454815410278892,
+    0.14455595983285313,
+    0.08474219426993575
+   ],
+   "mean": 0.08990517291901325,
+   "oracle": 0.17420879719178306,
+   "random": 0.08990517291901325,
+   "peerPick": 0.04763751066718739,
+   "jev": 0.04786921089806933,
+   "jevPeer": 0.04763751066718739,
+   "jevChoice": "mistralai/Mistral-Small-3.2-24B-Instruct-2506",
+   "jevPeerChoice": "google/gemma-3-27b-it"
+  },
+  {
+   "config": "syzygy defaults (gradient)",
+   "feed": "rand11204",
+   "truth": [
+    0.30264810783847995,
+    0.07357959282687346,
+    0.3941116019079365
+   ],
+   "peer": [
+    0.27830758469660083,
+    0.19674506664343883,
+    0.376062518053162
+   ],
+   "mean": 0.25677976752442994,
+   "oracle": 0.3941116019079365,
+   "random": 0.25677976752442994,
+   "peerPick": 0.3941116019079365,
+   "jev": 0.3941116019079365,
+   "jevPeer": 0.3941116019079365,
+   "jevChoice": "mistralai/Mistral-Small-3.2-24B-Instruct-2506",
+   "jevPeerChoice": "mistralai/Mistral-Small-3.2-24B-Instruct-2506"
+  },
+  {
+   "config": "syzygy defaults (gradient)",
+   "feed": "rand7816",
+   "truth": [
+    0.21248872986361114,
+    0.2924720004679038,
+    0.1660487749083296
+   ],
+   "peer": [
+    0.35234377707974296,
+    0.270968777079743,
+    0.234375
+   ],
+   "mean": 0.22366983507994817,
+   "oracle": 0.2924720004679038,
+   "random": 0.22366983507994817,
+   "peerPick": 0.21248872986361114,
+   "jev": 0.21248872986361114,
+   "jevPeer": 0.21248872986361114,
+   "jevChoice": "Qwen/Qwen3-VL-30B-A3B-Instruct",
+   "jevPeerChoice": "Qwen/Qwen3-VL-30B-A3B-Instruct"
+  },
+  {
+   "config": "syzygy defaults (gradient)",
+   "feed": "rand26699",
+   "truth": [
+    0.33503188148323343,
+    0.15,
+    0
+   ],
+   "peer": [
+    0.3141963829030117,
+    0.31488544374640975,
+    0.3882484933160881
+   ],
+   "mean": 0.16167729382774446,
+   "oracle": 0.33503188148323343,
+   "random": 0.16167729382774446,
+   "peerPick": 0,
+   "jev": 0.33503188148323343,
+   "jevPeer": 0,
+   "jevChoice": "Qwen/Qwen3-VL-30B-A3B-Instruct",
+   "jevPeerChoice": "mistralai/Mistral-Small-3.2-24B-Instruct-2506"
+  },
+  {
+   "config": "syzygy defaults (gradient)",
+   "feed": "rand55740",
+   "truth": [
+    0.31776742611531344,
+    0.23451438620060225,
+    0.3801860074041149
+   ],
+   "peer": [
+    0.2012671913668445,
+    0.06181709219027499,
+    0.21564367790317346
+   ],
+   "mean": 0.31082260657334354,
+   "oracle": 0.3801860074041149,
+   "random": 0.31082260657334354,
+   "peerPick": 0.3801860074041149,
+   "jev": 0.31776742611531344,
+   "jevPeer": 0.3801860074041149,
+   "jevChoice": "Qwen/Qwen3-VL-30B-A3B-Instruct",
+   "jevPeerChoice": "mistralai/Mistral-Small-3.2-24B-Instruct-2506"
+  },
+  {
+   "config": "syzygy defaults (gradient)",
+   "feed": "rand53424",
+   "truth": [
+    0.14073169401831587,
+    0.3726502316581827,
+    0.29750950756430616
+   ],
+   "peer": [
+    0.12471484713496786,
+    0.1820169394948822,
+    0.2506770923599143
+   ],
+   "mean": 0.2702971444136016,
+   "oracle": 0.3726502316581827,
+   "random": 0.2702971444136016,
+   "peerPick": 0.29750950756430616,
+   "jev": 0.3726502316581827,
+   "jevPeer": 0.29750950756430616,
+   "jevChoice": "google/gemma-3-27b-it",
+   "jevPeerChoice": "mistralai/Mistral-Small-3.2-24B-Instruct-2506"
+  },
+  {
+   "config": "syzygy defaults (gradient)",
+   "feed": "rand8362",
+   "truth": [
+    0.3930604470761711,
+    0.11045879719178306,
+    0.22034217739837234
+   ],
+   "peer": [
+    0.33804335507946404,
+    0.20682105331475106,
+    0.4284144083942151
+   ],
+   "mean": 0.24128714055544218,
+   "oracle": 0.3930604470761711,
+   "random": 0.24128714055544218,
+   "peerPick": 0.22034217739837234,
+   "jev": 0.22034217739837234,
+   "jevPeer": 0.22034217739837234,
+   "jevChoice": "mistralai/Mistral-Small-3.2-24B-Instruct-2506",
+   "jevPeerChoice": "mistralai/Mistral-Small-3.2-24B-Instruct-2506"
+  },
+  {
+   "config": "syzygy tangent",
+   "feed": "rand11204",
+   "truth": [
+    0.1983333333333333,
+    0.1983333333333333,
+    0.47522038961650437
+   ],
+   "peer": [
+    0.3601725063265081,
+    0.31954601378520603,
+    0.2306860255118599
+   ],
+   "mean": 0.290629018761057,
+   "oracle": 0.47522038961650437,
+   "random": 0.290629018761057,
+   "peerPick": 0.1983333333333333,
+   "jev": 0.1983333333333333,
+   "jevPeer": 0.1983333333333333,
+   "jevChoice": "google/gemma-3-27b-it",
+   "jevPeerChoice": "Qwen/Qwen3-VL-30B-A3B-Instruct"
+  },
+  {
+   "config": "syzygy tangent",
+   "feed": "rand7816",
+   "truth": [
+    0.4669978034384246,
+    0.2856806280635793,
+    0.31488857660758013
+   ],
+   "peer": [
+    0.3492512902385151,
+    0.18814256248212122,
+    0.21210872775639383
+   ],
+   "mean": 0.35585566936986135,
+   "oracle": 0.4669978034384246,
+   "random": 0.35585566936986135,
+   "peerPick": 0.4669978034384246,
+   "jev": 0.4669978034384246,
+   "jevPeer": 0.4669978034384246,
+   "jevChoice": "Qwen/Qwen3-VL-30B-A3B-Instruct",
+   "jevPeerChoice": "Qwen/Qwen3-VL-30B-A3B-Instruct"
+  },
+  {
+   "config": "syzygy tangent",
+   "feed": "rand26699",
+   "truth": [
+    0.523932921829509,
+    0.15,
+    0.35922370838343265
+   ],
+   "peer": [
+    0.2966367219909104,
+    0.18670338865757707,
+    0.3394333333333333
+   ],
+   "mean": 0.34438554340431393,
+   "oracle": 0.523932921829509,
+   "random": 0.34438554340431393,
+   "peerPick": 0.35922370838343265,
+   "jev": 0.523932921829509,
+   "jevPeer": 0.35922370838343265,
+   "jevChoice": "Qwen/Qwen3-VL-30B-A3B-Instruct",
+   "jevPeerChoice": "mistralai/Mistral-Small-3.2-24B-Instruct-2506"
+  },
+  {
+   "config": "syzygy tangent",
+   "feed": "rand55740",
+   "truth": [
+    0.5078047308389907,
+    0.34664158554316366,
+    0.1841938513746571
+   ],
+   "peer": [
+    0.19532866615190436,
+    0.2502499171274415,
+    0.29061502805528017
+   ],
+   "mean": 0.34621338925227046,
+   "oracle": 0.5078047308389907,
+   "random": 0.34621338925227046,
+   "peerPick": 0.1841938513746571,
+   "jev": 0.1841938513746571,
+   "jevPeer": 0.1841938513746571,
+   "jevChoice": "mistralai/Mistral-Small-3.2-24B-Instruct-2506",
+   "jevPeerChoice": "mistralai/Mistral-Small-3.2-24B-Instruct-2506"
+  },
+  {
+   "config": "syzygy tangent",
+   "feed": "rand53424",
+   "truth": [
+    0.39386937219284385,
+    0.2032905566116338,
+    0.2920329032557546
+   ],
+   "peer": [
+    0.2332473370134341,
+    0.16783637692525025,
+    0.27422128003246826
+   ],
+   "mean": 0.2963976106867441,
+   "oracle": 0.39386937219284385,
+   "random": 0.2963976106867441,
+   "peerPick": 0.2920329032557546,
+   "jev": 0.2032905566116338,
+   "jevPeer": 0.2920329032557546,
+   "jevChoice": "google/gemma-3-27b-it",
+   "jevPeerChoice": "mistralai/Mistral-Small-3.2-24B-Instruct-2506"
+  },
+  {
+   "config": "syzygy tangent",
+   "feed": "rand8362",
+   "truth": [
+    0.6740770139545791,
+    0.407574768665127,
+    0.47135614041579343
+   ],
+   "peer": [
+    0.355046205569438,
+    0.20039463500039667,
+    0.22265157056904128
+   ],
+   "mean": 0.5176693076784998,
+   "oracle": 0.6740770139545791,
+   "random": 0.5176693076784998,
+   "peerPick": 0.6740770139545791,
+   "jev": 0.47135614041579343,
+   "jevPeer": 0.47135614041579343,
+   "jevChoice": "mistralai/Mistral-Small-3.2-24B-Instruct-2506",
+   "jevPeerChoice": "mistralai/Mistral-Small-3.2-24B-Instruct-2506"
+  },
+  {
+   "config": "motion bg=edges (runs 1-2 best)",
+   "feed": "rand11204",
+   "truth": [
+    0.1983333333333333,
+    0.1983333333333333,
+    0.47522038961650437
+   ],
+   "peer": [
+    0.3601725063265081,
+    0.31954601378520603,
+    0.2306860255118599
+   ],
+   "mean": 0.290629018761057,
+   "oracle": 0.47522038961650437,
+   "random": 0.290629018761057,
+   "peerPick": 0.1983333333333333,
+   "jev": 0.1983333333333333,
+   "jevPeer": 0.1983333333333333,
+   "jevChoice": "google/gemma-3-27b-it",
+   "jevPeerChoice": "Qwen/Qwen3-VL-30B-A3B-Instruct"
+  },
+  {
+   "config": "motion bg=edges (runs 1-2 best)",
+   "feed": "rand7816",
+   "truth": [
+    0.627682128425931,
+    0.2924720004679038,
+    0.36176046738792716
+   ],
+   "peer": [
+    0.46603762805191695,
+    0.2346373586620784,
+    0.23140026938983854
+   ],
+   "mean": 0.427304865427254,
+   "oracle": 0.627682128425931,
+   "random": 0.427304865427254,
+   "peerPick": 0.627682128425931,
+   "jev": 0.627682128425931,
+   "jevPeer": 0.627682128425931,
+   "jevChoice": "Qwen/Qwen3-VL-30B-A3B-Instruct",
+   "jevPeerChoice": "Qwen/Qwen3-VL-30B-A3B-Instruct"
+  },
+  {
+   "config": "motion bg=edges (runs 1-2 best)",
+   "feed": "rand26699",
+   "truth": [
+    0.3358653599933689,
+    0.07215149716893053,
+    0.2320898935092934
+   ],
+   "peer": [
+    0.3213216478995641,
+    0.24079193166321905,
+    0.15702971623634504
+   ],
+   "mean": 0.21336891689053095,
+   "oracle": 0.3358653599933689,
+   "random": 0.21336891689053095,
+   "peerPick": 0.3358653599933689,
+   "jev": 0.2320898935092934,
+   "jevPeer": 0.3358653599933689,
+   "jevChoice": "mistralai/Mistral-Small-3.2-24B-Instruct-2506",
+   "jevPeerChoice": "Qwen/Qwen3-VL-30B-A3B-Instruct"
+  },
+  {
+   "config": "motion bg=edges (runs 1-2 best)",
+   "feed": "rand55740",
+   "truth": [
+    0.3768518412134679,
+    0.3144412889450644,
+    0.4292796146006244
+   ],
+   "peer": [
+    0.19622918471982864,
+    0.14273959235991435,
+    0.2659895923599143
+   ],
+   "mean": 0.37352424825305225,
+   "oracle": 0.4292796146006244,
+   "random": 0.37352424825305225,
+   "peerPick": 0.4292796146006244,
+   "jev": 0.3144412889450644,
+   "jevPeer": 0.4292796146006244,
+   "jevChoice": "google/gemma-3-27b-it",
+   "jevPeerChoice": "mistralai/Mistral-Small-3.2-24B-Instruct-2506"
+  },
+  {
+   "config": "motion bg=edges (runs 1-2 best)",
+   "feed": "rand53424",
+   "truth": [
+    0.33101432313054285,
+    0.35762218669692314,
+    0.42609904063362114
+   ],
+   "peer": [
+    0.3617173331170258,
+    0.19671858663647046,
+    0.44519085311005746
+   ],
+   "mean": 0.3715785168203624,
+   "oracle": 0.42609904063362114,
+   "random": 0.3715785168203624,
+   "peerPick": 0.42609904063362114,
+   "jev": 0.42609904063362114,
+   "jevPeer": 0.42609904063362114,
+   "jevChoice": "mistralai/Mistral-Small-3.2-24B-Instruct-2506",
+   "jevPeerChoice": "mistralai/Mistral-Small-3.2-24B-Instruct-2506"
+  },
+  {
+   "config": "motion bg=edges (runs 1-2 best)",
+   "feed": "rand8362",
+   "truth": [
+    0.6033232333979883,
+    0.07122121870872603,
+    0.5430278315105616
+   ],
+   "peer": [
+    0.19653082387620344,
+    0.051038837425447056,
+    0.1960995872691001
+   ],
+   "mean": 0.40585742787242535,
+   "oracle": 0.6033232333979883,
+   "random": 0.40585742787242535,
+   "peerPick": 0.6033232333979883,
+   "jev": 0.5430278315105616,
+   "jevPeer": 0.5430278315105616,
+   "jevChoice": "mistralai/Mistral-Small-3.2-24B-Instruct-2506",
+   "jevPeerChoice": "mistralai/Mistral-Small-3.2-24B-Instruct-2506"
+  },
+  {
+   "config": "run3 winner by HOLD #16 (llm:di:qwen)",
+   "feed": "rand11204",
+   "truth": [
+    0.6880078331455783,
+    0.3594786340160216,
+    0.5656100707782954
+   ],
+   "peer": [
+    0.5483593885398714,
+    0.3831200666434388,
+    0.39172945518331037
+   ],
+   "mean": 0.5376988459799651,
+   "oracle": 0.6880078331455783,
+   "random": 0.5376988459799651,
+   "peerPick": 0.6880078331455783,
+   "jev": 0.6880078331455783,
+   "jevPeer": 0.6880078331455783,
+   "jevChoice": "Qwen/Qwen3-VL-30B-A3B-Instruct",
+   "jevPeerChoice": "Qwen/Qwen3-VL-30B-A3B-Instruct"
+  },
+  {
+   "config": "run3 winner by HOLD #16 (llm:di:qwen)",
+   "feed": "rand7816",
+   "truth": [
+    0.5498428318172469,
+    0.25621752116029445,
+    0.18395957283409198
+   ],
+   "peer": [
+    0.2578582266576375,
+    0.12972310554406338,
+    0.2556351211135741
+   ],
+   "mean": 0.33000664193721113,
+   "oracle": 0.5498428318172469,
+   "random": 0.33000664193721113,
+   "peerPick": 0.5498428318172469,
+   "jev": 0.5498428318172469,
+   "jevPeer": 0.5498428318172469,
+   "jevChoice": "Qwen/Qwen3-VL-30B-A3B-Instruct",
+   "jevPeerChoice": "Qwen/Qwen3-VL-30B-A3B-Instruct"
+  },
+  {
+   "config": "run3 winner by HOLD #16 (llm:di:qwen)",
+   "feed": "rand26699",
+   "truth": [
+    0.4236258694247472,
+    0.15,
+    0.11333333333333333
+   ],
+   "peer": [
+    0.2441938198082808,
+    0.16245215314161413,
+    0.19649166666666665
+   ],
+   "mean": 0.22898640091936018,
+   "oracle": 0.4236258694247472,
+   "random": 0.22898640091936018,
+   "peerPick": 0.4236258694247472,
+   "jev": 0.15,
+   "jevPeer": 0.4236258694247472,
+   "jevChoice": "google/gemma-3-27b-it",
+   "jevPeerChoice": "Qwen/Qwen3-VL-30B-A3B-Instruct"
+  },
+  {
+   "config": "run3 winner by HOLD #16 (llm:di:qwen)",
+   "feed": "rand55740",
+   "truth": [
+    0.291402655734621,
+    0.11106634303479593,
+    0.35762505343782364
+   ],
+   "peer": [
+    0.20698955394865012,
+    0.17919276170579898,
+    0.3205835142337615
+   ],
+   "mean": 0.2533646840690802,
+   "oracle": 0.35762505343782364,
+   "random": 0.2533646840690802,
+   "peerPick": 0.35762505343782364,
+   "jev": 0.11106634303479593,
+   "jevPeer": 0.35762505343782364,
+   "jevChoice": "google/gemma-3-27b-it",
+   "jevPeerChoice": "mistralai/Mistral-Small-3.2-24B-Instruct-2506"
+  },
+  {
+   "config": "run3 winner by HOLD #16 (llm:di:qwen)",
+   "feed": "rand53424",
+   "truth": [
+    0.40165544870566056,
+    0.2959481539170067,
+    0.32123767049562413
+   ],
+   "peer": [
+    0.4018567640573437,
+    0.3280580210734833,
+    0.46002113185320925
+   ],
+   "mean": 0.33961375770609714,
+   "oracle": 0.40165544870566056,
+   "random": 0.33961375770609714,
+   "peerPick": 0.32123767049562413,
+   "jev": 0.40165544870566056,
+   "jevPeer": 0.32123767049562413,
+   "jevChoice": "Qwen/Qwen3-VL-30B-A3B-Instruct",
+   "jevPeerChoice": "mistralai/Mistral-Small-3.2-24B-Instruct-2506"
+  },
+  {
+   "config": "run3 winner by HOLD #16 (llm:di:qwen)",
+   "feed": "rand8362",
+   "truth": [
+    0.5901398733819888,
+    0.05641016263804164,
+    0.4622926017168426
+   ],
+   "peer": [
+    0.15359600327373024,
+    0.07636667148038016,
+    0.11371892415326443
+   ],
+   "mean": 0.3696142125789577,
+   "oracle": 0.5901398733819888,
+   "random": 0.3696142125789577,
+   "peerPick": 0.5901398733819888,
+   "jev": 0.5901398733819888,
+   "jevPeer": 0.5901398733819888,
+   "jevChoice": "Qwen/Qwen3-VL-30B-A3B-Instruct",
+   "jevPeerChoice": "Qwen/Qwen3-VL-30B-A3B-Instruct"
+  },
+  {
+   "config": "run3 winner by U #5 (llm:di:kimi)",
+   "feed": "rand11204",
+   "truth": [
+    0.1983333333333333,
+    0.1983333333333333,
+    0.47522038961650437
+   ],
+   "peer": [
+    0.3601725063265081,
+    0.31954601378520603,
+    0.2306860255118599
+   ],
+   "mean": 0.290629018761057,
+   "oracle": 0.47522038961650437,
+   "random": 0.290629018761057,
+   "peerPick": 0.1983333333333333,
+   "jev": 0.1983333333333333,
+   "jevPeer": 0.1983333333333333,
+   "jevChoice": "google/gemma-3-27b-it",
+   "jevPeerChoice": "Qwen/Qwen3-VL-30B-A3B-Instruct"
+  },
+  {
+   "config": "run3 winner by U #5 (llm:di:kimi)",
+   "feed": "rand7816",
+   "truth": [
+    0.5374678046860659,
+    0.15,
+    0.22721549918779713
+   ],
+   "peer": [
+    0.2318502508253209,
+    0.14154362358655442,
+    0.1804576824453047
+   ],
+   "mean": 0.304894434624621,
+   "oracle": 0.5374678046860659,
+   "random": 0.304894434624621,
+   "peerPick": 0.5374678046860659,
+   "jev": 0.5374678046860659,
+   "jevPeer": 0.5374678046860659,
+   "jevChoice": "Qwen/Qwen3-VL-30B-A3B-Instruct",
+   "jevPeerChoice": "Qwen/Qwen3-VL-30B-A3B-Instruct"
+  },
+  {
+   "config": "run3 winner by U #5 (llm:di:kimi)",
+   "feed": "rand26699",
+   "truth": [
+    0.32302252917026236,
+    0.15,
+    0.35922370838343265
+   ],
+   "peer": [
+    0.3049230428508063,
+    0.17019804285080628,
+    0.24947499999999995
+   ],
+   "mean": 0.2774154125178983,
+   "oracle": 0.35922370838343265,
+   "random": 0.2774154125178983,
+   "peerPick": 0.32302252917026236,
+   "jev": 0.32302252917026236,
+   "jevPeer": 0.32302252917026236,
+   "jevChoice": "Qwen/Qwen3-VL-30B-A3B-Instruct",
+   "jevPeerChoice": "Qwen/Qwen3-VL-30B-A3B-Instruct"
+  },
+  {
+   "config": "run3 winner by U #5 (llm:di:kimi)",
+   "feed": "rand55740",
+   "truth": [
+    0.44467479788050995,
+    0.30912697069633516,
+    0.3185656263843183
+   ],
+   "peer": [
+    0.3451512519665002,
+    0.2014147848415706,
+    0.46241603680807086
+   ],
+   "mean": 0.3574557983203878,
+   "oracle": 0.44467479788050995,
+   "random": 0.3574557983203878,
+   "peerPick": 0.3185656263843183,
+   "jev": 0.3185656263843183,
+   "jevPeer": 0.3185656263843183,
+   "jevChoice": "mistralai/Mistral-Small-3.2-24B-Instruct-2506",
+   "jevPeerChoice": "mistralai/Mistral-Small-3.2-24B-Instruct-2506"
+  },
+  {
+   "config": "run3 winner by U #5 (llm:di:kimi)",
+   "feed": "rand53424",
+   "truth": [
+    0.24151540424652929,
+    0.35762218669692314,
+    0.12466514617977467
+   ],
+   "peer": [
+    0.2595880640557157,
+    0.03944835554781294,
+    0.26603970850790276
+   ],
+   "mean": 0.24126757904107568,
+   "oracle": 0.35762218669692314,
+   "random": 0.24126757904107568,
+   "peerPick": 0.12466514617977467,
+   "jev": 0.35762218669692314,
+   "jevPeer": 0.12466514617977467,
+   "jevChoice": "google/gemma-3-27b-it",
+   "jevPeerChoice": "mistralai/Mistral-Small-3.2-24B-Instruct-2506"
+  },
+  {
+   "config": "run3 winner by U #5 (llm:di:kimi)",
+   "feed": "rand8362",
+   "truth": [
+    0.5864886915206924,
+    0.05269787520428764,
+    0.5871118932772287
+   ],
+   "peer": [
+    0.18641804032733747,
+    0.05211804032733747,
+    0.1853
+   ],
+   "mean": 0.40876615333406957,
+   "oracle": 0.5871118932772287,
+   "random": 0.40876615333406957,
+   "peerPick": 0.5864886915206924,
+   "jev": 0.5864886915206924,
+   "jevPeer": 0.5864886915206924,
+   "jevChoice": "Qwen/Qwen3-VL-30B-A3B-Instruct",
+   "jevPeerChoice": "Qwen/Qwen3-VL-30B-A3B-Instruct"
+  }
+ ]
+}

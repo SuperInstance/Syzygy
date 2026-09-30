@@ -1,0 +1,63 @@
+mirror          street     vlm 0.206 | receptors 0.150 -> 0.150 | raw 0.449 -> 0.461
+mirror          park       vlm 0.310 | receptors 0.150 -> 0.150 | raw 0.299 -> 0.296
+mirror          night      vlm 0.534 | receptors 0.150 -> 0.150 | raw 0.469 -> 0.150
+mirror          room       vlm 0.251 | receptors 0.000 -> 0.000 | raw 0.251 -> 0.269
+mirror          rand11204  vlm 0.292 | receptors 0.000 -> 0.000 | raw 0.276 -> 0.258
+mirror          rand7816   vlm 0.224 | receptors 0.150 -> 0.150 | raw 0.257 -> 0.257
+mirror          rand26699  vlm 0.224 | receptors 0.150 -> 0.150 | raw 0.387 -> 0.383
+mirror          rand55740  vlm 0.437 | receptors 0.150 -> 0.150 | raw 0.150 -> 0.150
+mirror          rand53424  vlm 0.147 | receptors 0.150 -> 0.150 | raw 0.150 -> 0.150
+mirror          rand8362   vlm 0.174 | receptors 0.000 -> 0.000 | raw 0.317 -> 0.171
+syzygy tangent  street     vlm 0.730 | receptors 0.310 -> 0.312 | raw 0.315 -> 0.326
+syzygy tangent  park       vlm 0.338 | receptors 0.205 -> 0.283 | raw 0.316 -> 0.143
+syzygy tangent  night      vlm 0.800 | receptors 0.346 -> 0.338 | raw 0.150 -> 0.150
+syzygy tangent  room       vlm 0.424 | receptors 0.269 -> 0.269 | raw 0.000 -> 0.248
+syzygy tangent  rand11204  vlm 0.198 | receptors 0.229 -> 0.225 | raw 0.276 -> 0.276
+syzygy tangent  rand7816   vlm 0.467 | receptors 0.108 -> 0.105 | raw 0.220 -> 0.118
+syzygy tangent  rand26699  vlm 0.524 | receptors 0.307 -> 0.231 | raw 0.255 -> 0.264
+syzygy tangent  rand55740  vlm 0.508 | receptors 0.197 -> 0.252 | raw 0.271 -> 0.150
+syzygy tangent  rand53424  vlm 0.394 | receptors 0.152 -> 0.149 | raw 0.150 -> 0.149
+syzygy tangent  rand8362   vlm 0.674 | receptors 0.294 -> 0.181 | raw 0.205 -> 0.183
+motion edges    street     vlm 0.742 | receptors 0.301 -> 0.312 | raw 0.192 -> 0.200
+motion edges    park       vlm 0.429 | receptors 0.403 -> 0.334 | raw 0.316 -> 0.160
+motion edges    night      vlm 0.740 | receptors 0.346 -> 0.338 | raw 0.150 -> 0.150
+motion edges    room       vlm 0.492 | receptors 0.269 -> 0.269 | raw 0.000 -> 0.000
+motion edges    rand11204  vlm 0.198 | receptors 0.229 -> 0.225 | raw 0.276 -> 0.276
+motion edges    rand7816   vlm 0.628 | receptors 0.044 -> 0.041 | raw 0.232 -> 0.054
+motion edges    rand26699  vlm 0.336 | receptors 0.387 -> 0.387 | raw 0.255 -> 0.264
+motion edges    rand55740  vlm 0.377 | receptors 0.379 -> 0.387 | raw 0.150 -> 0.150
+motion edges    rand53424  vlm 0.331 | receptors 0.152 -> 0.149 | raw 0.150 -> 0.154
+motion edges    rand8362   vlm 0.603 | receptors 0.537 -> 0.295 | raw 0.205 -> 0.120
+braille         street     vlm 0.474 | receptors 0.150 -> 0.150 | raw 0.359 -> 0.416
+braille         park       vlm 0.337 | receptors 0.150 -> 0.150 | raw 0.310 -> 0.441
+braille         night      vlm 0.578 | receptors 0.150 -> 0.150 | raw 0.150 -> 0.150
+braille         room       vlm 0.614 | receptors 0.000 -> 0.000 | raw 0.000 -> 0.000
+braille         rand11204  vlm 0.142 | receptors 0.000 -> 0.000 | raw 0.000 -> 0.000
+braille         rand7816   vlm 0.322 | receptors 0.150 -> 0.150 | raw 0.444 -> 0.444
+braille         rand26699  vlm 0.152 | receptors 0.150 -> 0.150 | raw 0.425 -> 0.387
+braille         rand55740  vlm 0.121 | receptors 0.150 -> 0.150 | raw 0.261 -> 0.261
+braille         rand53424  vlm 0.182 | receptors 0.150 -> 0.150 | raw 0.150 -> 0.150
+braille         rand8362   vlm 0.705 | receptors 0.000 -> 0.000 | raw 0.120 -> 0.000
+
+=== E1 summary (means over 10 feeds; all vs ground truth) ===
+mirror: VLM 0.280
+   receptors_r1  fidelity 0.105  tissue 0.706  obj-tissue 0  bg 1  organ R/P 0/0  setting 0.7  motion 0
+   receptors_r2  fidelity 0.105  tissue 0.706  obj-tissue 0  bg 1  organ R/P 0/0  setting 0.7  motion 0
+   raw_r1        fidelity 0.301  tissue 0.739  obj-tissue 0.128  bg 1  organ R/P 0.175/0.45  setting 0.7  motion 0
+   raw_r2        fidelity 0.254  tissue 0.672  obj-tissue 0.183  bg 0.873  organ R/P 0.15/0.45  setting 0.7  motion 0
+syzygy tangent: VLM 0.506
+   receptors_r1  fidelity 0.242  tissue 0.639  obj-tissue 0.097  bg 0.866  organ R/P 0.175/0.383  setting 0.2  motion 0
+   receptors_r2  fidelity 0.235  tissue 0.517  obj-tissue 0.236  bg 0.628  organ R/P 0.175/0.5  setting 0.2  motion 0
+   raw_r1        fidelity 0.216  tissue 0.728  obj-tissue 0.097  bg 0.989  organ R/P 0.117/0.333  setting 0.2  motion 0
+   raw_r2        fidelity 0.201  tissue 0.683  obj-tissue 0.153  bg 0.89  organ R/P 0.15/0.433  setting 0.2  motion 0
+motion edges: VLM 0.488
+   receptors_r1  fidelity 0.305  tissue 0.65  obj-tissue 0.139  bg 0.868  organ R/P 0.233/0.433  setting 0.2  motion 0.4
+   receptors_r2  fidelity 0.274  tissue 0.533  obj-tissue 0.236  bg 0.656  organ R/P 0.233/0.47  setting 0.2  motion 0.4
+   raw_r1        fidelity 0.193  tissue 0.728  obj-tissue 0.086  bg 1  organ R/P 0.117/0.35  setting 0.2  motion 0.1
+   raw_r2        fidelity 0.153  tissue 0.683  obj-tissue 0.117  bg 0.91  organ R/P 0.117/0.325  setting 0.2  motion 0
+braille: VLM 0.362
+   receptors_r1  fidelity 0.105  tissue 0.706  obj-tissue 0  bg 1  organ R/P 0/0  setting 0.7  motion 0
+   receptors_r2  fidelity 0.105  tissue 0.706  obj-tissue 0  bg 1  organ R/P 0/0  setting 0.7  motion 0
+   raw_r1        fidelity 0.222  tissue 0.717  obj-tissue 0.028  bg 1  organ R/P 0.083/0.25  setting 0.7  motion 0
+   raw_r2        fidelity 0.225  tissue 0.706  obj-tissue 0.039  bg 0.972  organ R/P 0.083/0.2  setting 0.7  motion 0
+api: 162 calls, 48 cache hits {"typesafe":156,"deepinfra":6}
